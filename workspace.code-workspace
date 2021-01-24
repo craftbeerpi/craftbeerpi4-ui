@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "../cbpi4"
+		},
+		{
+			"path": "../test"
+		},
+		{
+			"path": "../cbpi4-ui-plugin"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {}
+}

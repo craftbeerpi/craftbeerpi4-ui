@@ -1,0 +1,25 @@
+body {
+  margin: 0;
+  font-family: "JetBrains Mono";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #272227;
+  color: #fff;
+  touch-action: none;
+}
+
+html {
+  touch-action: none;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+.loadingbg {
+  background: rgb(33, 33, 32);
+  background: -moz-radial-gradient(circle, rgba(33, 33, 32, 1) 8%, rgba(19, 19, 19, 1) 93%);
+  background: -webkit-radial-gradient(circle, rgba(33, 33, 32, 1) 8%, rgba(19, 19, 19, 1) 93%);
+  background: radial-gradient(circle, rgba(33, 33, 32, 1) 8%, rgba(19, 19, 19, 1) 93%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#212120",endColorstr="#131313",GradientType=1);
+}
