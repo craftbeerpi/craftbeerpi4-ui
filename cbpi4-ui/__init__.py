@@ -15,5 +15,5 @@ class CBPiUi(CBPiExtension):
         self.cbpi.register(self, "/cbpi_ui", static=os.path.join(path, "build"))
 
 def setup(cbpi):
-    print("###### REGISTER NEW UI #####")
+
     cbpi.plugin.register("UI", CBPiUi)

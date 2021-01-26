@@ -20,13 +20,13 @@ import { widget_list } from "./widgets/config";
 
 const DashboardLayerListItem = ({ item }) => {
   const { state, actions } = useContext(DashboardContext);
-  const selected = state.selected === item.id;
+  const selected = state.selected?.id === item.id;
 
   return (
     <ListItem
       button
       selected={selected}
-      onClick={() => actions.setSelected(item.id)}
+      onClick={() => actions.setSelected(()=>({ type: "E", id: item.id}))}
     >
       <ListItemIcon>
         <CropSquareIcon />

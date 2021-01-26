@@ -7,6 +7,7 @@ import Chart from "./Chart";
 import { TargetTemp } from "./TargetTemp";
 import { Led } from "./Led";
 import Steps from "./Steps";
+import CustomSVG from './CustomSVG'
 
 export const widget_list = [
   {
@@ -67,6 +68,13 @@ export const widget_list = [
     component: Steps,
     props: [{ name: "width", default: "100", type: "text" }],
   },
+  {
+    name: "CustomSVG",
+    type: "CustomSVG",
+    component: CustomSVG,
+    props: [{ name: "width", default: "100", type: "text" }, { name: "name", default: "", type: "text" }],
+  },
+  
   
 ];
 
