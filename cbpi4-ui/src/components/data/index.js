@@ -34,6 +34,7 @@ export const CBPiProvider = ({ children }) => {
   const alert = useAlert();
 
   const onMessage = (data) => {
+    console.log("WS", data);
     switch (data.topic) {
       case "kettleupdate":
         setKettle(() => data.data);
@@ -42,7 +43,10 @@ export const CBPiProvider = ({ children }) => {
         setActors(() => data.data);
         break;
       case "sensorstate":
-        setSensorData(current => ({...current, [data.id]: data.value}))
+        setSensorData((current) => ({ ...current, [data.id]: data.value }));
+        break;
+      case "step_update":
+        setMashProfile(() => data.data);
         break;
       case "sensorupdate":
         setSensors(() => data.data);
@@ -153,7 +157,7 @@ export const useCBPi = (Context) => {
   const { state, actions } = useContext(CBPiContext);
   const value = useMemo(() => {
     return { state, kettle: state.kettle, actor: state.actors, sensor: state.sensors, config: state.config, actions };
-  }, [{ state }]);
+  }, [ state ]);
   return value;
 };
 
@@ -169,16 +173,14 @@ export const useKettle = (id) => {
   const { kettle, state } = useCBPi();
   const value = useMemo(() => {
     return kettle.find((item) => item.id === id);
-  }, [{ state }]);
+  }, [state.kettle]);
   return value;
 };
 
-export const useActor = (id=null) => {
+export const useActor = (id = null) => {
   const { actor } = useCBPi();
   const value = useMemo(() => {
-    return id === null ? actor :  actor.find((item) => item.id === id);
+    return id === null ? actor : actor.find((item) => item.id === id);
   }, [actor]);
   return value;
 };
-
-

@@ -14,6 +14,7 @@ import { useActor, useCBPi } from "../data";
 import ActorSelect from "../util/ActorSelect";
 import KettleSelect from "../util/KettleSelect";
 import SensorSelect from "../util/SensorSelect";
+import {SelectInput} from "../util/SelectInput";
 import { DashboardContext } from "./DashboardContext";
 import { widget_list } from "./widgets/config";
 
@@ -112,6 +113,17 @@ const PropsEditor = ({ data }) => {
             value={data.props[s.name]}
           />
         );
+
+        case "select":
+          return (
+            <SelectInput label="Test"  value={data.props[s.name]}
+            key={s.name}
+            onChange={(e) => handlechange(e, s.name)}
+            options={[1,2]}
+            />
+          );
+
+
       case "actor":
         return (
           <ActorSelect

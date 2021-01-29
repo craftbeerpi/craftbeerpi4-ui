@@ -44,6 +44,17 @@ export const move = (id, direction, callback_susscess = () => {}, callback_faile
       });
   };
 
+  export const next = (data, callback_susscess = () => {}, callback_failed = () => {}) => {
+    axios
+      .post("/step2/next")
+      .then(function (response) {
+        callback_susscess();
+      })
+      .catch(function (error) {
+        callback_failed();
+      });
+  };
+
   export const reset = (data, callback_susscess = () => {}, callback_failed = () => {}) => {
     axios
       .post("/step2/reset")
@@ -94,6 +105,7 @@ export const move = (id, direction, callback_susscess = () => {}, callback_faile
     add,
     save_basic,
     save,
+    next,
     stop,
     start,
     remove,

@@ -16,7 +16,6 @@ const StepStateChip = ({ state }) => {
       return <Chip label="Done" icon={<CheckCircleIcon />} />;
     case "P":
       return <Chip label="Pause" icon={<PauseCircleOutlineIcon />} />;
-
     default:
       return <Chip label={state} />;
   }

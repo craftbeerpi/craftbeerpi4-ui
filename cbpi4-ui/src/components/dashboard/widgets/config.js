@@ -6,6 +6,7 @@ import { SensorData} from './SensorData';
 import Chart from "./Chart";
 import { TargetTemp } from "./TargetTemp";
 import { Led } from "./Led";
+import { KettleControl } from "./KettleControl";
 import Steps from "./Steps";
 import CustomSVG from './CustomSVG'
 
@@ -73,6 +74,12 @@ export const widget_list = [
     type: "CustomSVG",
     component: CustomSVG,
     props: [{ name: "width", default: "100", type: "text" }, { name: "name", default: "", type: "text" }],
+  },
+  {
+    name: "KettleControl",
+    type: "KettleControl",
+    component: KettleControl,
+    props: [{ name: "kettle", default: "1", type: "kettle" }, { name: "orientation", default: "", type: "select" }],
   },
   
   
