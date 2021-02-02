@@ -1,26 +1,21 @@
 import { Button, List } from "@material-ui/core";
-import Avatar from "@material-ui/core/Avatar";
 import Dialog from "@material-ui/core/Dialog";
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from "@material-ui/core/DialogTitle";
-import Divider from '@material-ui/core/Divider';
 import ListItem from "@material-ui/core/ListItem";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import CachedIcon from "@material-ui/icons/Cached";
-import CancelIcon from '@material-ui/icons/Cancel';
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import ErrorIcon from "@material-ui/icons/Error";
 import PauseCircleOutlineIcon from "@material-ui/icons/PauseCircleOutline";
-import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 import { default as React, useContext, useEffect, useState } from "react";
 import { useCBPi } from "../../data";
 import MashControl from "../../util/MashControl";
-import { DashboardContext } from "../DashboardContext";
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogActions from '@material-ui/core/DialogActions';
+import { DashboardContext, useDraggable } from "../DashboardContext";
 
 const StepProps = ({config, data}) => {
 
@@ -28,7 +23,6 @@ const StepProps = ({config, data}) => {
     return <></>
   }
 
-  
   return config.map(e =>
     <div>{e.label} {data[e.label]}</div>
     )
@@ -45,10 +39,7 @@ function SimpleDialog(props) {
     onClose(selectedValue);
   };
 
-  const handleListItemClick = (id, value) => {
-    console.log(id, value)
-    onClose(value);
-  };
+  
 
   useEffect(()=> {
     const t = state.stepTypes.find((e)=> e.name === item.type )
@@ -98,7 +89,14 @@ const State = ({ state }) => {
 const StepItem = ({ item }) => {
   const [open, setOpen] = React.useState(false);
   const [selectedValue, setSelectedValue] = React.useState("emails");
+  const draggable = useDraggable()
+
   const handleClickOpen = () => {
+
+    console.log("############",draggable)
+    if (draggable) {
+      return 
+    }
     setOpen(true);
   };
 
@@ -108,7 +106,7 @@ const StepItem = ({ item }) => {
   };
 
   return (<>
-    <ListItem button  onClick={handleClickOpen}>
+    <ListItem  button={!draggable }  onClick={handleClickOpen}>
       <ListItemIcon>
         <State state={item.status} />
       </ListItemIcon>
@@ -120,7 +118,7 @@ const StepItem = ({ item }) => {
 };
 
 export const Steps = ({ id }) => {
-  const { actions } = useContext(DashboardContext);
+  const {  state : state2, actions } = useContext(DashboardContext);
 
   const model = actions.get_data(id);
   const { state } = useCBPi();
@@ -136,7 +134,7 @@ export const Steps = ({ id }) => {
     <div className="box" style={inputStyle}>
       <div style={{ marign: 20 }}>
         <div className="section_header">{state.mashBasic?.name}</div>
-        <MashControl />
+        <MashControl disabled={state2.draggable}/>
         <List component="nav" aria-label="main mailbox folders">
           {profile.map((row, index) => (
             <StepItem item={row} key={index} />

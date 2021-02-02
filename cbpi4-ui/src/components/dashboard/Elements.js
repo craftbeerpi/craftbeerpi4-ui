@@ -1,6 +1,6 @@
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useMemo} from "react";
 import Draggable from "react-draggable";
 import "../../App.css";
 import "../../led.css";
@@ -13,6 +13,10 @@ export const DashboardContainer = ({ name, id, index, type }) => {
   const [x, setX] = useState(model.x);
   const [y, setY] = useState(model.y);
 
+
+ 
+    
+
   let inputStyle = { position: "absolute" };
 
   if (selected === true) {
@@ -22,6 +26,7 @@ export const DashboardContainer = ({ name, id, index, type }) => {
 
   const Widget = type;
 
+  
   const handleDrag = (e, ui) => {
     setX(x + ui.deltaX);
     setY(y + ui.deltaY);
@@ -55,14 +60,17 @@ export const DashboardContainer = ({ name, id, index, type }) => {
   return (
     <Draggable disabled={!draggable} onDrag={handleDrag} bounds="parent" grid={[5, 5]} defaultPosition={{ x, y }}>
       <div onPointerDown={select} style={inputStyle}>
-        <Widget id={id} width={model.props?.width} height={model.props?.height} />
+
+        { typeof type === 'string' ? <div><img className="no-drag" width={model.props?.width} height={model.props?.height}  src={type}/></div> :
+        <Widget id={id} width={model.props?.width} height={model.props?.height} />}
         {render_icons()}
       </div>
     </Draggable>
   );
+ 
 };
 
-
+//
 
 
 

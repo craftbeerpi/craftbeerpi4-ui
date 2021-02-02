@@ -1,4 +1,4 @@
-import { Button } from "@material-ui/core";
+import { Button, ButtonGroup } from "@material-ui/core";
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 import RotateLeftIcon from "@material-ui/icons/RotateLeft";
 import StopIcon from "@material-ui/icons/Stop";
@@ -7,7 +7,7 @@ import { useCBPi } from "../data";
 import { stepapi } from "../data/stepapi";
 import SkipNextIcon from '@material-ui/icons/SkipNext';
 
-const MashControl = () => {
+const MashControl = ({disabled=false}) => {
   const { state } = useCBPi();
   const [stop, setStop] = useState(null);
   const [reset, setReset] = useState(null);
@@ -44,6 +44,7 @@ const MashControl = () => {
 
   return (
     <>
+    <ButtonGroup disabled={disabled} fullWidth>
       {start ? (
         <Button
           variant="contained"
@@ -53,7 +54,7 @@ const MashControl = () => {
           }}
           startIcon={<PlayCircleOutlineIcon />}
         >
-          Start
+          
         </Button>
       ) : null}
 
@@ -66,7 +67,7 @@ const MashControl = () => {
           }}
           startIcon={<SkipNextIcon />}
         >
-          Next
+          
         </Button>
       ) : null}
 
@@ -79,15 +80,16 @@ const MashControl = () => {
             stepapi.stop();
           }}
         >
-          Stop
+          
         </Button>
       ) : null}
 
       {reset ? (
         <Button startIcon={<RotateLeftIcon />} variant="contained" color="secondary" onClick={() => stepapi.reset()}>
-          Reset
+          
         </Button>
       ) : null}
+      </ButtonGroup>
     </>
   );
 };

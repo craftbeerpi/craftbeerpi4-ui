@@ -1,34 +1,24 @@
-import {
-
-  Checkbox,
-  TextField,
-  Typography
-} from "@material-ui/core";
+import { Checkbox, TextField, Typography } from "@material-ui/core";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import CropSquareIcon from '@material-ui/icons/CropSquare';
+import CropSquareIcon from "@material-ui/icons/CropSquare";
 import React, { useContext, useEffect, useState } from "react";
 import { useActor, useCBPi } from "../data";
 import ActorSelect from "../util/ActorSelect";
 import KettleSelect from "../util/KettleSelect";
 import SensorSelect from "../util/SensorSelect";
-import {SelectInput} from "../util/SelectInput";
+import { SelectInput } from "../util/SelectInput";
 import { DashboardContext } from "./DashboardContext";
 import { widget_list } from "./widgets/config";
-
 
 const DashboardLayerListItem = ({ item }) => {
   const { state, actions } = useContext(DashboardContext);
   const selected = state.selected?.id === item.id;
 
   return (
-    <ListItem
-      button
-      selected={selected}
-      onClick={() => actions.setSelected(()=>({ type: "E", id: item.id}))}
-    >
+    <ListItem button selected={selected} onClick={() => actions.setSelected(() => ({ type: "E", id: item.id }))}>
       <ListItemIcon>
         <CropSquareIcon />
       </ListItemIcon>
@@ -52,19 +42,17 @@ const DashboardLayerList = () => {
           overflowY: "scroll",
         }}
       >
-        <List component="nav" aria-label="main mailbox folders">
+        <List component="nav" disableGutters={true} dense  aria-label="main mailbox folders">
           {Object.values(data).map((e, index) => (
             <DashboardLayerListItem key={index} item={e} />
           ))}
         </List>
       </div>
-      
     </>
   );
 };
 
 const DashboardLayer = () => {
-  
   return (
     <div>
       <div
@@ -104,50 +92,17 @@ const PropsEditor = ({ data }) => {
   return type_spec.props.map((s) => {
     switch (s.type) {
       case "text":
-        return (
-          <TextField
-            label={s.name}
-            key={s.name}
-            fullWidth
-            onChange={(e) => handlechange(e, s.name)}
-            value={data.props[s.name]}
-          />
-        );
+        return <TextField label={s.name} key={s.name} fullWidth onChange={(e) => handlechange(e, s.name)} value={data.props[s.name]} />;
 
-        case "select":
-          return (
-            <SelectInput label="Test"  value={data.props[s.name]}
-            key={s.name}
-            onChange={(e) => handlechange(e, s.name)}
-            options={[1,2]}
-            />
-          );
-
+      case "select":
+        return <SelectInput label={s.name} value={data.props[s.name]} key={s.name} onChange={(e) => handlechange(e, s.name)} options={s?.options || []} />;
 
       case "actor":
-        return (
-          <ActorSelect
-            value={data.props[s.name]}
-            key={s.name}
-            onChange={(e) => handlechange(e, s.name)}
-          />
-        );
+        return <ActorSelect value={data.props[s.name]} key={s.name} onChange={(e) => handlechange(e, s.name)} />;
       case "sensor":
-        return (
-          <SensorSelect
-            value={data.props[s.name]}
-            key={s.name}
-            onChange={(e) => handlechange(e, s.name)}
-          />
-        );
-        case "kettle":
-          return (
-            <KettleSelect
-              value={data.props[s.name]}
-              key={s.name}
-              onChange={(e) => handlechange(e, s.name)}
-            />
-          );
+        return <SensorSelect value={data.props[s.name]} key={s.name} onChange={(e) => handlechange(e, s.name)} />;
+      case "kettle":
+        return <KettleSelect value={data.props[s.name]} key={s.name} onChange={(e) => handlechange(e, s.name)} />;
       default:
         return "";
     }
@@ -155,23 +110,11 @@ const PropsEditor = ({ data }) => {
 };
 
 const PathSettingsItem = ({ item, checked, handleToggle }) => {
-
-
   return (
-    <ListItem
-      button
-      onClick={handleToggle(item.id)}
-    >
+    <ListItem button onClick={handleToggle(item.id)}>
       <ListItemIcon>
-              <Checkbox
-                edge="start"
-                checked={checked.indexOf(item.id) !== -1}
-                tabIndex={-1}
-                color="primary"
-                disableRipple
-                inputProps={{ 'aria-labelledby': "A" }}
-              />
-            </ListItemIcon>
+        <Checkbox edge="start" checked={checked.indexOf(item.id) !== -1} tabIndex={-1} color="primary" disableRipple inputProps={{ "aria-labelledby": "A" }} />
+      </ListItemIcon>
       <ListItemText primary={item.name} />
     </ListItem>
   );
@@ -179,54 +122,79 @@ const PathSettingsItem = ({ item, checked, handleToggle }) => {
 
 const PathSettings = () => {
   const { state, actions } = useContext(DashboardContext);
-  const actor = useActor()
+  const actor = useActor();
   const selected_id = state.selected?.id;
-  const [selectedType, setSelectedType] = useState(null)
+  const [selectedType, setSelectedType] = useState(null);
   const [checked, setChecked] = React.useState([]);
+  const [checkedRight, setCheckedRight] = React.useState([]);
 
-  useEffect(()=>{
+
+  useEffect(() => {
+    const item = state.pathes.find((e) => e.id === selected_id);
+    setChecked((current) => item?.condition || []);
+  }, [selected_id]);
+
+  const handleToggle = (value, direction = "left") => () => {
+    if (direction === "left") {
+      const currentIndex = checked.indexOf(value);
+      const newChecked = [...checked];
+
+      if (currentIndex === -1) {
+        newChecked.push(value);
+      } else {
+        newChecked.splice(currentIndex, 1);
+      }
+      setChecked(newChecked);
+      actions.update_path_condition(selected_id, newChecked);
+    }
+    else {
+      const currentIndex = checkedRight.indexOf(value);
+      const newChecked = [...checkedRight];
+
+      if (currentIndex === -1) {
+        newChecked.push(value);
+      } else {
+        newChecked.splice(currentIndex, 1);
+      }
+      setCheckedRight(newChecked);
+    }
 
     
-    const item = state.pathes.find((e) => e.id === selected_id);
-    setChecked(current => item?.condition || [])
-
-  }, [selected_id])
-
-  const handleToggle = (value) => () => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
-
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-    setChecked(newChecked);
-    actions.update_path_condition(selected_id, newChecked)
-
   };
 
-  
-  useEffect(()=> {
-    setSelectedType(()=>state.selected?.type)
-  }, [state.selected])
-    
+  useEffect(() => {
+    setSelectedType(() => state.selected?.type);
+  }, [state.selected]);
+
   if (selectedType !== "P") {
     return "";
   }
-  
 
-  return <>PathSettings
-    <List component="nav" aria-label="main mailbox folders">
-      {actor.map((item) => <PathSettingsItem item={item} checked={checked} handleToggle={handleToggle}/>)}
-    </List>
-  </>
-}
+  return (
+    <>
+      <div
+        style={{
+          padding: 5,
+          scrollbarColor: "dark",
+          maxHeight: 300,
+          overflowY: "scroll",
+        }}
+      >
+        Flow left
+        <List disableGutters={true} dense  component="nav" aria-label="main mailbox folders">
+          {actor.map((item) => (
+            <PathSettingsItem item={item} checked={checked} handleToggle={handleToggle} />
+          ))}
+        </List>
+        
+      </div>
+    </>
+  );
+};
 
 export const DashboardProps = () => {
   const { state, actions } = useContext(DashboardContext);
   const selected_id = state.selected?.id;
-  const selected_type = state.selected?.type;
   const data = actions.get_data(selected_id);
   const handleChange = (e, key) => {
     actions.update_default_prop(selected_id, key, e.target.value);
@@ -236,14 +204,7 @@ export const DashboardProps = () => {
       return "";
     }
 
-    return (
-      <TextField
-        label="Name"
-        fullWidth
-        value={data?.name}
-        onChange={(e) => handleChange(e, "name")}
-      />
-    );
+    return <TextField label="Name" fullWidth value={data?.name} onChange={(e) => handleChange(e, "name")} />;
   };
 
   return (
@@ -251,7 +212,7 @@ export const DashboardProps = () => {
       <div className="section_header">Properties</div>
       <div style={{ padding: 10 }}>
         {render_form(data)}
-        
+
         <PropsEditor data={data} />
         <PathSettings />
         <Typography variant="caption" display="block" gutterBottom>

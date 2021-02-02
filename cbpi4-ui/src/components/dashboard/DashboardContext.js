@@ -1,7 +1,7 @@
 import { IconButton } from "@material-ui/core";
 import LockIcon from "@material-ui/icons/Lock";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
-import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
+import React, { createContext, useCallback, useContext, useEffect, useRef, useMemo, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import "../../App.css";
 import { useAlert } from "../alert/AlertProvider";
@@ -27,6 +27,20 @@ export const DashboardProvider = ({ children }) => {
   const [draggable, setDraggable] = useState(false);
   const [pathes, setPathes] = useState([]);
   const widget_dict = widget_list.reduce((a, x) => ({ ...a, [x.type]: x }), {});
+  const rem = () => {
+    if (selected && selected.type === 'P') {
+      const data = [...pathes]
+      const index = data.findIndex((e) => e.id === selected.id);
+      data.splice(index, 1);
+      setPathes([...data]);
+    }
+  }
+  useEffect(() => {
+    const onKeyDown = ({key}) => rem()
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  },[selected])
+
 
   const load = (width, height) => {
     dashboardapi.get(1, (data) => {
@@ -85,7 +99,7 @@ export const DashboardProvider = ({ children }) => {
   };
 
   const add = (item) => {
-    console.dir(item);
+    
     const id = uuidv4();
     var props = item.props.reduce((obj, item) => Object.assign(obj, { [item.name]: item.default }), {});
     const model = {
@@ -179,6 +193,8 @@ export const Dashboard = ({ width, height }) => {
   const parentRef = useRef(null);
   const { actions, state } = useContext(DashboardContext);
 
+
+
   useEffect(() => {
     if (parentRef.current) {
       let parentHeight = parentRef.current.offsetHeight;
@@ -186,7 +202,10 @@ export const Dashboard = ({ width, height }) => {
       actions.setWidth(parentWidth);
       actions.setHeight(parentHeight);
       actions.load(parentWidth, parentHeight);
+
     }
+
+
   }, [parentRef]);
 
   return (
@@ -219,4 +238,21 @@ export const Dashboard = ({ width, height }) => {
       </div>
     </div>
   );
+};
+
+
+export const useDraggable = () => {
+  const { state } = useContext(DashboardContext);
+  const value = useMemo(() => {
+    return state.draggable
+  }, [state.draggable]);
+  return value;
+};
+
+export const useModel = (id) => {
+  const { state } = useContext(DashboardContext);
+  const value = useMemo(() => {
+    return state.elements[id]
+  }, [state,id]);
+  return value;
 };

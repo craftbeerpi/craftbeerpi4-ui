@@ -104,6 +104,8 @@ export const CBPiProvider = ({ children }) => {
   const add_kettle = (data, onSuccess = () => {}, onError = () => {}) => kettleapi.add(data, onSuccess, onError);
   const update_kettle = (id, data, onSuccess = () => {}, onError = () => {}) => kettleapi.save(id, data, onSuccess, onError);
   const delete_kettle = (id, onSuccess = () => {}, onError = () => {}) => kettleapi.remove(id, onSuccess, onError);
+  const target_temp_kettle = useEventCallback((id, temp) => kettleapi.target_temp(id, temp), []);
+  const toggle_logic = useEventCallback((id) => kettleapi.toggle(id), []);
 
   const add_actor = (data, onSuccess = () => {}, onError = () => {}) => actorapi.add(data, onSuccess, onError);
   const update_actor = (id, data, onSuccess = () => {}, onError = () => {}) => actorapi.save(id, data, onSuccess, onError);
@@ -116,7 +118,6 @@ export const CBPiProvider = ({ children }) => {
   const toggle_actor = useEventCallback((id) => {
     const actor = get_actor_by_id(id);
     if (!actor) return;
-
     if (actor.state === false) {
       actorapi.on(id, (data) => setActors((current_actors) => current_actors.map((item, index) => (item.id === id ? { ...item, state: true } : item))));
     } else {
@@ -135,7 +136,8 @@ export const CBPiProvider = ({ children }) => {
     actions: {
       delete_kettle,
       add_kettle,
-
+      target_temp_kettle,
+      toggle_logic,
       update_kettle,
       add_actor,
       update_actor,
@@ -170,10 +172,10 @@ export const useSensor = (id) => {
 };
 
 export const useKettle = (id) => {
-  const { kettle, state } = useCBPi();
+  const { kettle } = useCBPi();
   const value = useMemo(() => {
     return kettle.find((item) => item.id === id);
-  }, [state.kettle]);
+  }, [kettle]);
   return value;
 };
 

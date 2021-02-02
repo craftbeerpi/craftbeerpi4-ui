@@ -5,7 +5,7 @@ import {  useCBPi } from "../data";
     const { state } = useCBPi()
     const data = state?.sensorData[id]
     
-    return data ? (<>{data}</>) : (<>---</>)
+    return data !== undefined ? (<>{data}</>) : (<>---</>)
 }
 
 export default SensorValue

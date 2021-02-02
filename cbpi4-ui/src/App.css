@@ -37,7 +37,7 @@
   }
 }
 
-.draw {stroke-dasharray: 5; animation: dashdraw 10s linear infinite;}
+.draw {stroke-dasharray: 5; animation: dashdraw 5s linear infinite;}
 
 @keyframes dashdraw {to {stroke-dashoffset: 200;}}
 
@@ -61,3 +61,8 @@ circle{
   padding: 5px;
 }
 
+.no-drag {
+  user-drag: none; 
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+}

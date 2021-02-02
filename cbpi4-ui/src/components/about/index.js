@@ -4,6 +4,9 @@ import React from "react";
 import Plot from "react-plotly.js";
 import logo from "../../images/cbpi.png";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import {ReactComponent as  KettleSVG} from "../dashboard/widgets/svg/kettle.svg";
+import  {ReactComponent as  TankSVG}    from "../dashboard/widgets//svg/tank2.svg";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,7 +28,8 @@ const About = () => {
   return (
     <div>
       <h1>ABOUT</h1>
-
+      <TankSVG  class="name1"/>
+      <KettleSVG class="name2"/>
       <Grid container spacing={2} className={classes.root}>
         <Grid item spacing={2} xs={12}>
           <Paper style={{ padding: 10 }}>

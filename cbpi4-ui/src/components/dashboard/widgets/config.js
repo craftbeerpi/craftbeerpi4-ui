@@ -1,5 +1,6 @@
 
-import { ReactComponent as KettleSVG } from "./svg/kettle.svg";
+import  KettleSVG from "./svg/kettle.svg";
+import  TankSVG   from "./svg/tank2.svg";
 import { Text } from "./Text";
 import { DashboardButton } from "./Button";
 import { SensorData} from './SensorData';
@@ -15,6 +16,15 @@ export const widget_list = [
     name: "Kettle",
     type: "Kettle",
     component: KettleSVG,
+    props: [
+      { name: "width", default: "100", type: "text" },
+      { name: "heigth", default: "150", type: "text" },
+    ],
+  },
+  {
+    name: "Tank",
+    type: "Tank",
+    component: TankSVG,
     props: [
       { name: "width", default: "100", type: "text" },
       { name: "heigth", default: "150", type: "text" },
@@ -47,7 +57,9 @@ export const widget_list = [
     component: SensorData,
     props: [
       { name: "sensor", default: "", type: "sensor" },
-      { name: "unit", default: "", type: "text" },
+      { name: "unit", default: "°", type: "text" },
+      { name: "size", default: "12", type: "text" },
+      { name: "color", default: "#fff", type: "text" },
     ],
   },
   {
@@ -79,7 +91,7 @@ export const widget_list = [
     name: "KettleControl",
     type: "KettleControl",
     component: KettleControl,
-    props: [{ name: "kettle", default: "1", type: "kettle" }, { name: "orientation", default: "", type: "select" }],
+    props: [{ name: "kettle", default: "1", type: "kettle" }, { name: "orientation", options:["horizontal","vertical"], default: "", type: "select" }],
   },
   
   
