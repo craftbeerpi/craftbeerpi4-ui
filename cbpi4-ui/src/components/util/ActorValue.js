@@ -6,7 +6,7 @@ import { CBPiContext } from "../data";
     const { state } = useContext(CBPiContext);
 
     const actor = state.actors.find(e => e.id === id)
-    return actor ? (<>{actor.name}</>) : (<>{id}</>)
+    return actor ? (<>{actor.name}</>) : (<>Actor not Found</>)
 }
 
 export default ActorValue

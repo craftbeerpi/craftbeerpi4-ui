@@ -34,9 +34,17 @@ export const DashboardProvider = ({ children }) => {
       data.splice(index, 1);
       setPathes([...data]);
     }
+    /*if (selected && selected.type === 'E') {
+      remove(selected.id)
+    }*/
   }
   useEffect(() => {
-    const onKeyDown = ({key}) => rem()
+    const onKeyDown = ({keyCode}) => {
+      if(keyCode === 8) {
+        rem()
+      }
+    
+    }
     document.addEventListener('keydown', onKeyDown);
     return () => document.removeEventListener('keydown', onKeyDown);
   },[selected])
