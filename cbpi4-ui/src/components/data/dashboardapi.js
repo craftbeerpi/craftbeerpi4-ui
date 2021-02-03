@@ -33,11 +33,23 @@ const get = (id, callback_susscess = () => {}, callback_failed = () => {}) => {
     });
 };
 
+const widgets = (callback_susscess = () => {}, callback_failed = () => {}) => {
+  axios
+    .get("/dashboard/widgets" )
+    .then(function (response) {
+      callback_susscess(response.data);
+    })
+    .catch(function (error) {
+      callback_failed();
+    });
+};
+
 
 
 
 export const dashboardapi = {
   save,
   get,
+  widgets,
   clear
 }

@@ -1,15 +1,16 @@
-import { Checkbox, TextField, Typography } from "@material-ui/core";
+import { Checkbox, InputAdornment, TextField, Typography } from "@material-ui/core";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import CropSquareIcon from "@material-ui/icons/CropSquare";
 import React, { useContext, useEffect, useState } from "react";
-import { useActor, useCBPi } from "../data";
+import { useActor } from "../data";
 import ActorSelect from "../util/ActorSelect";
 import KettleSelect from "../util/KettleSelect";
-import SensorSelect from "../util/SensorSelect";
 import { SelectInput } from "../util/SelectInput";
+import SensorSelect from "../util/SensorSelect";
+import WidgetSelet from "../util/WidgetSelect";
 import { DashboardContext } from "./DashboardContext";
 import { widget_list } from "./widgets/config";
 
@@ -42,7 +43,7 @@ const DashboardLayerList = () => {
           overflowY: "scroll",
         }}
       >
-        <List component="nav" disableGutters={true} dense  aria-label="main mailbox folders">
+        <List component="nav" disableGutters={true} dense aria-label="main mailbox folders">
           {Object.values(data).map((e, index) => (
             <DashboardLayerListItem key={index} item={e} />
           ))}
@@ -89,20 +90,24 @@ const PropsEditor = ({ data }) => {
   const handlechange = (e, key) => {
     actions.update_prop(selected_id, key, e.target.value);
   };
+
   return type_spec.props.map((s) => {
+    const unit = s.unit ? { endAdornment: <InputAdornment position="end">{s.unit}</InputAdornment> } : {};
+
     switch (s.type) {
       case "text":
-        return <TextField label={s.name} key={s.name} fullWidth onChange={(e) => handlechange(e, s.name)} value={data.props[s.name]} />;
-
+        return <TextField InputProps={unit} label={s.name} key={s.name} fullWidth onChange={(e) => handlechange(e, s.name)} value={data.props[s.name]} />;
       case "select":
         return <SelectInput label={s.name} value={data.props[s.name]} key={s.name} onChange={(e) => handlechange(e, s.name)} options={s?.options || []} />;
-
       case "actor":
         return <ActorSelect value={data.props[s.name]} key={s.name} onChange={(e) => handlechange(e, s.name)} />;
       case "sensor":
         return <SensorSelect value={data.props[s.name]} key={s.name} onChange={(e) => handlechange(e, s.name)} />;
       case "kettle":
         return <KettleSelect value={data.props[s.name]} key={s.name} onChange={(e) => handlechange(e, s.name)} />;
+      case "widget":
+        return <WidgetSelet value={data.props[s.name]} key={s.name} onChange={(e) => handlechange(e, s.name)} />;
+
       default:
         return "";
     }
@@ -128,7 +133,6 @@ const PathSettings = () => {
   const [checked, setChecked] = React.useState([]);
   const [checkedRight, setCheckedRight] = React.useState([]);
 
-
   useEffect(() => {
     const item = state.pathes.find((e) => e.id === selected_id);
     setChecked((current) => item?.condition || []);
@@ -146,8 +150,7 @@ const PathSettings = () => {
       }
       setChecked(newChecked);
       actions.update_path_condition(selected_id, newChecked);
-    }
-    else {
+    } else {
       const currentIndex = checkedRight.indexOf(value);
       const newChecked = [...checkedRight];
 
@@ -158,8 +161,6 @@ const PathSettings = () => {
       }
       setCheckedRight(newChecked);
     }
-
-    
   };
 
   useEffect(() => {
@@ -181,12 +182,11 @@ const PathSettings = () => {
         }}
       >
         Flow left
-        <List disableGutters={true} dense  component="nav" aria-label="main mailbox folders">
+        <List disableGutters={true} dense component="nav" aria-label="main mailbox folders">
           {actor.map((item) => (
             <PathSettingsItem item={item} checked={checked} handleToggle={handleToggle} />
           ))}
         </List>
-        
       </div>
     </>
   );

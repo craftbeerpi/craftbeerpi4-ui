@@ -10,14 +10,14 @@ import DashboardToolbar from "./DasboardToolbar";
 import DashboardLayer from "./DashboardLayer";
 import DashboardWidgetList from "./DashboardWidgetList";
 import { DashboardContainer } from "./Elements";
+import useKeyPress from "./GlobalKeyPress";
 import { widget_list } from "./widgets/config";
 import { Path } from "./widgets/Path";
 
 export const DashboardContext = createContext({});
 
 export const DashboardProvider = ({ children }) => {
-
-  const alert = useAlert()
+  const alert = useAlert();
   const [selected, setSelected] = useState(null);
   const [selectedPath, setSelectedPath] = useState(null);
   const [current, setCurrent] = useState("INFO");
@@ -26,35 +26,31 @@ export const DashboardProvider = ({ children }) => {
   const [elements, setElements] = useState({});
   const [draggable, setDraggable] = useState(false);
   const [pathes, setPathes] = useState([]);
+  const [widgets, setWidgets] = useState([])
   const widget_dict = widget_list.reduce((a, x) => ({ ...a, [x.type]: x }), {});
-  const rem = () => {
-    if (selected && selected.type === 'P') {
-      const data = [...pathes]
+
+
+  const delelteKeyPressed = useKeyPress(8);
+
+  useEffect(() => {
+    if (selected && selected.type === "P") {
+      const data = [...pathes];
       const index = data.findIndex((e) => e.id === selected.id);
       data.splice(index, 1);
       setPathes([...data]);
     }
-    /*if (selected && selected.type === 'E') {
-      remove(selected.id)
-    }*/
-  }
-  useEffect(() => {
-    const onKeyDown = ({keyCode}) => {
-      if(keyCode === 8) {
-        rem()
-      }
-    
+    if (selected && selected.type === "E") {
+      let data2 = { ...elements };
+      delete data2[selected.id];
+      setElements(data2);
+      setSelected(null);
     }
-    document.addEventListener('keydown', onKeyDown);
-    return () => document.removeEventListener('keydown', onKeyDown);
-  },[selected])
-
+  }, [delelteKeyPressed]);
 
   const load = (width, height) => {
     dashboardapi.get(1, (data) => {
       const errors = [];
       let data_model = data.elements.reduce((a, x) => {
-        
         if (x.type in widget_dict) {
           return { ...a, [x.id]: { ...x, instance: <DashboardContainer key={x.id} id={x.id} type={widget_dict[x.type].component} /> } };
         } else {
@@ -67,6 +63,10 @@ export const DashboardProvider = ({ children }) => {
       let dm = data.pathes.map((v) => ({ ...v, instance: <Path key={v.id} id={v.id} coordinates={v.coordinates} condition={v.condition} max_x={width} max_y={height} /> }));
       setPathes(dm);
     });
+
+    dashboardapi.widgets((data)=>{
+      setWidgets(data)
+    })
   };
 
   const remove = (id) => {
@@ -89,16 +89,14 @@ export const DashboardProvider = ({ children }) => {
   };
 
   const update_path_condition = (id, value) => {
-    
     const index = pathes.findIndex((e) => e.id === id);
     const temp_pathes = [...pathes];
-    temp_pathes[index].condition = value ;
+    temp_pathes[index].condition = value;
 
     setPathes([...temp_pathes]);
   };
 
   const update_path = (id, data) => {
-    
     const index = pathes.findIndex((e) => e.id === id);
     const temp_pathes = [...pathes];
     temp_pathes[index].coordinates = data;
@@ -107,7 +105,6 @@ export const DashboardProvider = ({ children }) => {
   };
 
   const add = (item) => {
-    
     const id = uuidv4();
     var props = item.props.reduce((obj, item) => Object.assign(obj, { [item.name]: item.default }), {});
     const model = {
@@ -123,14 +120,12 @@ export const DashboardProvider = ({ children }) => {
   };
 
   const clear = useCallback(() => {
-
-    dashboardapi.clear(1, ()=>{
-      console.log("CEAR")
-      setElements(currentElements =>  ({}));
-      setPathes(currentPathes => ([]));
-    })
-  }, [])
-    
+    dashboardapi.clear(1, () => {
+      console.log("CEAR");
+      setElements((currentElements) => ({}));
+      setPathes((currentPathes) => []);
+    });
+  }, []);
 
   const add_path = () => {
     const id = uuidv4();
@@ -152,7 +147,9 @@ export const DashboardProvider = ({ children }) => {
   const save = () => {
     let e = Object.values(elements).map((value) => ({ id: value.id, name: value.name, x: value.x, y: value.y, type: value.type, props: { ...value.props } }));
     let p = pathes.map((value) => ({ id: value.id, coordinates: value.coordinates, condition: value.condition }));
-    dashboardapi.save(1, { elements: e, pathes: p }, ()=>{alert.show("Dashboard Saved")});
+    dashboardapi.save(1, { elements: e, pathes: p }, () => {
+      alert.show("Dashboard Saved");
+    });
   };
 
   const value = {
@@ -163,6 +160,7 @@ export const DashboardProvider = ({ children }) => {
       elements,
       pathes,
       selected,
+      widgets,
       widget_list,
       draggable,
       selectedPath,
@@ -192,16 +190,9 @@ export const DashboardProvider = ({ children }) => {
   return <DashboardContext.Provider value={value}>{children}</DashboardContext.Provider>;
 };
 
-
-
-
-
-
 export const Dashboard = ({ width, height }) => {
   const parentRef = useRef(null);
   const { actions, state } = useContext(DashboardContext);
-
-
 
   useEffect(() => {
     if (parentRef.current) {
@@ -210,10 +201,7 @@ export const Dashboard = ({ width, height }) => {
       actions.setWidth(parentWidth);
       actions.setHeight(parentHeight);
       actions.load(parentWidth, parentHeight);
-
     }
-
-
   }, [parentRef]);
 
   return (
@@ -223,8 +211,8 @@ export const Dashboard = ({ width, height }) => {
         {state.draggable ? <DashboardWidgetList /> : null}
         <div
           onPointerDown={() => {
-            actions.setSelected(current => (null));
-            actions.setSelectedPath(current => (null));
+            actions.setSelected((current) => null);
+            actions.setSelectedPath((current) => null);
           }}
           ref={parentRef}
           style={{
@@ -248,11 +236,10 @@ export const Dashboard = ({ width, height }) => {
   );
 };
 
-
 export const useDraggable = () => {
   const { state } = useContext(DashboardContext);
   const value = useMemo(() => {
-    return state.draggable
+    return state.draggable;
   }, [state.draggable]);
   return value;
 };
@@ -260,7 +247,16 @@ export const useDraggable = () => {
 export const useModel = (id) => {
   const { state } = useContext(DashboardContext);
   const value = useMemo(() => {
-    return state.elements[id]
-  }, [state,id]);
+    return state.elements[id];
+  }, [state, id]);
+  return value;
+};
+
+
+export const useDashboard = (Context) => {
+  const { state, actions } = useContext(DashboardContext);
+  const value = useMemo(() => {
+    return { state, actions}
+  }, [ state ]);
   return value;
 };
