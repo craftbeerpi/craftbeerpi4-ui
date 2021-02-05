@@ -78,7 +78,7 @@ export const widget_list = [
     name: "Steps",
     type: "Steps",
     component: Steps,
-    props: [{ name: "width", default: "100", type: "text", unit: "px" }],
+    props: [{ name: "width", default: "200", type: "text", unit: "px" }],
   },
   {
     name: "CustomSVG",

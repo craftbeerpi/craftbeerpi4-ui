@@ -5,7 +5,7 @@ import Select from '@material-ui/core/Select';
 import { useDashboard } from "../dashboard/DashboardContext";
 
 
- const WidgetSelet = ({label="Logic", value, onChange, }) => {
+ const WidgetSelet = ({label="Widget", value, onChange, }) => {
     const { state } = useDashboard()
     return <>
         <InputLabel shrink id="demo-simple-select-placeholder-label-label">

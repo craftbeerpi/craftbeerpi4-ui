@@ -31,6 +31,7 @@ export const CBPiProvider = ({ children }) => {
   const [auth, setAuth] = useState(null);
   const [plugins, setPlugins] = useState([]);
   const [temp, setTemp] = useState("");
+  const [version, setVersion] = useState("---")
   const alert = useAlert();
 
   const onMessage = (data) => {
@@ -93,6 +94,7 @@ export const CBPiProvider = ({ children }) => {
       setMashProfile(data.step.profile);
       setMashBasic(data.step.basic);
       setConfig(data.config);
+      setVersion(data.version);
       setStepTypes(Object.values(data.step.types));
       setAuth(true);
     });
@@ -100,7 +102,6 @@ export const CBPiProvider = ({ children }) => {
 
   // Step API
   const get_step_by_id = (id) => mashProfile.find((item) => item.id === id);
-
   const add_kettle = (data, onSuccess = () => {}, onError = () => {}) => kettleapi.add(data, onSuccess, onError);
   const update_kettle = (id, data, onSuccess = () => {}, onError = () => {}) => kettleapi.save(id, data, onSuccess, onError);
   const delete_kettle = (id, onSuccess = () => {}, onError = () => {}) => kettleapi.remove(id, onSuccess, onError);
@@ -110,9 +111,6 @@ export const CBPiProvider = ({ children }) => {
   const add_actor = (data, onSuccess = () => {}, onError = () => {}) => actorapi.add(data, onSuccess, onError);
   const update_actor = (id, data, onSuccess = () => {}, onError = () => {}) => actorapi.save(id, data, onSuccess, onError);
   const delete_actor = (id, onSuccess = () => {}, onError = () => {}) => actorapi.remove(id, onSuccess, onError);
-  const on_actor = useEventCallback((id) => actorapi.on(id), []);
-  const off_actor = useEventCallback((id) => actorapi.off(id), []);
-
   const get_actor_by_id = (id) => actors.find((item) => item.id === id);
 
   const toggle_actor = useEventCallback((id) => {
@@ -132,7 +130,7 @@ export const CBPiProvider = ({ children }) => {
   const get_sensor_by_id = (id) => sensors.find((item) => item.id === id);
 
   const value = {
-    state: { sensors, actors, logic, kettle, auth, plugins, temp, sensorData, actorTypes, sensorTypes, config, mashProfile, mashBasic, stepTypes },
+    state: { sensors, version, actors, logic, kettle, auth, plugins, temp, sensorData, actorTypes, sensorTypes, config, mashProfile, mashBasic, stepTypes },
     actions: {
       delete_kettle,
       add_kettle,
@@ -158,7 +156,7 @@ export const CBPiProvider = ({ children }) => {
 export const useCBPi = (Context) => {
   const { state, actions } = useContext(CBPiContext);
   const value = useMemo(() => {
-    return { state, kettle: state.kettle, actor: state.actors, sensor: state.sensors, config: state.config, actions };
+    return { state, version: state.version, kettle: state.kettle, actor: state.actors, sensor: state.sensors, config: state.config, actions };
   }, [ state ]);
   return value;
 };

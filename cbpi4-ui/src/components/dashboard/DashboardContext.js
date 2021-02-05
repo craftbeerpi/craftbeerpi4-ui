@@ -88,10 +88,10 @@ export const DashboardProvider = ({ children }) => {
     setElements({ ...elements, [id]: item });
   };
 
-  const update_path_condition = (id, value) => {
+  const update_path_condition = (id, data) => {
     const index = pathes.findIndex((e) => e.id === id);
     const temp_pathes = [...pathes];
-    temp_pathes[index].condition = value;
+    temp_pathes[index].condition = data;
 
     setPathes([...temp_pathes]);
   };
@@ -252,6 +252,13 @@ export const useModel = (id) => {
   return value;
 };
 
+export const useSelected = (id) => {
+  const { state } = useContext(DashboardContext);
+  const value = useMemo(() => {
+    return state.selected?.id === id;
+  }, [ state.selected ]);
+  return value;
+};
 
 export const useDashboard = (Context) => {
   const { state, actions } = useContext(DashboardContext);

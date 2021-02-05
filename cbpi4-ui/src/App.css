@@ -37,9 +37,11 @@
   }
 }
 
-.draw {stroke-dasharray: 5; animation: dashdraw 5s linear infinite;}
+.flowLeft {stroke-dasharray: 5; animation: dashdrawLeft 5s linear infinite;}
+@keyframes dashdrawLeft {to {stroke-dashoffset: 200;}}
 
-@keyframes dashdraw {to {stroke-dashoffset: 200;}}
+.flowRight {stroke-dasharray: 5; animation: dashdrawRight 5s linear infinite;}
+@keyframes dashdrawRight {to {stroke-dashoffset: -200;}}
 
 circle{
   pointer-events: auto;

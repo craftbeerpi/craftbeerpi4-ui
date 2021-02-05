@@ -8,18 +8,14 @@ export const isInputDOMNode = (e) => {
 const useKeyPress = (key) => {
   const [keyPressed, setKeyPressed] = useState(false);
 
-  
   useEffect(() => {
     const downHandler = (e) => {
-        console.log("KEY DOWN")
-        
       if (!isInputDOMNode(e) && key === e.keyCode) {
         setKeyPressed(() => true);
       }
     };
 
     const upHandler = (e) => {
-        console.log("KEY UP")
       if (!isInputDOMNode(e) && key === e.keyCode) {
         setKeyPressed(() => false);
       }

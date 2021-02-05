@@ -67,10 +67,12 @@ const Recipe = () => {
         <Grid item sm={8}>
           <Paper className={classes.paper}>
             <Header title="Profile">
+              <div style={{display: "flex"}}>
               <MashControl />
               <Button variant="contained" color="primary" startIcon={<AddIcon />} onClick={() => history.push("/step")}>
                 ADD
               </Button>
+              </div>
             </Header>
             <TableContainer size="small">
               <Table className={classes.table} dense table size="small" aria-label="simple table">

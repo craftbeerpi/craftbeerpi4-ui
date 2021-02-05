@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useActor } from "../../data";
-
+import classNames from 'classnames';
 import { DashboardContext } from "../DashboardContext";
 
 export const Path = ({ id, coordinates, condition = null, stroke = 10, max_x = 400, max_y = 600 }) => {
@@ -10,28 +10,32 @@ export const Path = ({ id, coordinates, condition = null, stroke = 10, max_x = 4
   const [dragging, setDragging] = useState(false);
   const [origin, setOrigin] = useState({ x: 0, y: 0 });
   const [active, setActive] = useState(false);
-  const [ani, setAni] = useState(false);
-  
+  const [flowLeft, setFlowLeft] = useState(false)
+  const [flowRight, setFlowRight] = useState(false)
  
 
   useEffect(() => {
+    
     const actor_cache = actor.reduce((obj, item) => {
       obj[item.id] = item.state;
       return obj;
     }, {});
 
     const p = state.pathes.find((e) => e.id === id);
-    if (!p.condition || p.condition.length === 0) {
-      setAni(false);
+    if (!p.condition?.left || p.condition?.left.length === 0) {
+      setFlowLeft(false)
     } else {
-      setAni(p.condition.reduce((sum, next) => sum && actor_cache[next], true));
+      setFlowLeft(p.condition?.left.reduce((sum, next) => sum && actor_cache[next], true));
+    }
+
+    if (!p.condition?.right || p.condition?.right.length === 0) {
+      setFlowRight(false)
+    } else {
+      setFlowRight(p.condition?.right.reduce((sum, next) => sum && actor_cache[next], true));
     }
   }, [actor]);
 
   const draggable = state.draggable;
-
- 
-
   const gen_path = () => {
     let path_string = "";
     for (const [index, value] of data.entries()) {
@@ -155,7 +159,7 @@ export const Path = ({ id, coordinates, condition = null, stroke = 10, max_x = 4
 
   const glow = () => (is_acktive() ? "10%" : "0%");
   const is_acktive = () => actions.is_selected(id);
-  const animation = ani ? "draw" : "";
+  const animation = classNames({ flowLeft: flowLeft }, { flowRight: flowRight });
   return (
     <>
       <g key={id}>

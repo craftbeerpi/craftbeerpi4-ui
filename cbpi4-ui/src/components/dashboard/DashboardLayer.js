@@ -4,6 +4,8 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import CropSquareIcon from "@material-ui/icons/CropSquare";
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import React, { useContext, useEffect, useState } from "react";
 import { useActor } from "../data";
 import ActorSelect from "../util/ActorSelect";
@@ -21,7 +23,7 @@ const DashboardLayerListItem = ({ item }) => {
   return (
     <ListItem button selected={selected} onClick={() => actions.setSelected(() => ({ type: "E", id: item.id }))}>
       <ListItemIcon>
-        <CropSquareIcon />
+        {selected ? <CheckBoxIcon color="primary"/> : <CheckBoxOutlineBlankIcon/> }
       </ListItemIcon>
       <ListItemText primary={item.name} />
     </ListItem>
@@ -29,7 +31,7 @@ const DashboardLayerListItem = ({ item }) => {
 };
 
 const DashboardLayerList = () => {
-  const { state, actions } = useContext(DashboardContext);
+  const { state } = useContext(DashboardContext);
   const data = state.elements;
 
   return (
@@ -135,7 +137,8 @@ const PathSettings = () => {
 
   useEffect(() => {
     const item = state.pathes.find((e) => e.id === selected_id);
-    setChecked((current) => item?.condition || []);
+    setChecked((current) => item?.condition?.left || []);
+    setCheckedRight((current) => item?.condition?.right || []);
   }, [selected_id]);
 
   const handleToggle = (value, direction = "left") => () => {
@@ -149,7 +152,7 @@ const PathSettings = () => {
         newChecked.splice(currentIndex, 1);
       }
       setChecked(newChecked);
-      actions.update_path_condition(selected_id, newChecked);
+      actions.update_path_condition(selected_id, {left: newChecked, right: checkedRight});
     } else {
       const currentIndex = checkedRight.indexOf(value);
       const newChecked = [...checkedRight];
@@ -160,6 +163,7 @@ const PathSettings = () => {
         newChecked.splice(currentIndex, 1);
       }
       setCheckedRight(newChecked);
+      actions.update_path_condition(selected_id, {left: checked, right: newChecked});
     }
   };
 
@@ -181,10 +185,16 @@ const PathSettings = () => {
           overflowY: "scroll",
         }}
       >
-        Flow left
+        Flow Left
         <List disableGutters={true} dense component="nav" aria-label="main mailbox folders">
           {actor.map((item) => (
             <PathSettingsItem item={item} checked={checked} handleToggle={handleToggle} />
+          ))}
+        </List>
+        Flow Right
+        <List disableGutters={true} dense component="nav" aria-label="main mailbox folders">
+          {actor.map((item) => (
+            <PathSettingsItem item={item} checked={checkedRight} handleToggle={(id) => handleToggle(id, "right")} />
           ))}
         </List>
       </div>

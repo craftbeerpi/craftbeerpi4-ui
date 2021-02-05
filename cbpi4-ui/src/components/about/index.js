@@ -1,12 +1,8 @@
-import { Grid, Paper } from "@material-ui/core";
+import { Divider, Grid, Paper, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import React from "react";
-import Plot from "react-plotly.js";
+import React, { version } from "react";
 import logo from "../../images/cbpi.png";
-import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
-import {ReactComponent as  KettleSVG} from "../dashboard/widgets/svg/kettle.svg";
-import  {ReactComponent as  TankSVG}    from "../dashboard/widgets//svg/tank2.svg";
-
+import { useCBPi } from "../data";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,17 +19,24 @@ const useStyles = makeStyles((theme) => ({
 
 const About = () => {
   const classes = useStyles();
+  const {state} = useCBPi()
 
-  
   return (
     <div>
-      <h1>ABOUT</h1>
-      <TankSVG  class="name1"/>
-      <KettleSVG class="name2"/>
+      <Grid container direction="row" justify="space-between" alignItems="center" style={{ marginTop: 10 }}>
+        <Grid item>
+          <Typography variant="h5" gutterBottom>
+            About
+          </Typography>
+        </Grid>
+        <Grid item></Grid>
+      </Grid>
+      <Divider style={{ marginBottom: 10, marginTop: 10 }} />
+
       <Grid container spacing={2} className={classes.root}>
         <Grid item spacing={2} xs={12}>
           <Paper style={{ padding: 10 }}>
-            This is CraftBeerPi Brewing Controller 4.0
+            This is CraftBeerPi Brewing Controller 4.0 (Version: {state.version})
             <p>It's an Open Source Project founded in 2015. More than 7,000 passioned Homebrewers and commercial Craft Brewerys are using CraftBeerPi. It's an open Eco System.</p>
             Website: http://www.CraftBeerPi.com <br />
             GitHub: http://github.com/manuel83 <br />
@@ -50,57 +53,30 @@ const About = () => {
             <p>GNU General Public License 3</p>
           </Paper>
         </Grid>
-      </Grid>
-      <Paper>
-        <Plot
-          data={[
-            {
-              x: ["2021-10-04 21:23:00", "2021-10-04 22:23:00", "2021-10-04 23:23:00"],
-              y: [1, 3, 6],
-              type: "scatter",
-            },
-            {
-              x: ["2021-10-04 21:23:00", "2021-10-04 22:23:00", "2021-10-04 23:23:00"],
-              y: [2, 2, 1],
-              type: "scatter",
-            },
-          ]}
-          config={{ displayModeBar: false }}
-          layout={{
-            paper_bgcolor: "rgba(0,0,0,0)",
-            plot_bgcolor: "rgba(0,0,0,0)",
-            width: "600",
-            margin: {
-              l: 50,
-              r: 50,
-              b: 100,
-              t: 100,
-              pad: 1,
-            },
-            legend: {
-              font: {
-                family: 'sans-serif',
-                size: 12,
-                color: '#000'
-              },
-            },
-            xaxis: {
-              showgrid: false,
-              tickfont : {
-                size : 8,
-                color : 'red'
-              }
-            },
-            yaxis: {
-              showgrid: true,
-              tickfont : {
-                size : 8,
-                color : 'red'
-              }
-            }
-          }}
+        <Grid item spacing={2} xs={12}>
+          <Paper style={{ padding: 10 }}>
+            <h3>PayPal Donation</h3>
+            <p>CraftBeerPi is an free an open source project. If you like this software support this project with a donation.
+              The donation is used to buy hardware and software to build this product. 
+            </p>
+            <form action="https://www.paypal.com/donate" method="post" target="_top">
+        <input type="hidden" name="hosted_button_id" value="QA2DR6FKNF6VN" />
+        <input
+          type="image"
+          src="/paypal.png"
+          border="0"
+          width="200px"
+          name="submit"
+          title="PayPal - The safer, easier way to pay online!"
+          alt="Donate with PayPal button"
         />
-      </Paper>
+        <img alt="" border="0" src="https://www.paypal.com/en_DE/i/scr/pixel.gif" width="1" height="1" />
+      </form>
+          </Paper>
+        </Grid>
+        
+      </Grid>
+
       
     </div>
   );
