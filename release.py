@@ -13,9 +13,9 @@ def release(m):
     file = "./version.py"
     with open(file) as reader:
         print()
-        m = re.search('.*\"(.*)\"', reader.readline())
+        match = re.search('.*\"(.*)\"', reader.readline())
         
-        major, minor, patch  = m.group(1).split(".")
+        major, minor, patch  = match.group(1).split(".")
         patch = int(patch)
         patch += 1
         new_version = "__version__ = \"{}.{}.{}\"".format(major,minor,patch)
