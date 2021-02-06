@@ -71,7 +71,7 @@ const StepForm = () => {
   const classes = useStyles();
   const [name, setName] = useState("");
   const [type, setType] = useState("");
-  const [props, setProps] = useState({Param1:123, Param2: "HALLO", Param3: 1})
+  const [props, setProps] = useState({})
   const [propsConfig, setPropsConfig] = useState(null);
   const { id } = useParams();
   const { state } = useCBPi();

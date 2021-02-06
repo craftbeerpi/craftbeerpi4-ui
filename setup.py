@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='cbpi4-ui',
-      version='0.0.4',
+      version='0.0.5',
       description='CraftBeerPi User Interface',
       author='Manuel Fritsch',
       author_email='manuel@craftbeerpi.com',
