@@ -1,8 +1,21 @@
 from setuptools import setup
-from cbpi4ui.version import __version__
+import os
+import re
+
+
+with open(os.path.join(os.path.abspath(os.path.dirname(
+        __file__)), 'cbpi4ui', 'version.py'), 'r', encoding='latin1') as fp:
+    try:
+        match = re.search('.*\"(.*)\"', fp.readline())
+        version = match.group(1)
+    except IndexError:
+        raise RuntimeError('Unable to determine version.')
+
+
+print(version)
 
 setup(name='cbpi4ui',
-      version=__version__,
+      version=version,
       description='CraftBeerPi User Interface',
       author='Manuel Fritsch',
       author_email='manuel@craftbeerpi.com',

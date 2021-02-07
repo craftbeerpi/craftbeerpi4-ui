@@ -1,10 +1,10 @@
-import { InputLabel } from "@material-ui/core";
+import { FormHelperText, InputLabel } from "@material-ui/core";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import { useContext } from "react";
 import { CBPiContext } from "../data";
 
-const SensorSelect = ({ label = "Sensor", value, onChange }) => {
+const SensorSelect = ({ label = "Sensor", description="", value, onChange }) => {
   const { state } = useContext(CBPiContext);
 
   return (
@@ -22,6 +22,7 @@ const SensorSelect = ({ label = "Sensor", value, onChange }) => {
           </MenuItem>
         ))}
       </Select>
+      <FormHelperText>{description}</FormHelperText>
     </>
   );
 };

@@ -1,10 +1,12 @@
-import { Grid, InputLabel, MenuItem, Select, TextField } from "@material-ui/core";
+import { FormHelperText,Grid, InputLabel, MenuItem, Select, TextField } from "@material-ui/core";
 import { useEffect } from "react";
 import ActorSelect from "./ActorSelect";
 import KettleSelect from "./KettleSelect";
 import SensorSelect from "./SensorSelect";
 
-export const SelectInput = ({ label, options=[], value, onChange }) => {
+export const SelectInput = ({ label, description="", options=[], value, onChange }) => {
+
+  console.log(label, description)
     return (
       <>
         <InputLabel shrink id="demo-simple-select-placeholder-label-label">
@@ -18,6 +20,7 @@ export const SelectInput = ({ label, options=[], value, onChange }) => {
             </MenuItem>
           ))}
         </Select>
+        <FormHelperText>{description}111</FormHelperText>
       </>
     );
   };

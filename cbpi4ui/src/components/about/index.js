@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import React, { version } from "react";
 import logo from "../../images/cbpi.png";
 import { useCBPi } from "../data";
+import paypal_logo from './paypal.png';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -70,7 +71,7 @@ const About = () => {
           title="PayPal - The safer, easier way to pay online!"
           alt="Donate with PayPal button"
         />
-        <img alt="" border="0" src="https://www.paypal.com/en_DE/i/scr/pixel.gif" width="1" height="1" />
+        <img alt="" border="0" src={paypal_logo} width="1" height="1" />
       </form>
           </Paper>
         </Grid>

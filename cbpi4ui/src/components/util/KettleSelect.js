@@ -1,10 +1,10 @@
-import { InputLabel } from "@material-ui/core";
+import {FormHelperText, InputLabel } from "@material-ui/core";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import { useContext } from "react";
 import { CBPiContext } from "../data";
 
-const KettleSelect = ({ label = "Kettle", value, onChange }) => {
+const KettleSelect = ({ label = "Kettle", description="", value, onChange }) => {
   const { state } = useContext(CBPiContext);
 
   return (
@@ -20,6 +20,7 @@ const KettleSelect = ({ label = "Kettle", value, onChange }) => {
           </MenuItem>
         ))}
       </Select>
+      <FormHelperText>{description}</FormHelperText>
     </>
   );
 };

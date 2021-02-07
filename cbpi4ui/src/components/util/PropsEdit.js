@@ -1,10 +1,10 @@
-import { Grid, InputLabel, MenuItem, Select, TextField } from "@material-ui/core";
+import { FormHelperText, Grid, InputLabel, MenuItem, Select, TextField } from "@material-ui/core";
 import { useEffect } from "react";
 import ActorSelect from "./ActorSelect";
 import KettleSelect from "./KettleSelect";
 import SensorSelect from "./SensorSelect";
 
-const SelectInput = ({ label, options=[], value, onChange }) => {
+const SelectInput = ({ label, description="", options=[], value, onChange }) => {
     return (
       <>
         <InputLabel shrink id="demo-simple-select-placeholder-label-label">
@@ -18,6 +18,7 @@ const SelectInput = ({ label, options=[], value, onChange }) => {
             </MenuItem>
           ))}
         </Select>
+        <FormHelperText>{description}</FormHelperText>
       </>
     );
   };
@@ -29,21 +30,23 @@ const PropsEdit = ({ config, onChange = () => {}, data={}}) => {
   if (!config) {
     return <></>;
   }
-
+  
   const render_input = (item) => {
+   
     switch (item.type) {
       case "select":
-        return <SelectInput label={item.label} options={item.options} value={data[item.label]} onChange={(e) => onChange(item.label, e.target.value)} />;
+        console.log(1,item.description)
+        return <SelectInput description={item.description} label={item.label} options={item.options} value={data[item.label]} onChange={(e) => onChange(item.label, e.target.value)} />;
       case "kettle":
-        return <KettleSelect value={data[item.label]} onChange={(e) => onChange(item.label, e.target.value)} />;
+        return <KettleSelect description={item.description} value={data[item.label]} onChange={(e) => onChange(item.label, e.target.value)} />;
       case "sensor":
-        return <SensorSelect value={data[item.label]} onChange={(e) => onChange(item.label, e.target.value)} />;
+        return <SensorSelect description={item.description} value={data[item.label]} onChange={(e) => onChange(item.label, e.target.value)} />;
       case "actor":
-        return <ActorSelect value={data[item.label]} onChange={(e) => onChange(item.label, e.target.value)} />;
+        return <ActorSelect description={item.description} value={data[item.label]} onChange={(e) => onChange(item.label, e.target.value)} />;
       case "number":
-        return <TextField value={data[item.label]} onChange={(e) => onChange(item.label, e.target.value)} type="number" label={item.label} fullWidth helperText={item.description}/>;
+        return <TextField helperText={item.description}  value={data[item.label]} onChange={(e) => onChange(item.label, e.target.value)} type="number" label={item.label} fullWidth helperText={item.description}/>;
       default:
-        return <TextField value={data[item.label]} onChange={(e) => onChange(item.label, e.target.value)} label={item.label} fullWidth helperText={item.description}/>;
+        return <TextField helperText={item.description} value={data[item.label]} onChange={(e) => onChange(item.label, e.target.value)} label={item.label} fullWidth helperText={item.description}/>;
     }
   };
 
