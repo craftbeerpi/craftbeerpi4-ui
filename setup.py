@@ -1,7 +1,7 @@
 from setuptools import setup
-from version import __version__
+from cbpi4ui.version import __version__
 
-setup(name='cbpi4-ui',
+setup(name='cbpi4ui',
       version=__version__,
       description='CraftBeerPi User Interface',
       author='Manuel Fritsch',
@@ -12,5 +12,5 @@ setup(name='cbpi4-ui',
         # If any package contains *.txt or *.rst files, include them:
       '': ['*.txt', '*.rst', '*.yaml'],
       'cbpi4-ui-plugin': ['*','*.txt', '*.rst', '*.yaml']},
-      packages=['cbpi4-ui'],
+      packages=['cbpi4ui'],
      )

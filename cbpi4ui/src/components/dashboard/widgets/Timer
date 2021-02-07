@@ -1,0 +1,8 @@
+import React, { useContext } from "react";
+import { DashboardContext } from "../DashboardContext";
+
+export const Timer = ({ id }) => {
+    const { actions } = useContext(DashboardContext);
+    const css_style = { color: data?.props?.color || "#fff", fontSize: data?.props?.size };
+    return <div style={css_style}>00:00:00</div>
+  };

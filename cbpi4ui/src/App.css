@@ -1,0 +1,70 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.flowLeft {stroke-dasharray: 5; animation: dashdrawLeft 5s linear infinite;}
+@keyframes dashdrawLeft {to {stroke-dashoffset: 200;}}
+
+.flowRight {stroke-dasharray: 5; animation: dashdrawRight 5s linear infinite;}
+@keyframes dashdrawRight {to {stroke-dashoffset: -200;}}
+
+circle{
+  pointer-events: auto;
+}
+
+.shadow {
+  -webkit-filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7));
+  filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7));
+  /* Similar syntax to box-shadow */
+}
+
+.box {
+  padding: 0px;
+  box-shadow: -2px 2px 5px #000;
+}
+
+.handle, .section_header {
+  background-color: #3a383b ;
+  padding: 5px;
+}
+
+.no-drag {
+  user-drag: none; 
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+}

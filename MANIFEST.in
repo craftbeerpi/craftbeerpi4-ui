@@ -1,2 +1,2 @@
-include cbpi4-ui/config.yaml
-recursive-include cbpi4-ui/build *
+include cbpi4ui/config.yaml
+recursive-include cbpi4ui/build *
