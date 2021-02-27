@@ -99,10 +99,34 @@ export const move = (id, direction, callback_susscess = () => {}, callback_faile
       });
   };
   
+  export const action = (id, name, parameter, callback_susscess = () => {}, callback_failed = () => {}) => {
+    axios
+      .post("/step2/action/"+id, {action:name, parameter})
+      .then(function (response) {
+        callback_susscess();
+      })
+      .catch(function (error) {
+        callback_failed();
+      });
+  };
+
+  export const clear = (callback_susscess = () => {}, callback_failed = () => {}) => {
+    axios
+      .post("/step2/clear")
+      .then(function (response) {
+        
+      })
+      .catch(function (error) {
+        callback_failed();
+      });
+  };
+
 
   export const stepapi = {
     move,
+    action,
     add,
+    clear,
     save_basic,
     save,
     next,

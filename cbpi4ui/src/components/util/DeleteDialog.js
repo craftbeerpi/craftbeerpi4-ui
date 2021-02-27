@@ -31,7 +31,7 @@ const DeleteDialog = ({ btnText, title, message, callback, id }) => {
           {btnText}
         </Button>
       ) : (
-        <IconButton aria-label="delete" size="small" onClick={handleClickOpen}>
+        <IconButton aria-label="delete"  onClick={handleClickOpen}>
           <DeleteIcon />
         </IconButton>
       )}

@@ -1,4 +1,4 @@
-import { Button, Divider, makeStyles, Paper } from "@material-ui/core";
+import { Button, Divider, IconButton, makeStyles, Paper } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import AddIcon from "@material-ui/icons/Add";
@@ -37,16 +37,14 @@ export default function Hardware() {
         <Grid item sm={12}>
           <Paper className={classes.paper}>
             <Header title="Kettle">
-              <Button
+              <IconButton
                 variant="contained"
-                color="primary"
-                startIcon={<AddIcon />}
                 onClick={() => {
                   history.push("/kettle");
                 }}
               >
-                ADD
-              </Button>
+                <AddIcon />
+              </IconButton>
             </Header>
             <KettleTable />
           </Paper>
@@ -54,16 +52,16 @@ export default function Hardware() {
         <Grid item sm={12}>
           <Paper className={classes.paper}>
             <Header title="Sensor">
-              <Button
+              
+
+              <IconButton
                 variant="contained"
-                color="primary"
-                startIcon={<AddIcon />}
                 onClick={() => {
                   history.push("/sensor");
                 }}
               >
-                ADD
-              </Button>
+                <AddIcon />
+              </IconButton>
             </Header>
             <SensorTable />
           </Paper>
@@ -71,24 +69,19 @@ export default function Hardware() {
         <Grid item sm={12}>
           <Paper className={classes.paper}>
             <Header title="Actor">
-              <Button
+            <IconButton
                 variant="contained"
-                color="primary"
-                startIcon={<AddIcon />}
                 onClick={() => {
                   history.push("/actor");
                 }}
               >
-                ADD
-              </Button>
+                <AddIcon />
+              </IconButton>
             </Header>
             <ActorTable />
           </Paper>
         </Grid>
       </Grid>
-
-      
-     
     </>
   );
 }

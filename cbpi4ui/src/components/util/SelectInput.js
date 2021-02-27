@@ -1,12 +1,7 @@
-import { FormHelperText,Grid, InputLabel, MenuItem, Select, TextField } from "@material-ui/core";
-import { useEffect } from "react";
-import ActorSelect from "./ActorSelect";
-import KettleSelect from "./KettleSelect";
-import SensorSelect from "./SensorSelect";
+import { FormHelperText, InputLabel, MenuItem, Select } from "@material-ui/core";
 
 export const SelectInput = ({ label, description="", options=[], value, onChange }) => {
 
-  console.log(label, description)
     return (
       <>
         <InputLabel shrink id="demo-simple-select-placeholder-label-label">

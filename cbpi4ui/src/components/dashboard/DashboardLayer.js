@@ -89,9 +89,19 @@ const PropsEditor = ({ data }) => {
     return "";
   }
   const type_spec = widget_list.find((item) => item.type === data.type);
+
+
   const handlechange = (e, key) => {
+
+
     actions.update_prop(selected_id, key, e.target.value);
   };
+
+  const handlechange_number = (e, key) => {
+    
+    actions.update_prop(selected_id, key, parseInt(e.target.value));
+  };
+
 
   return type_spec.props.map((s) => {
     const unit = s.unit ? { endAdornment: <InputAdornment position="end">{s.unit}</InputAdornment> } : {};
@@ -99,6 +109,8 @@ const PropsEditor = ({ data }) => {
     switch (s.type) {
       case "text":
         return <TextField InputProps={unit} label={s.name} key={s.name} fullWidth onChange={(e) => handlechange(e, s.name)} value={data.props[s.name]} />;
+      case "number":
+          return <TextField type="number" InputProps={unit} label={s.name} key={s.name} fullWidth onChange={(e) => handlechange_number(e, s.name)} value={data.props[s.name]} />;
       case "select":
         return <SelectInput label={s.name} value={data.props[s.name]} key={s.name} onChange={(e) => handlechange(e, s.name)} options={s?.options || []} />;
       case "actor":
@@ -106,10 +118,9 @@ const PropsEditor = ({ data }) => {
       case "sensor":
         return <SensorSelect value={data.props[s.name]} key={s.name} onChange={(e) => handlechange(e, s.name)} />;
       case "kettle":
-        return <KettleSelect value={data.props[s.name]} key={s.name} onChange={(e) => handlechange(e, s.name)} />;
+        return <KettleSelect fullWidth value={data.props[s.name]} key={s.name} onChange={(e) => handlechange(e, s.name)} />;
       case "widget":
         return <WidgetSelet value={data.props[s.name]} key={s.name} onChange={(e) => handlechange(e, s.name)} />;
-
       default:
         return "";
     }

@@ -8,6 +8,7 @@ import DeveloperBoardIcon from '@material-ui/icons/DeveloperBoard';
 import InfoIcon from '@material-ui/icons/Info';
 import PowerIcon from '@material-ui/icons/Power';
 import SettingsIcon from '@material-ui/icons/Settings';
+import TimelineIcon from '@material-ui/icons/Timeline';
 import React from 'react';
 import {
 
@@ -38,9 +39,10 @@ const MenuItem = ({ onClose, label, path = "/", children }) => {
 const Menu = ({onClose}) => {
     return <List>
         <MenuItem onClose={onClose} label="Dashboard" ><DashboardIcon /></MenuItem>
-        <MenuItem onClose={onClose} label="Mash Profile" path="/recipe"><BallotIcon /></MenuItem>
+        <MenuItem onClose={onClose} label="Mash Profile" path="/mashprofile"><BallotIcon /></MenuItem>
         <MenuItem onClose={onClose} label="Hardware" path="/hardware"><DeveloperBoardIcon /></MenuItem>
         <MenuItem onClose={onClose} label="Settings" path="/settings"><SettingsIcon /></MenuItem>
+        <MenuItem onClose={onClose} label="Charting" path="/charting"><TimelineIcon /></MenuItem>
         <MenuItem onClose={onClose} label="Plugins" path="/plugins"><PowerIcon /></MenuItem>
         <MenuItem onClose={onClose} label="About" path="/about"><InfoIcon /></MenuItem>
     </List>

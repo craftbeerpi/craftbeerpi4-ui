@@ -9,6 +9,9 @@ import { Led } from "./Led";
 import { KettleControl } from "./KettleControl";
 import Steps from "./Steps";
 import CustomSVG from "./CustomSVG";
+import { Clock } from "./Clock";
+import { Calculator } from "./Calculator";
+
 
 export const widget_list = [
   {
@@ -65,7 +68,7 @@ export const widget_list = [
     name: "Actor",
     type: "ActorButton",
     component: DashboardButton,
-    props: [{ name: "actor", default: "", type: "actor" }],
+    props: [{ name: "actor", default: "", type: "actor" },{ name: "action", options: ["yes", "no"], default: "", type: "select" }],
   },
   {
     name: "Led",
@@ -81,7 +84,7 @@ export const widget_list = [
     props: [{ name: "width", default: "200", type: "text", unit: "px" }],
   },
   {
-    name: "CustomSVG",
+    name: "SVG",
     type: "CustomSVG",
     component: CustomSVG,
     props: [
@@ -98,6 +101,37 @@ export const widget_list = [
       { name: "orientation", options: ["horizontal", "vertical"], default: "", type: "select" },
     ],
   },
+  {
+    name: "Clock",
+    type: "Clock",
+    component: Clock,
+    props: [
+      { name: "size", default: "10", type: "text", unit: "pt" },
+      { name: "showDate", options: ["yes", "no"], default: "", type: "select" },
+      { name: "color", default: "#fff", type: "text" },
+    ],
+  },
+  {
+    name: "Chart",
+    type: "Chart",
+    component: Chart,
+    props: [
+      { name: "sensor", default: "", type: "sensor" },
+      { name: "linecolor", default: "#00FF00", type: "text" },
+      { name: "refresh", default: 10, type: "number" },
+      { name: "width", default: 100, type: "text" }, { name: "height", default: 100, type: "text" }
+    ],
+  },
+  {
+    name: "Calculator",
+    type: "Calculator",
+    component: Calculator,
+    props: [
+      { name: "diameter", default: 40, type: "text" }
+    ],
+  }
+
+  
 ];
 
 /*

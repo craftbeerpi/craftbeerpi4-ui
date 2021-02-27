@@ -42,6 +42,10 @@ const MashControl = ({disabled=false}) => {
     }
   }, [state.mashProfile]);
 
+  if( state.mashProfile.length == 0) {
+    return <></>
+  }
+
   return (
     <>
     <ButtonGroup disabled={disabled} fullWidth>

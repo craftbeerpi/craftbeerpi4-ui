@@ -11,7 +11,7 @@ import CachedIcon from "@material-ui/icons/Cached";
 import DriveEtaIcon from "@material-ui/icons/DriveEta";
 import TrackChangesIcon from "@material-ui/icons/TrackChanges";
 import WhatshotIcon from "@material-ui/icons/Whatshot";
-import React, { useContext, useMemo } from "react";
+import React, { useContext, useEffect, useMemo } from "react";
 import { useCBPi, useKettle } from "../../data";
 import { useActor } from "../../data/index";
 import { DashboardContext, useModel } from "../DashboardContext";
@@ -22,7 +22,9 @@ const TargetTempDialog = ({ onClose, kettle, open }) => {
   const [value, setValue] = React.useState(30);
 
   const {actions} = useCBPi()
-
+  useEffect(()=>{
+    setValue(kettle?.target_temp)
+  },[])
   if (!kettle) return "";
 
   const handleClose = () => {
@@ -102,12 +104,14 @@ export const KettleControl = ({ id }) => {
 
   return useMemo(() => {
     const orientation = model?.props?.orientation === "horizontal" ? "horizontal" : "vertical";
+
+    console.log(kettle?.state, heater?.state  )
     return (
       <>
         <ButtonGroup disabled={state.draggable || !model.props.kettle} orientation={orientation} color="primary" aria-label="contained primary button group">
           {heater ? <Button variant={heater?.state ? "contained" : ""} color="primary" startIcon={<WhatshotIcon />} onClick={() => toggle(kettle?.heater)}></Button>: ""}
           {agitator ? <Button variant={agitator?.state ? "contained" : ""} color="primary" startIcon={<CachedIcon />} onClick={() => toggle(kettle?.agitator)}></Button> : ""}
-          {kettle?.type ? <Button variant={kettle?.state?.running ? "contained" : ""} color="primary" startIcon={<DriveEtaIcon />} onClick={() => toggle_kettle_logic(kettle?.id)}></Button> : ""}
+          {kettle?.type ? <Button variant={kettle?.state ? "contained" : ""} color="primary" startIcon={<DriveEtaIcon />} onClick={() => toggle_kettle_logic(kettle?.id)}></Button> : ""}
           <Button variant="" color="primary" onClick={() => setOpen(true)} startIcon={<TrackChangesIcon />}></Button>
         </ButtonGroup>
         <TargetTempDialog open={open} kettle={kettle} onClose={() => setOpen(false)} />

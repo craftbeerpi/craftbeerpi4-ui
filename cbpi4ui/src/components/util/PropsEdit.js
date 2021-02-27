@@ -53,7 +53,7 @@ const PropsEdit = ({ config, onChange = () => {}, data={}}) => {
   return (
     <>
       {config.map((item) => (
-        <Grid item xs={12} md={6} key={item.label}>
+        <Grid item  lg={2} sm={4} xs={12} md={6} key={item.label}>
           {render_input(item)}
         </Grid>
       ))}

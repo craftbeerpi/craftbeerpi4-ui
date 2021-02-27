@@ -9,16 +9,17 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Typography from "@material-ui/core/Typography";
 import AddIcon from "@material-ui/icons/Add";
+import MenuBookIcon from "@material-ui/icons/MenuBook";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import { default as React, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useCBPi } from "../data";
 import { stepapi } from "../data/stepapi";
+
 import DeleteDialog from "../util/DeleteDialog";
 import Header from "../util/Header";
 import MashControl from "../util/MashControl";
 import StepStateChip from "../util/StepStateChip";
-import MashBasicDataForm from "./BasicDataForm";
 import SortButton from "./SortButton";
 
 const useStyles = makeStyles((theme) => ({
@@ -29,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Recipe = () => {
+const MashProfile = () => {
   const classes = useStyles();
   const { state } = useCBPi();
   const history = useHistory();
@@ -47,31 +48,64 @@ const Recipe = () => {
     stepapi.move(id, direction);
   };
 
+  const clear = () => {
+    stepapi.clear();
+  };
+
+  if (!state.mashBasic.name) {
+    return (
+      <Grid container spacing={3}>
+        <Grid item xs={12} style={{display: "flex", justifyContent:"center"}}>
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={() => {
+              history.push("/recipes");
+            }} startIcon={<MenuBookIcon />}
+          >
+            Please select a Recipe
+          </Button>
+        </Grid>
+      </Grid>
+    );
+  }
+
   return (
     <>
       <Grid container direction="row" justify="space-between" alignItems="center" style={{ marginTop: 10 }}>
         <Grid item>
           <Typography variant="h5" gutterBottom>
-            Mash Profile
+            {state.mashBasic.name}{" "}
+            <Typography display="inline" color="textSecondary">
+              by {state.mashBasic.author}
+            </Typography>
           </Typography>
+          <Typography color="textSecondary">{state.mashBasic.desc}</Typography>
         </Grid>
-        <Grid item></Grid>
+        <Grid item>
+          <DeleteDialog title="Clear" callback={clear} message="Do you want to clear the Mash Profile" />
+          <IconButton
+            variant="contained"
+            onClick={() => {
+              history.push("/recipes");
+            }}
+          >
+            <MenuBookIcon />
+          </IconButton>
+        </Grid>
       </Grid>
+
       <Divider style={{ marginBottom: 10, marginTop: 10 }} />
+
       <Grid container spacing={3}>
-        <Grid item sm={4}>
-          <Paper className={classes.paper}>
-            <MashBasicDataForm />
-          </Paper>
-        </Grid>
-        <Grid item sm={8}>
+        <Grid item sm={12}>
           <Paper className={classes.paper}>
             <Header title="Profile">
-              <div style={{display: "flex"}}>
-              <MashControl />
-              <Button variant="contained" color="primary" startIcon={<AddIcon />} onClick={() => history.push("/step")}>
-                ADD
-              </Button>
+              <div style={{ display: "flex" }}>
+                <MashControl />
+                <Button variant="contained" color="primary" startIcon={<AddIcon />} onClick={() => history.push("/step")}>
+                  ADD
+                </Button>
               </div>
             </Header>
             <TableContainer size="small">
@@ -128,4 +162,4 @@ const Recipe = () => {
   );
 };
 
-export default Recipe;
+export default MashProfile;

@@ -19,12 +19,15 @@ import ActorForm from "./components/hardware/ActorForm";
 import KettleForm from "./components/hardware/KettleForm";
 import SensorForm from "./components/hardware/SensorForm";
 import Plugins from "./components/plugins";
-import Recipe from "./components/mashprofile";
+import MashProfile from "./components/mashprofile";
 import Settings from "./components/settings";
 import Menu from "./components/util/Menu";
 import PrivateRoute from "./components/util/PrivateRoute";
 import logo from "./images/cbpi_no_border.png";
 import StepForm from "./components/mashprofile/StepForm";
+import Recipes from "./components/recipes";
+import RecipeEditor from "./components/recipes/RecipeEditor";
+import { Charting } from "./components/charting";
 
 const drawerWidth = 240;
 
@@ -119,7 +122,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const App2 = () => {
+const CraftBeerPiApp = () => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const handleDrawerOpen = () => {
@@ -194,8 +197,15 @@ const App2 = () => {
                   <Route exact path="/settings">
                     <Settings />
                   </Route>
-                  <Route exact path="/recipe">
-                    <Recipe/>
+                  <Route exact path="/mashprofile">
+                    <MashProfile/>
+                  </Route>
+                  <Route exact path="/recipes">
+                    <Recipes/>
+                  </Route>
+                  
+                  <Route exact path="/recipe/:id">
+                    <RecipeEditor/>
                   </Route>
                   <Route exact path="/step">
                     <StepForm/>
@@ -203,8 +213,10 @@ const App2 = () => {
                   <Route exact path="/step/:id">
                     <StepForm/>
                   </Route>
+                  <Route exact path="/charting">
+                    <Charting/>
+                  </Route>                  
                 </Container>
-                
               </Container>
             </main>
           </PrivateRoute>
@@ -214,7 +226,7 @@ const App2 = () => {
   );
 };
 
-export default App2;
+export default CraftBeerPiApp;
 
 /*
 

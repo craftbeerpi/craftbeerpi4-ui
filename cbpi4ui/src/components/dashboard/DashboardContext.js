@@ -1,4 +1,4 @@
-import { IconButton } from "@material-ui/core";
+import { Hidden, IconButton } from "@material-ui/core";
 import LockIcon from "@material-ui/icons/Lock";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import React, { createContext, useCallback, useContext, useEffect, useRef, useMemo, useState } from "react";
@@ -6,14 +6,15 @@ import { v4 as uuidv4 } from "uuid";
 import "../../App.css";
 import { useAlert } from "../alert/AlertProvider";
 import { dashboardapi } from "../data/dashboardapi";
-import DashboardToolbar from "./DasboardToolbar";
+
 import DashboardLayer from "./DashboardLayer";
 import DashboardWidgetList from "./DashboardWidgetList";
 import { DashboardContainer } from "./Elements";
 import useKeyPress from "./GlobalKeyPress";
 import { widget_list } from "./widgets/config";
 import { Path } from "./widgets/Path";
-
+import SaveIcon from "@material-ui/icons/Save";
+import DeleteDialog from "../util/DeleteDialog";
 export const DashboardContext = createContext({});
 
 export const DashboardProvider = ({ children }) => {
@@ -206,7 +207,7 @@ export const Dashboard = ({ width, height }) => {
 
   return (
     <div>
-      {state.draggable ? <DashboardToolbar /> : null}
+      
       <div style={{ display: "flex", flexDirection: "row", width: "100%" }}>
         {state.draggable ? <DashboardWidgetList /> : null}
         <div
@@ -227,6 +228,20 @@ export const Dashboard = ({ width, height }) => {
             {state.pathes.map((value) => value.instance)}
           </svg>
           <div style={{ position: "absolute", top: 0, right: 0 }}>
+            
+            {state.draggable ? 
+            
+            <DeleteDialog
+        
+            title="Clear Dashboard"
+            message="Do you want to clear the Dashboard"
+            callback={() => {
+              actions.clear();
+            }}
+          />
+
+            : "" }
+            {state.draggable ? <IconButton onClick={() => actions.save()}><SaveIcon/></IconButton> : "" }
             <IconButton onClick={() => actions.setDraggable(!state.draggable)}>{state.draggable ? <LockOpenIcon /> : <LockIcon />}</IconButton>
           </div>
         </div>
@@ -248,7 +263,7 @@ export const useModel = (id) => {
   const { state } = useContext(DashboardContext);
   const value = useMemo(() => {
     return state.elements[id];
-  }, [state, id]);
+  }, [state, state.elements, id]);
   return value;
 };
 

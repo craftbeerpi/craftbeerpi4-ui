@@ -37,7 +37,7 @@ class CBPiWebSocket {
   
     on_message(e) {
       let data = JSON.parse(e.data);
-      this.onMessageCallback(data)
+      this.onMessageCallback(data, this.alert)
     }
     
     connect() {

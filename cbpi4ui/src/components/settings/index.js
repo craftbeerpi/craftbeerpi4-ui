@@ -1,15 +1,18 @@
-import { Button, Container, Divider, IconButton, InputBase, InputLabel, makeStyles, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from "@material-ui/core";
+import { Button, Divider, IconButton, InputBase, makeStyles, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import Typography from "@material-ui/core/Typography";
 import AddIcon from "@material-ui/icons/Add";
-import React, { useEffect, useState } from "react";
-import { useCBPi, useConfig } from "../data";
-import { configapi } from "../data/configapi";
+import RotateLeftIcon from "@material-ui/icons/RotateLeft";
 import SearchIcon from "@material-ui/icons/Search";
-import RotateLeftIcon from '@material-ui/icons/RotateLeft';
+import React, { useEffect, useState } from "react";
 import { useAlert } from "../alert/AlertProvider";
+import { useCBPi } from "../data";
+import { configapi } from "../data/configapi";
+import SaveIcon from "@material-ui/icons/Save";
+import ActorSelect from "../util/ActorSelect";
+import KettleSelect from "../util/KettleSelect";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -39,21 +42,35 @@ const SelectBox = ({ options, value, onChange }) => {
   );
 };
 
-const ConfigInput = ({ onChange, value, options }) => {
-  if (options) {
-    return <SelectBox options={options} value={value} onChange={onChange} />;
-  } else {
-    return <TextField onChange={onChange} value={value} />;
+const ConfigInput = ({ item, onChange, value, options }) => {
+
+  switch (item.type) {
+    case "select":
+      return <SelectBox options={options} value={value} onChange={onChange} />
+    case "kettle":
+      return <KettleSelect value={value} onChange={onChange} label="" />;
+    case "sensor":
+      return <TextField onChange={onChange} value={value} />;
+    case "actor":
+      return <ActorSelect description={item.description} value={value} onChange={onChange} />;
+    case "number":
+      return <TextField onChange={onChange} value={value} />;
+    default:
+      return <TextField onChange={onChange} value={value} />;
   }
+
+
+
+  
 };
 
 const Settings = () => {
-  const {config: state } = useCBPi();
+  const { config: state } = useCBPi();
   const [config, setConfig] = useState({});
 
   const [filter, setFilter] = useState("");
   const classes = useStyles();
-  const alert = useAlert()
+  const alert = useAlert();
   useEffect(() => {
     setConfig({ ...state });
   }, []);
@@ -70,21 +87,17 @@ const Settings = () => {
         setConfig((curret_config) => ({ ...curret_config, [key]: { ...curret_config[key], changed: false } }));
       }
     });
-
-    alert.show("Config saved")
+    alert.show("Config saved");
   };
 
   const reset = () => {
     setConfig({ ...state });
-    alert.show("Changes resetted")
+    alert.show("Changes resetted");
   };
 
   let data = config;
 
-  console.log("DATA", data);
-
   if (filter) {
-    //data = data.filter((item) => item.name.includes(filter));
     data = Object.keys(data)
       .filter((key) => key.includes(filter))
       .reduce((obj, key) => {
@@ -94,9 +107,7 @@ const Settings = () => {
   }
 
   return (
-  <>
-      
-
+    <>
       <Grid container direction="row" justify="space-between" alignItems="center" style={{ marginTop: 10 }}>
         <Grid item>
           <Typography variant="h5" gutterBottom>
@@ -104,7 +115,7 @@ const Settings = () => {
           </Typography>
         </Grid>
         <Grid item>
-        <Paper component="form" className={classes.root}>
+          <Paper component="form" className={classes.root}>
             <InputBase
               className={classes.input}
               value={filter}
@@ -120,13 +131,13 @@ const Settings = () => {
           </Paper>
         </Grid>
         <Grid item>
-        
-          <Button variant="contained" color="secondary" startIcon={<RotateLeftIcon />} onClick={reset}>
-            Reset
-          </Button>
-          <Button variant="contained" color="primary" startIcon={<AddIcon />} onClick={save}>
-            Save
-          </Button>
+          <IconButton onClick={reset}>
+          <RotateLeftIcon />
+            </IconButton>
+            <IconButton onClick={save}>
+              <SaveIcon />
+            </IconButton>
+          
         </Grid>
       </Grid>
       <Divider style={{ marginBottom: 10, marginTop: 10 }} />
@@ -148,14 +159,14 @@ const Settings = () => {
                   </div>
                 </TableCell>
                 <TableCell align="right">
-                  <ConfigInput onChange={(e) => onChange(key, e)} value={config[key].value} options={config[key].options} />
+                  <ConfigInput onChange={(e) => onChange(key, e)} item={config[key]} value={config[key].value} options={config[key].options} />
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-   </>
+    </>
   );
 };
 

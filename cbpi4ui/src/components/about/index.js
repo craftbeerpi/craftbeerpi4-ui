@@ -1,6 +1,7 @@
 import { Divider, Grid, Paper, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import React, { version } from "react";
+import Plot from "react-plotly.js";
 import logo from "../../images/cbpi.png";
 import { useCBPi } from "../data";
 import paypal_logo from './paypal.png';

@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useAlert } from "../alert/AlertProvider";
 
 const save = (id, data, callback_susscess = () => {}, callback_failed = () => {}) => {
   axios
@@ -75,10 +74,22 @@ const toggle = (id, callback_susscess = () => {}, callback_failed = () => {}) =>
     });
 };
 
+export const action = (id, name, parameter, callback_susscess = () => {}, callback_failed = () => {}) => {
+  axios
+    .post("/actor/"+id + "/action", {action:name, parameter})
+    .then(function (response) {
+      callback_susscess();
+    })
+    .catch(function (error) {
+      callback_failed();
+    });
+};
+
 
 export const actorapi = {
   add,
   remove,
+  action,
   save,
   on, 
   off,

@@ -2,7 +2,7 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 import pink from "@material-ui/core/colors/pink";
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App2 from './App';
+import CraftBeerPiApp from './App';
 import { AlertProvider } from './components/alert/AlertProvider';
 import { CBPiProvider } from './components/data';
 import './index.css';
@@ -29,14 +29,17 @@ const theme = createMuiTheme({
 });
 ReactDOM.render(
   <React.StrictMode>
-   
+    <ThemeProvider theme={theme}>
+    <AlertProvider>
     <CBPiProvider>
-     <ThemeProvider theme={theme}>
-     <AlertProvider>
-      <App2 />
-      </AlertProvider>
-    </ThemeProvider>
+     
+    
+      <CraftBeerPiApp />
+     
+    
     </CBPiProvider>
+    </AlertProvider>
+    </ThemeProvider>
     
   </React.StrictMode>,
   document.getElementById('root')

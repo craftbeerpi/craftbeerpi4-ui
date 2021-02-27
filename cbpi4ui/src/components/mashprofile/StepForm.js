@@ -79,8 +79,6 @@ const StepForm = () => {
   const { actions } = useContext(CBPiContext);
 
   const save = () => {
-
-    
     const data = {
       name,
       type,
@@ -90,28 +88,23 @@ const StepForm = () => {
     if (id) {
       stepapi.save(id, data, (data) => {
         alert.show("Step Saved");
-        history.push("/recipe");
+        history.push("/mashprofile");
       });
     } else {
       stepapi.add(data, (data) => {
         alert.show("Step added");
-        history.push("/recipe");
+        history.push("/mashprofile");
       });
     }
   };
-
   const onSelectType = (e) => {
     const name = e.target.value;
     setType(name);
     const type2 = state.stepTypes.find((item) => item.name === name);
     setPropsConfig(type2?.properties);
   };
+  const onChangeProps = (name, value) => setProps({...props, [name]: value})
 
-  const onChangeProps = (name, value) => {
-    console.log(name, value);
-
-    setProps({...props, [name]: value})
-  };
 
   useEffect(() => {
     if (id) {
@@ -137,7 +130,7 @@ const StepForm = () => {
         <Link
           color="inherit"
           onClick={() => {
-            history.push("/recipe");
+            history.push("/mashprofile");
           }}
         >
           Mash Profile
@@ -162,7 +155,7 @@ const StepForm = () => {
             variant="contained"
             color="secondary"
             onClick={() => {
-              history.push("/recipe");
+              history.push("/mashprofile");
             }}
             className={classes.button}
           >

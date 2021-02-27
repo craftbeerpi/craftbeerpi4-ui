@@ -31,10 +31,11 @@ export const CBPiProvider = ({ children }) => {
   const [auth, setAuth] = useState(null);
   const [plugins, setPlugins] = useState([]);
   const [temp, setTemp] = useState("");
-  const [version, setVersion] = useState("---")
-  const alert = useAlert();
+  const [version, setVersion] = useState("---");
+  const a = useAlert();
+  const [notification, setNotifiaction] = useState("");
 
-  const onMessage = (data) => {
+  const onMessage = useCallback((data) => {
     console.log("WS", data);
     switch (data.topic) {
       case "kettleupdate":
@@ -49,34 +50,24 @@ export const CBPiProvider = ({ children }) => {
       case "step_update":
         setMashProfile(() => data.data);
         break;
+      case "mash_profile_update":
+        setMashProfile(() => data.data.steps);
+        setMashBasic(data.data.basic);
+        break;
       case "sensorupdate":
         setSensors(() => data.data);
         break;
+      case "notifiaction":
+        a.show(data.message);
+        break;
       default:
         break;
     }
-  };
+  });
 
-  const processWebSocketMessage = (data) => {
-    switch (data.type) {
-      case "SENSOR_UPDATE":
-        let id = data.topic.variables.id;
-        let value = data.payload.value;
-        setSensorData({ ...sensorData, [id]: value });
-        break;
-      case "CONFIG_UPDATE":
-        let config_key = data.topic.variables.id;
-        let config_value = data.payload.value;
-        setConfig((current_config) => ({ ...current_config, [config_key]: { ...current_config[config_key], value: config_value } }));
-        break;
-      case "STEP_UPDATE":
-        let step_value = data.payload;
-        setMashProfile((c) => step_value.data);
-        break;
-      default:
-        break;
-    }
-  };
+  useEffect(() => {
+    setNotifiaction(null);
+  }, [notification]);
 
   useEffect(() => {
     const ws = new CBPiWebSocket(onMessage, alert);
@@ -84,14 +75,13 @@ export const CBPiProvider = ({ children }) => {
 
     axios.get("/system/").then((res) => {
       const data = res.data;
-      console.dir(data);
       setKettle(data.kettle.data);
       setSensors(data.sensor.data);
       setActors(data.actor.data);
       setLogic(Object.values(data.kettle.types));
       setActorTypes(Object.values(data.actor.types));
       setSensorTypes(Object.values(data.sensor.types));
-      setMashProfile(data.step.profile);
+      setMashProfile(data.step.steps);
       setMashBasic(data.step.basic);
       setConfig(data.config);
       setVersion(data.version);
@@ -156,16 +146,26 @@ export const CBPiProvider = ({ children }) => {
 export const useCBPi = (Context) => {
   const { state, actions } = useContext(CBPiContext);
   const value = useMemo(() => {
-    return { state, version: state.version, kettle: state.kettle, actor: state.actors, sensor: state.sensors, config: state.config, actions };
-  }, [ state ]);
+    return {
+      state,
+      version: state.version,
+      kettle: state.kettle,
+      actor: state.actors,
+      actorTypes: state.actorTypes,
+      sensor: state.sensors,
+      sensorTypes: state.sensorTypes,
+      config: state.config,
+      actions,
+    };
+  }, [state]);
   return value;
 };
 
-export const useSensor = (id) => {
+export const useSensor = (id = null) => {
   const { sensor, state } = useCBPi();
   const value = useMemo(() => {
-    return sensor.find((item) => item.id === id);
-  }, [{ state }]);
+    return id === null ? sensor : sensor.find((item) => item.id === id);
+  }, [sensor, id]);
   return value;
 };
 
@@ -173,7 +173,7 @@ export const useKettle = (id) => {
   const { kettle } = useCBPi();
   const value = useMemo(() => {
     return kettle.find((item) => item.id === id);
-  }, [kettle]);
+  }, [kettle, id,]);
   return value;
 };
 
@@ -181,6 +181,21 @@ export const useActor = (id = null) => {
   const { actor } = useCBPi();
   const value = useMemo(() => {
     return id === null ? actor : actor.find((item) => item.id === id);
-  }, [actor]);
+  }, [actor, id]);
+  return value;
+};
+export const useActorType = (name = null) => {
+  const { actorTypes } = useCBPi();
+  const value = useMemo(() => {
+    return name === null ? actorTypes : actorTypes.find((item) => item.name === name);
+  }, [actorTypes, name]);
+  return value;
+};
+
+export const useSensorType = (name = null) => {
+  const { sensorTypes } = useCBPi();
+  const value = useMemo(() => {
+    return name === null ? sensorTypes : sensorTypes.find((item) => item.name === name);
+  }, [sensorTypes, name]);
   return value;
 };

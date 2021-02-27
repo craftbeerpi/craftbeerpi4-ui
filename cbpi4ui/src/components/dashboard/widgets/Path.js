@@ -126,9 +126,9 @@ export const Path = ({ id, coordinates, condition = null, stroke = 10, max_x = 4
   };
 
   const handle = () => {
-    return data.map((data, index) => (
+    return data.map((p, index) => (
       <g key={index}>
-        <circle cx={data[0]} cy={data[1]} r="5" fill="#8efa00" />
+        <circle cx={p[0]} cy={p[1]} r="5" fill="#8efa00" />
         <circle
           onDoubleClick={() => {
             remove_point(index);
@@ -136,12 +136,16 @@ export const Path = ({ id, coordinates, condition = null, stroke = 10, max_x = 4
           onPointerMove={(e) => move(e, index)}
           onPointerDown={(e) => down(e, index)}
           onPointerUp={(e) => up(e, index)}
-          cx={data[0]}
-          cy={data[1]}
+          cx={p[0]}
+          cy={p[1]}
           r="20 "
           fill="#8efa00"
           fillOpacity="0.1"
         />
+        <text x={p[0]} y={p[1]} textAnchor="middle"   fontWeight="bold" fontSize="10px" fill="#000" alignmentBaseline="central">
+              {index === 0 ? "L": ""}
+              {index === data.length-1 ? "R": ""}
+            </text>
       </g>
     ));
   };
