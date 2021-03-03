@@ -1,20 +1,20 @@
-import { Hidden, IconButton } from "@material-ui/core";
+import { IconButton } from "@material-ui/core";
 import LockIcon from "@material-ui/icons/Lock";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
-import React, { createContext, useCallback, useContext, useEffect, useRef, useMemo, useState } from "react";
+import SaveIcon from "@material-ui/icons/Save";
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import "../../App.css";
 import { useAlert } from "../alert/AlertProvider";
 import { dashboardapi } from "../data/dashboardapi";
-
+import DeleteDialog from "../util/DeleteDialog";
 import DashboardLayer from "./DashboardLayer";
 import DashboardWidgetList from "./DashboardWidgetList";
 import { DashboardContainer } from "./Elements";
 import useKeyPress from "./GlobalKeyPress";
 import { widget_list } from "./widgets/config";
 import { Path } from "./widgets/Path";
-import SaveIcon from "@material-ui/icons/Save";
-import DeleteDialog from "../util/DeleteDialog";
+
 export const DashboardContext = createContext({});
 
 export const DashboardProvider = ({ children }) => {
@@ -25,6 +25,7 @@ export const DashboardProvider = ({ children }) => {
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
   const [elements, setElements] = useState({});
+  const [elements2, setElements2] = useState([]);
   const [draggable, setDraggable] = useState(false);
   const [pathes, setPathes] = useState([]);
   const [widgets, setWidgets] = useState([])
@@ -41,10 +42,7 @@ export const DashboardProvider = ({ children }) => {
       setPathes([...data]);
     }
     if (selected && selected.type === "E") {
-      let data2 = { ...elements };
-      delete data2[selected.id];
-      setElements(data2);
-      setSelected(null);
+        remove(selected.id)
     }
   }, [delelteKeyPressed]);
 
@@ -59,8 +57,18 @@ export const DashboardProvider = ({ children }) => {
           return { ...a };
         }
       }, {});
-      setElements({ ...data_model });
 
+      let data_model2 = data.elements.reduce((a, x) => {
+        if (x.type in widget_dict) {
+          return [ ...a, { ...x, instance: <DashboardContainer key={x.id} id={x.id} type={widget_dict[x.type].component} /> } ];
+        } else {
+          errors.push("Error can't find " + x.type + " Widget");
+          return [ ...a ];
+        }
+      }, []);
+      
+      setElements({ ...data_model });
+      setElements2(data_model2);  
       let dm = data.pathes.map((v) => ({ ...v, instance: <Path key={v.id} id={v.id} coordinates={v.coordinates} condition={v.condition} max_x={width} max_y={height} /> }));
       setPathes(dm);
     });
@@ -71,22 +79,39 @@ export const DashboardProvider = ({ children }) => {
   };
 
   const remove = (id) => {
-    let data2 = { ...elements };
-    delete data2[id];
-    setElements(data2);
+    
+    const data = [...elements2];
+    const index = data.findIndex((e) => e.id === selected.id);
+    data.splice(index, 1);
+    setElements2(data);
     setSelected(null);
   };
 
   const update_default_prop = (id, key, value) => {
-    const item = get_data(id);
-    item[key] = value;
-    setElements({ ...elements, [id]: item });
+    
+    const data = [...elements2];
+    const index = data.findIndex((e) => e.id === selected.id);
+    data[index][key] = value;
+    setElements2(data);
+
+  };
+
+  const update_coordinates = (id, x, y  ) => {
+    const data = [...elements2];
+    const index = data.findIndex((e) => e.id === selected.id);
+    data[index].x = x
+    data[index].y = y
+    setElements2(data);
   };
 
   const update_prop = (id, key, value) => {
-    const item = get_data(id);
-    item.props[key] = value;
-    setElements({ ...elements, [id]: item });
+    
+    const data = [...elements2];
+    const index = data.findIndex((e) => e.id === selected.id);
+    data[index].props[key] = value;
+    
+    setElements2(data);
+
   };
 
   const update_path_condition = (id, data) => {
@@ -117,13 +142,12 @@ export const DashboardProvider = ({ children }) => {
       y: 10,
       instance: <DashboardContainer key={id} id={id} type={item.component} />,
     };
-    setElements({ ...elements, [id]: model });
+    setElements2([ ...elements2,  model ]);
   };
 
   const clear = useCallback(() => {
     dashboardapi.clear(1, () => {
-      console.log("CEAR");
-      setElements((currentElements) => ({}));
+      setElements2((currentElements) => ([]));
       setPathes((currentPathes) => []);
     });
   }, []);
@@ -146,7 +170,7 @@ export const DashboardProvider = ({ children }) => {
   };
 
   const save = () => {
-    let e = Object.values(elements).map((value) => ({ id: value.id, name: value.name, x: value.x, y: value.y, type: value.type, props: { ...value.props } }));
+    let e = elements2.map((value) => ({ id: value.id, name: value.name, x: value.x, y: value.y, type: value.type, props: { ...value.props } }));
     let p = pathes.map((value) => ({ id: value.id, coordinates: value.coordinates, condition: value.condition }));
     dashboardapi.save(1, { elements: e, pathes: p }, () => {
       alert.show("Dashboard Saved");
@@ -158,6 +182,7 @@ export const DashboardProvider = ({ children }) => {
       current,
       width,
       height,
+      elements2,
       elements,
       pathes,
       selected,
@@ -176,10 +201,12 @@ export const DashboardProvider = ({ children }) => {
       get_data,
       is_selected,
       clear,
+      setElements2,
       remove,
       update_default_prop,
       update_prop,
       update_path_condition,
+      update_coordinates,
       setDraggable,
       update_path,
       load,
@@ -205,6 +232,7 @@ export const Dashboard = ({ width, height }) => {
     }
   }, [parentRef]);
 
+
   return (
     <div>
       
@@ -223,7 +251,7 @@ export const Dashboard = ({ width, height }) => {
             height,
           }}
         >
-          {Object.values(state.elements).map((value, index) => value.instance)}
+          {state.elements2.map((value, index) => value.instance)}
           <svg style={{ position: "absolute", pointerEvents: "none" }} width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
             {state.pathes.map((value) => value.instance)}
           </svg>
@@ -261,9 +289,9 @@ export const useDraggable = () => {
 
 export const useModel = (id) => {
   const { state } = useContext(DashboardContext);
-  const value = useMemo(() => {
-    return state.elements[id];
-  }, [state, state.elements, id]);
+  const value = useMemo(() => {    
+    return state.elements2.find((item) => item.id === id)
+  }, [state, state.elements2, id]);
   return value;
 };
 

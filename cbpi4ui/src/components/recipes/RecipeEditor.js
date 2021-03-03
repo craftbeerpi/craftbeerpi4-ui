@@ -13,6 +13,7 @@ import { MashStepList } from "./MashStepList";
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import DeleteDialog from "../util/DeleteDialog";
 import { CloneRecipeDialog } from "./CloneRecipeDialog";
+import { CBPiPaddleIcon } from "../util/icons/CBPiSensorIcon";
 
 const RecipeEditor = () => {
   const { id } = useParams();
@@ -61,7 +62,7 @@ const RecipeEditor = () => {
         <CloneRecipeDialog id={id} open={open} setOpen={setOpen}/>
 
         <IconButton variant="contained" onClick={brew}>
-          <PlayCircleOutlineIcon />
+          <CBPiPaddleIcon />
         </IconButton>
         <IconButton variant="contained" onClick={save}>
           <SaveIcon />

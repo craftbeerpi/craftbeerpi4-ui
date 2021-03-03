@@ -4,18 +4,14 @@ import React, { useContext, useState, useMemo} from "react";
 import Draggable from "react-draggable";
 import "../../App.css";
 import "../../led.css";
-import { DashboardContext } from "./DashboardContext";
+import { DashboardContext, useModel } from "./DashboardContext";
 
 export const DashboardContainer = ({ name, id, index, type }) => {
   const { state, actions } = useContext(DashboardContext);
   const selected = actions.is_selected(id);
-  const model = actions.get_data(id);
+  const model = useModel(id)
   const [x, setX] = useState(model.x);
   const [y, setY] = useState(model.y);
-
-
- 
-    
 
   let inputStyle = { position: "absolute"};
 
@@ -30,9 +26,14 @@ export const DashboardContainer = ({ name, id, index, type }) => {
   const handleDrag = (e, ui) => {
     setX(x + ui.deltaX);
     setY(y + ui.deltaY);
-    actions.update_default_prop(id, "x", x + ui.deltaX);
-    actions.update_default_prop(id, "y", y + ui.deltaY);
+    //actions.update_default_prop(id, "x", x + ui.deltaX);
+    //actions.update_default_prop(id, "y", y + ui.deltaY);
   };
+
+  const stopDrag = () => {
+    console.log(x, y)
+    actions.update_coordinates(id, x, y)
+  }
 
   const select = (e) => {
     if (!draggable) {
@@ -58,7 +59,7 @@ export const DashboardContainer = ({ name, id, index, type }) => {
   };
 
   return (
-    <Draggable disabled={!draggable} onDrag={handleDrag} bounds="parent" grid={[5, 5]} defaultPosition={{ x, y }}>
+    <Draggable disabled={!draggable} onStop={stopDrag} onDrag={handleDrag} bounds="parent" grid={[5, 5]} defaultPosition={{ x, y }}>
       <div onPointerDown={select} style={inputStyle}>
         { typeof type === 'string' ? <div><img className="no-drag" width={model.props?.width} height={model.props?.height}  src={type}/></div> :
         <Widget id={id} width={model.props?.width} height={model.props?.height} />}

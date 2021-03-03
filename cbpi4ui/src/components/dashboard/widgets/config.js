@@ -1,22 +1,28 @@
+import ListIcon from '@material-ui/icons/List';
+import QueryBuilderIcon from '@material-ui/icons/QueryBuilder';
+import ShowChartIcon from '@material-ui/icons/ShowChart';
+import TextFieldsIcon from '@material-ui/icons/TextFields';
+import ToggleOffIcon from '@material-ui/icons/ToggleOff';
+import { CBPiCalculatorIcon, CBPiControlIcon, CBPiKettle, CBPiKettle2Icon, CBPiLedIcon, CBPiLiquidIcon, CBPiSensorIcon, CBPiSVGIcon, CBPiTankIcon, CBPiThermometerIcon } from '../../util/icons/CBPiSensorIcon';
+import { DashboardButton } from "./Button";
+import { Calculator } from "./Calculator";
+import Chart from "./Chart";
+import { Clock } from "./Clock";
+import CustomSVG from "./CustomSVG";
+import { KettleControl } from "./KettleControl";
+import { Led } from "./Led";
+import { Liquid } from './Liquid';
+import { SensorData } from "./SensorData";
+import Steps from "./Steps";
 import KettleSVG from "./svg/kettle.svg";
 import TankSVG from "./svg/tank2.svg";
-import { Text } from "./Text";
-import { DashboardButton } from "./Button";
-import { SensorData } from "./SensorData";
-import Chart from "./Chart";
 import { TargetTemp } from "./TargetTemp";
-import { Led } from "./Led";
-import { KettleControl } from "./KettleControl";
-import Steps from "./Steps";
-import CustomSVG from "./CustomSVG";
-import { Clock } from "./Clock";
-import { Calculator } from "./Calculator";
-
-
+import { Text } from "./Text";
 export const widget_list = [
   {
     name: "Kettle",
     type: "Kettle",
+    icon: CBPiKettle2Icon,
     component: KettleSVG,
     props: [
       { name: "width", default: "100", type: "text", unit: "px" },
@@ -26,6 +32,7 @@ export const widget_list = [
   {
     name: "Tank",
     type: "Tank",
+    icon: CBPiTankIcon,
     component: TankSVG,
     props: [
       { name: "width", default: "100", type: "text", unit: "px" },
@@ -35,6 +42,7 @@ export const widget_list = [
   {
     name: "Text",
     type: "Text",
+    icon: TextFieldsIcon,
     component: Text,
     props: [
       { name: "size", default: "10", type: "text", unit: "pt" },
@@ -45,6 +53,7 @@ export const widget_list = [
     name: "TargetTemp",
     type: "TargetTemp",
     component: TargetTemp,
+    icon: CBPiThermometerIcon,
     props: [
       { name: "kettle", default: "1", type: "kettle" },
       { name: "unit", default: "°", type: "text" },
@@ -57,6 +66,7 @@ export const widget_list = [
     name: "Sensor Data",
     type: "Sensor",
     component: SensorData,
+    icon: CBPiSensorIcon,
     props: [
       { name: "sensor", default: "", type: "sensor" },
       { name: "unit", default: "°", type: "text" },
@@ -68,12 +78,14 @@ export const widget_list = [
     name: "Actor",
     type: "ActorButton",
     component: DashboardButton,
+    icon: ToggleOffIcon,
     props: [{ name: "actor", default: "", type: "actor" },{ name: "action", options: ["yes", "no"], default: "", type: "select" }],
   },
   {
     name: "Led",
     type: "Led",
     component: Led,
+    icon: CBPiLedIcon,
     props: [{ name: "actor", default: "", type: "actor" }],
   },
 
@@ -81,12 +93,14 @@ export const widget_list = [
     name: "Steps",
     type: "Steps",
     component: Steps,
+    icon: ListIcon,
     props: [{ name: "width", default: "200", type: "text", unit: "px" }],
   },
   {
     name: "SVG",
     type: "CustomSVG",
     component: CustomSVG,
+    icon: CBPiSVGIcon,
     props: [
       { name: "width", default: "100", type: "text", unit:"px"  },
       { name: "name", default: "", type: "widget" },
@@ -95,7 +109,9 @@ export const widget_list = [
   {
     name: "KettleControl",
     type: "KettleControl",
+    icon: CBPiControlIcon,
     component: KettleControl,
+    
     props: [
       { name: "kettle", default: "1", type: "kettle" },
       { name: "orientation", options: ["horizontal", "vertical"], default: "", type: "select" },
@@ -105,6 +121,7 @@ export const widget_list = [
     name: "Clock",
     type: "Clock",
     component: Clock,
+    icon: QueryBuilderIcon,
     props: [
       { name: "size", default: "10", type: "text", unit: "pt" },
       { name: "showDate", options: ["yes", "no"], default: "", type: "select" },
@@ -115,6 +132,7 @@ export const widget_list = [
     name: "Chart",
     type: "Chart",
     component: Chart,
+    icon: ShowChartIcon,
     props: [
       { name: "sensor", default: "", type: "sensor" },
       { name: "linecolor", default: "#00FF00", type: "text" },
@@ -125,11 +143,28 @@ export const widget_list = [
   {
     name: "Calculator",
     type: "Calculator",
+    icon: CBPiCalculatorIcon,
     component: Calculator,
     props: [
-      { name: "diameter", default: 40, type: "text" }
+      
+      { name: "type", options: ["total", "fromtop"], default: "", type: "select" },
+      { name: "diameter", default: 40, type: "number" },
+      { name: "height", default: 40, type: "number" }
+    ],
+  },
+  {
+    name: "Liquid",
+    type: "Liquid",
+    icon: CBPiLiquidIcon,
+    component: Liquid,
+    props: [
+      { name: "color", default: "#fff", type: "text" },
+      { name: "width", default: 40, type: "number" },
+      { name: "height", default: 40, type: "number" },
+      { name: "sensor", default: "", type: "sensor" }
     ],
   }
+  
 
   
 ];

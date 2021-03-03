@@ -16,15 +16,11 @@ export const Charting = () => {
   };
 
   const load = () => {
-
     logapi.get2(formats, (d) => {
       const temp = [];
 
-      
-
       for (const [key, value] of Object.entries(d)) {
-
-        const senosr_config = sensors.find((item) => item.id === key)  
+        const senosr_config = sensors.find((item) => item.id === key);
 
         temp.push({
           x: value.time,
@@ -50,7 +46,7 @@ export const Charting = () => {
       <Grid container direction="row" justify="space-between" alignItems="center" style={{ marginTop: 10 }}>
         <Grid item>
           <Typography variant="h5" gutterBottom>
-            Charting
+          Analytics
           </Typography>
         </Grid>
       </Grid>

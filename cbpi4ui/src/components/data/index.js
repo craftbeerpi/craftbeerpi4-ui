@@ -36,7 +36,7 @@ export const CBPiProvider = ({ children }) => {
   const [notification, setNotifiaction] = useState("");
 
   const onMessage = useCallback((data) => {
-    console.log("WS", data);
+    //console.log("WS", data);
     switch (data.topic) {
       case "kettleupdate":
         setKettle(() => data.data);

@@ -8,6 +8,7 @@ import { recipeapi } from "../data/recipeapi";
 import { NewRecipeDialog } from "./NewRecipeDialog";
 import SearchIcon from "@material-ui/icons/Search";
 import AssignmentIcon from '@material-ui/icons/Assignment';
+import { CBPiBeerIcon } from "../util/icons/CBPiSensorIcon";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -111,10 +112,10 @@ const Recipes = () => {
         {list.map((item) => (
           <ListItem button onClick={() => openRecipe(item.file)}>
             <ListItemIcon>
-              <AssignmentIcon/>
+              <CBPiBeerIcon/>
             </ListItemIcon>
             <ListItemText primary={item.name || "No Name"} secondary={item.desc} />
-            <ListItemSecondaryAction></ListItemSecondaryAction>
+            <ListItemSecondaryAction>x</ListItemSecondaryAction>
           </ListItem>
         ))}
       </List>

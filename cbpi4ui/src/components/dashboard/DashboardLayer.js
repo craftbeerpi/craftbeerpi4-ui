@@ -1,4 +1,4 @@
-import { Checkbox, InputAdornment, TextField, Typography } from "@material-ui/core";
+import { Checkbox, InputAdornment, ListItemSecondaryAction, TextField, Typography } from "@material-ui/core";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -13,26 +13,43 @@ import KettleSelect from "../util/KettleSelect";
 import { SelectInput } from "../util/SelectInput";
 import SensorSelect from "../util/SensorSelect";
 import WidgetSelet from "../util/WidgetSelect";
-import { DashboardContext } from "./DashboardContext";
+import { DashboardContext, useModel } from "./DashboardContext";
 import { widget_list } from "./widgets/config";
+import { Container, Draggable } from "react-smooth-dnd";
+import DragHandleIcon from "@material-ui/icons/DragHandle";
+import { arrayMove } from "../util/arraymove";
 
 const DashboardLayerListItem = ({ item }) => {
   const { state, actions } = useContext(DashboardContext);
   const selected = state.selected?.id === item.id;
 
   return (
-    <ListItem button selected={selected} onClick={() => actions.setSelected(() => ({ type: "E", id: item.id }))}>
-      <ListItemIcon>
-        {selected ? <CheckBoxIcon color="primary"/> : <CheckBoxOutlineBlankIcon/> }
-      </ListItemIcon>
+    <Draggable key={item.id}>
+    <ListItem className="drag-handle" button selected={selected} onClick={() => actions.setSelected(() => ({ type: "E", id: item.id }))}>
       <ListItemText primary={item.name} />
+      
     </ListItem>
+    </Draggable>
   );
 };
 
 const DashboardLayerList = () => {
-  const { state } = useContext(DashboardContext);
-  const data = state.elements;
+  const { state, actions } = useContext(DashboardContext);
+  const data = state.elements2;
+  const [items, setItems] = useState([
+    { id: "1", text: "Item 1" },
+    { id: "2", text: "Item 2" },
+    { id: "3", text: "Item 3" },
+    { id: "4", text: "Item 4" }
+  ]);
+
+  const onDrop = ({ removedIndex, addedIndex }) => {
+    console.log(removedIndex,addedIndex)
+    const data = arrayMove(state.elements2, removedIndex, addedIndex)
+    console.log(data)
+    actions.setElements2((current) => [...data])
+  };
+
 
   return (
     <>
@@ -45,11 +62,14 @@ const DashboardLayerList = () => {
           overflowY: "scroll",
         }}
       >
-        <List component="nav" disableGutters={true} dense aria-label="main mailbox folders">
-          {Object.values(data).map((e, index) => (
+        <List component="nav" disableGutters={true} dense >
+        <Container dragHandleSelector=".drag-handle" lockAxis="y" onDrop={onDrop}>
+          {data.map((e, index) => (
             <DashboardLayerListItem key={index} item={e} />
           ))}
+           </Container>
         </List>
+        
       </div>
     </>
   );
@@ -92,8 +112,6 @@ const PropsEditor = ({ data }) => {
 
 
   const handlechange = (e, key) => {
-
-
     actions.update_prop(selected_id, key, e.target.value);
   };
 
@@ -134,6 +152,7 @@ const PathSettingsItem = ({ item, checked, handleToggle }) => {
         <Checkbox edge="start" checked={checked.indexOf(item.id) !== -1} tabIndex={-1} color="primary" disableRipple inputProps={{ "aria-labelledby": "A" }} />
       </ListItemIcon>
       <ListItemText primary={item.name} />
+
     </ListItem>
   );
 };
@@ -216,7 +235,8 @@ const PathSettings = () => {
 export const DashboardProps = () => {
   const { state, actions } = useContext(DashboardContext);
   const selected_id = state.selected?.id;
-  const data = actions.get_data(selected_id);
+  const data = useModel(selected_id);
+
   const handleChange = (e, key) => {
     actions.update_default_prop(selected_id, key, e.target.value);
   };
