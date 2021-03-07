@@ -87,12 +87,12 @@ const Settings = () => {
         setConfig((curret_config) => ({ ...curret_config, [key]: { ...curret_config[key], changed: false } }));
       }
     });
-    alert.show("Config saved");
+    
   };
 
   const reset = () => {
     setConfig({ ...state });
-    alert.show("Changes resetted");
+    
   };
 
   let data = config;

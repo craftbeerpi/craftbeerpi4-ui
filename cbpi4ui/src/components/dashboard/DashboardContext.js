@@ -173,7 +173,7 @@ export const DashboardProvider = ({ children }) => {
     let e = elements2.map((value) => ({ id: value.id, name: value.name, x: value.x, y: value.y, type: value.type, props: { ...value.props } }));
     let p = pathes.map((value) => ({ id: value.id, coordinates: value.coordinates, condition: value.condition }));
     dashboardapi.save(1, { elements: e, pathes: p }, () => {
-      alert.show("Dashboard Saved");
+      
     });
   };
 

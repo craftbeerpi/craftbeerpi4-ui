@@ -58,7 +58,8 @@ export const CBPiProvider = ({ children }) => {
         setSensors(() => data.data);
         break;
       case "notifiaction":
-        a.show(data.message);
+        
+        a.show(data.id, data.title, data.message, data.type, data.action);
         break;
       default:
         break;

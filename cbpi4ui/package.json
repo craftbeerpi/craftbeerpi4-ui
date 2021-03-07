@@ -20,6 +20,7 @@
     "plotly.js": "^1.58.4",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-dom-confetti": "^0.2.0",
     "react-draggable": "^4.4.3",
     "react-flow-renderer": "^8.3.2",
     "react-ga": "^3.3.0",

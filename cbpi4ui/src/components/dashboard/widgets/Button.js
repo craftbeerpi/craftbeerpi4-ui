@@ -6,6 +6,7 @@ import { useDraggable, useModel } from "../DashboardContext";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { actorapi } from "../../data/actorapi";
 import PropsEdit from "../../util/PropsEdit";
+import Confetti from "react-dom-confetti";
 
 const ButtonActionPropsDialog = ({ action = {}, config, open, onClose, onSubmit }) => {
   const [props, setProps] = useState({});
@@ -47,7 +48,9 @@ const ActionButton = ({ action, actorid }) => {
       actorapi.action(actorid, action.method, props);
       setOpen(false)          
   }
-  if (action.parameters.length >= 0) {
+
+
+  if (action.parameters.length > 0) {
     return (
       <>
         <ListItem button>
@@ -58,8 +61,8 @@ const ActionButton = ({ action, actorid }) => {
     );
   } else {
     return (
-      <ListItem button>
-        <ListItemText primary={action.label}   onClick={() => handle_action(actorid, action)} />
+      <ListItem button  onClick={() => handle_action(actorid, action)}>
+        <ListItemText primary={action.label}   />
       </ListItem>
     );
   }
@@ -91,16 +94,32 @@ export const DashboardButton = ({ id, width, height }) => {
   const actor = useActor(model.props?.actor);
   const { actor: actorid, action } = model.props;
   const [open, setOpen] = useState(false);
+  const [boom, setBoom] = useState(false)
+
+  const config = {
+    angle: 90,
+    spread: 360,
+    startVelocity: 40,
+    elementCount: 70,
+    dragFriction: 0.12,
+    duration: 3000,
+    stagger: 3,
+    width: "10px",
+    height: "10px",
+    perspective: "500px",
+    colors: ["#a864fd", "#29cdff", "#78ff44", "#ff718d", "#fdff6a"]
+  };
 
   return useMemo(() => {
     let cssStyle = { width: model.width + "px", height: model.height + "px" };
     let btnColor = actor?.state ? "primary" : "primary";
     let btnVariant = actor?.state ? "contained" : "outlined";
-
+    
     const toggle = () => {
       if (!draggable && model.props?.actor) {
         cbpi.actions.toggle_actor(model.props?.actor);
       }
+      setBoom(!boom)
     };
 
     const name = () => {
@@ -134,6 +153,7 @@ export const DashboardButton = ({ id, width, height }) => {
           <Button disabled={draggable} onClick={toggle} fullWidth variant={btnVariant} color={btnColor}>
             {name()}
           </Button>
+         
         </div>
       );
     }

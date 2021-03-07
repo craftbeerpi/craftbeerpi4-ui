@@ -29,6 +29,7 @@ import Recipes from "./components/recipes";
 import RecipeEditor from "./components/recipes/RecipeEditor";
 import { Charting } from "./components/charting";
 
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -221,6 +222,7 @@ const CraftBeerPiApp = () => {
             </main>
           </PrivateRoute>
         </Switch>
+        
       </Router>
     </div>
   );

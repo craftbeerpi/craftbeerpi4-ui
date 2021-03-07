@@ -87,12 +87,12 @@ const StepForm = () => {
 
     if (id) {
       stepapi.save(id, data, (data) => {
-        alert.show("Step Saved");
+        
         history.push("/mashprofile");
       });
     } else {
       stepapi.add(data, (data) => {
-        alert.show("Step added");
+        
         history.push("/mashprofile");
       });
     }
