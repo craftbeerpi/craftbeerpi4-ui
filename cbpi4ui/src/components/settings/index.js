@@ -13,6 +13,9 @@ import { configapi } from "../data/configapi";
 import SaveIcon from "@material-ui/icons/Save";
 import ActorSelect from "../util/ActorSelect";
 import KettleSelect from "../util/KettleSelect";
+import SensorSelect from "../util/SensorSelect";
+import StepTypeSelect from "../util/StepTypeSelect";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -50,7 +53,9 @@ const ConfigInput = ({ item, onChange, value, options }) => {
     case "kettle":
       return <KettleSelect value={value} onChange={onChange} label="" />;
     case "sensor":
-      return <TextField onChange={onChange} value={value} />;
+      return <SensorSelect value={value} onChange={onChange} label="" />;
+    case "step":
+      return <StepTypeSelect value={value} onChange={onChange} label="" />;
     case "actor":
       return <ActorSelect description={item.description} value={value} onChange={onChange} />;
     case "number":
