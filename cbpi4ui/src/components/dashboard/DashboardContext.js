@@ -105,7 +105,6 @@ export const DashboardProvider = ({ children }) => {
   };
 
   const update_prop = (id, key, value) => {
-    
     const data = [...elements2];
     const index = data.findIndex((e) => e.id === selected.id);
     data[index].props[key] = value;
@@ -114,10 +113,28 @@ export const DashboardProvider = ({ children }) => {
 
   };
 
-  const update_path_condition = (id, data) => {
+  const update_path_condition = (id, data, direction) => {
     const index = pathes.findIndex((e) => e.id === id);
     const temp_pathes = [...pathes];
-    temp_pathes[index].condition = data;
+    if(direction === "left")
+    {
+      temp_pathes[index].condition.left = data;
+    }
+    if(direction === "right")
+    {
+      temp_pathes[index].condition.right = data;
+    }
+    setPathes([...temp_pathes]);
+  };
+
+  // New method for updating path animation condition based on boolean expression 
+  const update_path_condition_exp = (id, direction, data) => {
+    const index = pathes.findIndex((e) => e.id === id);
+    const temp_pathes = [...pathes];
+    if(direction === "leftExpression")
+        temp_pathes[index].condition.leftExpression = data;
+    if(direction=== "rightExpression")
+      temp_pathes[index].condition.rightExpression = data;
 
     setPathes([...temp_pathes]);
   };
@@ -206,6 +223,7 @@ export const DashboardProvider = ({ children }) => {
       update_default_prop,
       update_prop,
       update_path_condition,
+      update_path_condition_exp, // New Method added for the boolean expression
       update_coordinates,
       setDraggable,
       update_path,
