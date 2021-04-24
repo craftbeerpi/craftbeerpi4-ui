@@ -3,7 +3,7 @@ import QueryBuilderIcon from '@material-ui/icons/QueryBuilder';
 import ShowChartIcon from '@material-ui/icons/ShowChart';
 import TextFieldsIcon from '@material-ui/icons/TextFields';
 import ToggleOffIcon from '@material-ui/icons/ToggleOff';
-import { CBPiCalculatorIcon, CBPiControlIcon, CBPiKettle, CBPiKettle2Icon, CBPiLedIcon, CBPiLiquidIcon, CBPiSensorIcon, CBPiSVGIcon, CBPiTankIcon, CBPiThermometerIcon } from '../../util/icons/CBPiSensorIcon';
+import { CBPiCalculatorIcon, CBPiControlIcon, CBPiKettle, CBPiKettle2Icon, CBPiLedIcon, CBPiLiquidIcon, CBPiPipeIcon, CBPiSensorIcon, CBPiSVGIcon, CBPiTankIcon, CBPiThermometerIcon } from '../../util/icons/CBPiSensorIcon';
 import { DashboardButton } from "./Button";
 import { Calculator } from "./Calculator";
 import Chart from "./Chart";
@@ -12,6 +12,7 @@ import CustomSVG from "./CustomSVG";
 import { KettleControl } from "./KettleControl";
 import { Led } from "./Led";
 import { Liquid } from './Liquid';
+import {Path} from './Path';
 import { SensorData } from "./SensorData";
 import Steps from "./Steps";
 import KettleSVG from "./svg/kettle.svg";
@@ -163,9 +164,7 @@ export const widget_list = [
       { name: "height", default: 40, type: "number" },
       { name: "sensor", default: "", type: "sensor" }
     ],
-  }
-  
-
+  },
   
 ];
 

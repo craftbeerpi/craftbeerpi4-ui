@@ -152,9 +152,10 @@ const PathSettingsItem = ({ item, checked, handleToggle }) => {
         <Checkbox edge="start" checked={checked.indexOf(item.id) !== -1} tabIndex={-1} color="primary" disableRipple inputProps={{ "aria-labelledby": "A" }} />
       </ListItemIcon>
       <ListItemText primary={item.name} />
-
     </ListItem>
   );
+
+
 };
 
 const PathSettings = () => {
@@ -176,14 +177,19 @@ const PathSettings = () => {
       const currentIndex = checked.indexOf(value);
       const newChecked = [...checked];
 
-      if (currentIndex === -1) {
+      if (currentIndex === -1) 
+      {
         newChecked.push(value);
-      } else {
+      } 
+      else 
+      {
         newChecked.splice(currentIndex, 1);
       }
       setChecked(newChecked);
-      actions.update_path_condition(selected_id, {left: newChecked, right: checkedRight});
-    } else {
+      actions.update_path_condition(selected_id, {left: newChecked, right: checkedRight},direction);
+    } 
+    else 
+    {
       const currentIndex = checkedRight.indexOf(value);
       const newChecked = [...checkedRight];
 
@@ -193,7 +199,19 @@ const PathSettings = () => {
         newChecked.splice(currentIndex, 1);
       }
       setCheckedRight(newChecked);
-      actions.update_path_condition(selected_id, {left: checked, right: newChecked});
+      actions.update_path_condition(selected_id, {left: checked, right: newChecked},direction);
+    }
+  };
+
+  // Handle change of the boolean expression for path animation.
+  const data = useModel(selected_id);
+  const handleChange = (e, direction) => {
+    if (direction === "left")
+    {
+      actions.update_path_condition_exp(selected_id, "leftExpression", e.target.value);
+    }
+    else{
+      actions.update_path_condition_exp(selected_id, "rightExpression", e.target.value);
     }
   };
 
@@ -205,6 +223,11 @@ const PathSettings = () => {
     return "";
   }
 
+  const item = state.pathes.find((e) => e.id === selected_id);
+
+
+// Add a TextField for adding the booleanExpression
+  var helperTextExpression = "sample expression : (\"actor1\" && \"actor2\") || (\"actor2\" && \"actor3\") \n don't forget the quote";
   return (
     <>
       <div
@@ -221,12 +244,15 @@ const PathSettings = () => {
             <PathSettingsItem item={item} checked={checked} handleToggle={handleToggle} />
           ))}
         </List>
+        <TextField label="Condition expression" helperText={helperTextExpression} fullWidth value={item?.condition?.leftExpression} onChange={(e) => handleChange(e, "left")} />
+
         Flow Right
         <List disableGutters={true} dense component="nav" aria-label="main mailbox folders">
           {actor.map((item) => (
             <PathSettingsItem item={item} checked={checkedRight} handleToggle={(id) => handleToggle(id, "right")} />
           ))}
         </List>
+        <TextField label="Condition expression" helperText={helperTextExpression} fullWidth value={item?.condition?.rightExpression} onChange={(e) => handleChange(e, "right")} />
       </div>
     </>
   );
