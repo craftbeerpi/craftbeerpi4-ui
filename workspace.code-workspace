@@ -7,9 +7,6 @@
 			"path": "../test"
 		},
 		{
-			"path": "../cbpi4-ui-plugin"
-		},
-		{
 			"path": "."
 		}
 	],
