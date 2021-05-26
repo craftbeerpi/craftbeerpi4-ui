@@ -1,9 +1,9 @@
-import { Divider, Grid, Paper, Typography , Button} from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import axios from "axios";
-import React from "react";
-import logo from "../../images/cbpi.png";
-import { useCBPi } from "../data";
+import { Button, Grid, Typography, Divider, makeStyles, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
+import InputLabel from '@material-ui/core/InputLabel';
+import { uploadapi } from "../data/uploadapi"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,32 +18,63 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const SelectBox = ({ options, value, onChange }) => {
+    return (
+    <>
+      <Select labelId="demo-simple-select-label" id="demo-simple-select" value={value} onChange={onChange}>
+        {options.map((item) => (
+          <MenuItem key={item.value} value={item.value}>
+            {item.label}
+          </MenuItem>
+        ))}
+      </Select>
+    </>
+  );
+};
+
 const Upload = () => {
   const classes = useStyles();
-  const {state} = useCBPi();
   const hiddenFileInput = React.useRef(null);
   const handleChange = event => {
       const fileUploaded = event.target.files[0];
       const FileName = fileUploaded.name;
       let formData = new FormData();
       formData.append("File",fileUploaded)
-      console.log(FileName);
-      axios({
-       method: 'post',
-       url: '/upload',
-       data: formData,
-       headers: {'Content-Type': 'multipart/form-data'}
-      })
-      .then(function (response) {
-        //handle success
-        console.log(response);
-    })
-    .catch(function (response) {
-        //handle error
-        console.log(response);
+      uploadapi.sendFile(formData)
+      window.location.reload()
+  };
+
+  const XMLSubmit = () => {
+    uploadapi.sendXML(xml);
+  };
+
+  const KBHSubmit = () => {
+    uploadapi.sendKBH(kbh);
+  };
+
+  const [kbhlist,setKBHList] = useState([]);
+  const [xmllist,setXMLList] = useState([]);
+  const [xml, setXML] = useState([]);
+  const [kbh, setKBH] = useState([]);
+
+  useEffect(() => {
+    uploadapi.getkbh((data) => {
+      setKBHList(data);
     });
+  }, []);
 
+  useEffect(() => {
+    uploadapi.getxml((data) => {
+      setXMLList(data);
+    });
+  }, []);
 
+  const XMLChange = (event) => {
+    setXML(event.target.value);
+  };
+
+  const KBHChange = (event) => {
+    setKBH(event.target.value);
   };
 
   return (
@@ -78,9 +109,56 @@ const Upload = () => {
           </Paper>
         </Grid>
       
+      <Divider style={{ marginBottom: 10, marginTop: 10 }} />
+      <TableContainer component={Paper}>
+        <Table aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Select Recipe</TableCell>
+              <TableCell align="right">Create</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>    
+          
+              <TableRow>
+                <TableCell>
+                  <InputLabel id="demo-simple-select-helper-label">BeerXML Recipe from uploaded file</InputLabel>
+                  <SelectBox options={xmllist} value={xml} onChange={XMLChange} />   
+                </TableCell>
+                <TableCell align="right">
+                  <Button variant="contained" component="label" >
+                  Create Recipe from BeerXML recipe
+                  <input
+                    value={xml}
+                    onClick={XMLSubmit}
+                    hidden
+                  />
+                  </Button> 
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>
+                  <InputLabel id="demo-simple-select-helper-label">Recipe from Kleiner Brauhelfer Database</InputLabel>
+                  <SelectBox options={kbhlist} value={kbh} onChange={KBHChange} />   
+                </TableCell>
+                <TableCell align="right">
+                  <Button variant="contained" component="label" >
+                  Create Recipe from KBH Database
+                  <input
+                    value={kbh}
+                    onClick={KBHSubmit}
+                    hidden
+                  />
+                  </Button> 
+                </TableCell>
+              </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>  
 
+      
       </Grid>
-
+     
       
     </div>
   );

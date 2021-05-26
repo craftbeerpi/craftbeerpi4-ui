@@ -86,7 +86,7 @@ export const widget_list = [
     type: "Led",
     component: Led,
     icon: CBPiLedIcon,
-    props: [{ name: "actor", default: "", type: "actor" }],
+    props: [{ name: "actor", default: "", type: "actor" },{name: "color", options: ["green","red","blue"], default: "green", type: "select"}],
   },
 
   {
