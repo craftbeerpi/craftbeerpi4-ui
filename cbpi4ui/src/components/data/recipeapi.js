@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const save = (id, data, callback_susscess = () => {}, callback_failed = () => {}) => {
-  axios
+    axios
     .put("/recipe/" + id, data)
     .then(function (response) {
       callback_susscess(response.data);

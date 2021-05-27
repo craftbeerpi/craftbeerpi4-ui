@@ -122,6 +122,17 @@ export const move = (id, direction, callback_susscess = () => {}, callback_faile
   };
 
 
+  export const savetobook = (callback_susscess = () => {}, callback_failed = () => {}) => {
+    axios
+      .post("/step2/savetobook")
+      .then(function (response) {
+        
+      })
+      .catch(function (error) {
+        callback_failed();
+      });
+  };
+
   export const stepapi = {
     move,
     action,
@@ -133,5 +144,6 @@ export const move = (id, direction, callback_susscess = () => {}, callback_faile
     stop,
     start,
     remove,
-    reset
+    reset,
+    savetobook
   }

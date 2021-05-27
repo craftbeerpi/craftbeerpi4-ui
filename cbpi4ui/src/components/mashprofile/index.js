@@ -15,7 +15,7 @@ import { default as React, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useCBPi } from "../data";
 import { stepapi } from "../data/stepapi";
-
+import SaveDialog from "../util/SaveDialog";
 import DeleteDialog from "../util/DeleteDialog";
 import Header from "../util/Header";
 import MashControl from "../util/MashControl";
@@ -52,6 +52,11 @@ const MashProfile = () => {
     stepapi.clear();
   };
 
+  const savetobook = () => {
+    stepapi.savetobook();
+  };
+
+
   if (!state.mashBasic.name) {
     return (
       <Grid container spacing={3}>
@@ -83,7 +88,11 @@ const MashProfile = () => {
           <Typography color="textSecondary">{state.mashBasic.desc}</Typography>
         </Grid>
         <Grid item>
+          
           <DeleteDialog title="Clear" callback={clear} message="Do you want to clear the Mash Profile" />
+          
+          <SaveDialog title="Save" callback={savetobook} message="Do you want to save your recipe to the recipe book" />
+          
           <IconButton
             variant="contained"
             onClick={() => {
