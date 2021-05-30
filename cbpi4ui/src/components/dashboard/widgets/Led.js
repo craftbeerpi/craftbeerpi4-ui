@@ -14,7 +14,6 @@ export const Led = ({ id }) => {
         
     }, [model.props.color]);
 
-    console.log(color)
     let led_state = actor?.state ? "led-" + color : "led-" + color + "-off "
     return <div className={led_state}></div>;
   };

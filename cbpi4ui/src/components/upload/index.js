@@ -45,18 +45,25 @@ const Upload = () => {
   };
 
   const XMLSubmit = () => {
-    uploadapi.sendXML(xml);
+    uploadapi.sendXML(xml, path);
   };
 
   const KBHSubmit = () => {
-    uploadapi.sendKBH(kbh);
+    uploadapi.sendKBH(kbh, path);
   };
 
   const [kbhlist,setKBHList] = useState([]);
   const [xmllist,setXMLList] = useState([]);
   const [xml, setXML] = useState([]);
   const [kbh, setKBH] = useState([]);
+  const [path, setPath] = useState([]);
 
+  useEffect(() => {
+    uploadapi.getpath((data) => {
+      setPath(data);
+    });
+  }, []);
+  
   useEffect(() => {
     uploadapi.getkbh((data) => {
       setKBHList(data);

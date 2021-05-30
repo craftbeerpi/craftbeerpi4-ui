@@ -11,9 +11,9 @@ const getkbh = (callback_susscess = () => {}, callback_failed = () => {}) => {
     });
 };
 
-const sendKBH = (id, callback_susscess = () => {}, callback_failed = () => {}) => {
+const sendKBH = (id, path, callback_susscess = () => {}, callback_failed = () => {}) => {
   axios
-    .post("/upload/kbh" , {id})
+    .post("/" + path + "/kbh" , {id})
     .then(function (response) {
       callback_susscess();
     })
@@ -33,9 +33,9 @@ const getxml = (callback_susscess = () => {}, callback_failed = () => {}) => {
     });
 };
 
-const sendXML = (id, callback_susscess = () => {}, callback_failed = () => {}) => {
+const sendXML = (id, path, callback_susscess = () => {}, callback_failed = () => {}) => {
   axios
-    .post("/upload/xml" , {id})
+    .post("/" + path + "/xml" , {id})
     .then(function (response) {
       callback_susscess();
     })
@@ -59,6 +59,16 @@ const sendFile = (data, callback_susscess = () => {}, callback_failed = () => {}
     });
 };
 
+const getpath = (callback_susscess = () => {}, callback_failed = () => {}) => {
+  axios
+    .get("/upload/getpath" )
+    .then(function (response) {
+      callback_susscess(response.data['path']);
+    })
+    .catch(function (error) {
+      callback_failed();
+    });
+};
 
 export const uploadapi = {
   getkbh,
@@ -66,4 +76,5 @@ export const uploadapi = {
   getxml,
   sendXML,
   sendFile,
+  getpath,
   }
