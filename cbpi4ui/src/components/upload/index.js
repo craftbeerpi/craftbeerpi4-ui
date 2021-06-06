@@ -18,6 +18,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
+
 const SelectBox = ({ options, value, onChange }) => {
     return (
     <>
@@ -32,6 +34,7 @@ const SelectBox = ({ options, value, onChange }) => {
   );
 };
 
+
 const Upload = () => {
   const classes = useStyles();
   const hiddenFileInput = React.useRef(null);
@@ -39,11 +42,17 @@ const Upload = () => {
       const fileUploaded = event.target.files[0];
       const FileName = fileUploaded.name;
       let formData = new FormData();
-      formData.append("File",fileUploaded)
-      uploadapi.sendFile(formData)
-      window.location.reload()
+      formData.append("File",fileUploaded);
+      console.log("Start upload");
+      uploadapi.sendFile(formData, ReloadPage());
   };
 
+  const ReloadPage = () => {
+    console.log("Upload done -> reload page");
+    /*window.location.reload();*/
+}
+
+  
   const XMLSubmit = () => {
     uploadapi.sendXML(xml, path);
   };

@@ -44,19 +44,24 @@ const sendXML = (id, path, callback_susscess = () => {}, callback_failed = () =>
     });
 };
 
-const sendFile = (data, callback_susscess = () => {}, callback_failed = () => {}) => {
+
+
+const sendFile = (data) => {
+  return new Promise(function (callback_susscess = () => {}, callback_failed = () => {}) {
   axios({
-    method: 'post',
-    url: '/upload',
-    data: data,
-    headers: {'Content-Type': 'multipart/form-data'}
+   method: 'post',
+   url: '/upload',
+   data: data,
+   headers: {'Content-Type': 'multipart/form-data'}
+  })
+   .then(function (response) {
+     callback_susscess(response);
+     window.location.reload()
    })
-    .then(function (response) {
-      callback_susscess();
-    })
-    .catch(function (error) {
-      callback_failed();
-    });
+   .catch(function (error) {
+     callback_failed();
+   });
+});
 };
 
 const getpath = (callback_susscess = () => {}, callback_failed = () => {}) => {
