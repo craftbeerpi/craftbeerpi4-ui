@@ -19,7 +19,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-
 const SelectBox = ({ options, value, onChange }) => {
     return (
     <>
@@ -61,10 +60,16 @@ const Upload = () => {
     uploadapi.sendKBH(kbh, path);
   };
 
+  const BFSubmit = () => {
+    uploadapi.sendBF(bf, path);
+  };
+
   const [kbhlist,setKBHList] = useState([]);
   const [xmllist,setXMLList] = useState([]);
+  const [bflist,setBFList] = useState([]);
   const [xml, setXML] = useState([]);
   const [kbh, setKBH] = useState([]);
+  const [bf, setBF] = useState([]);
   const [path, setPath] = useState([]);
 
   useEffect(() => {
@@ -85,12 +90,22 @@ const Upload = () => {
     });
   }, []);
 
+  useEffect(() => {
+    uploadapi.getbf((data) => {
+      setBFList(data);
+    });
+  }, []);
+
   const XMLChange = (event) => {
     setXML(event.target.value);
   };
 
   const KBHChange = (event) => {
     setKBH(event.target.value);
+  };
+
+  const BFChange = (event) => {
+    setBF(event.target.value);
   };
 
   return (
@@ -163,6 +178,22 @@ const Upload = () => {
                   <input
                     value={kbh}
                     onClick={KBHSubmit}
+                    hidden
+                  />
+                  </Button> 
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>
+                  <InputLabel id="demo-simple-select-helper-label">Brewfather Recipes</InputLabel>
+                  <SelectBox options={bflist} value={bf} onChange={BFChange} />   
+                </TableCell>
+                <TableCell align="right">
+                  <Button variant="contained" component="label" >
+                  Create Recipe from Brewfather Web App
+                  <input
+                    value={bf}
+                    onClick={BFSubmit}
                     hidden
                   />
                   </Button> 

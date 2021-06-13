@@ -44,7 +44,28 @@ const sendXML = (id, path, callback_susscess = () => {}, callback_failed = () =>
     });
 };
 
+const getbf = (callback_susscess = () => {}, callback_failed = () => {}) => {
+  axios
+    .get("/upload/bf" )
+    .then(function (response) {
+      callback_susscess(response.data);
+    })
+    .catch(function (error) {
+      callback_failed();
+    });
+};
 
+
+const sendBF = (id, path, callback_susscess = () => {}, callback_failed = () => {}) => {
+  axios
+    .post("/" + path + "/bf" , {id})
+    .then(function (response) {
+      callback_susscess();
+    })
+    .catch(function (error) {
+      callback_failed();
+    });
+};
 
 const sendFile = (data) => {
   return new Promise(function (callback_susscess = () => {}, callback_failed = () => {}) {
@@ -80,6 +101,8 @@ export const uploadapi = {
   sendKBH,
   getxml,
   sendXML,
+  getbf,
+  sendBF,
   sendFile,
   getpath,
   }
