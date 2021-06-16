@@ -6,6 +6,7 @@ import { useState } from "react";
 import Plot from "react-plotly.js";
 import { useSensor } from "../data";
 import { logapi } from "../data/logapi";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 export const Charting = () => {
   const sensors = useSensor();
@@ -18,7 +19,7 @@ export const Charting = () => {
   const load = () => {
     logapi.get2(formats, (d) => {
       const temp = [];
-
+      
       for (const [key, value] of Object.entries(d)) {
         const senosr_config = sensors.find((item) => item.id === key);
 
@@ -39,6 +40,12 @@ export const Charting = () => {
       }
       setData(temp);
     });
+  };
+const clear_logs = () => {
+  formats.map(format =>(
+    logapi.clear(format)
+  ));
+  window.location.reload();
   };
 
   return (
@@ -63,6 +70,9 @@ export const Charting = () => {
 
           <IconButton onClick={load}>
             <AutorenewIcon />
+          </IconButton>
+          <IconButton onClick={clear_logs}>
+            <DeleteIcon />
           </IconButton>
         </Grid>
         <Grid item xs="12">

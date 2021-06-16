@@ -12,6 +12,7 @@ const get = (id, callback_susscess = () => {}, callback_failed = () => {}) => {
 };
 
 const get2 = (data, callback_susscess = () => {}, callback_failed = () => {}) => {
+  console.log(data)
   axios
     .post("/log/", data)
     .then(function (response) {
