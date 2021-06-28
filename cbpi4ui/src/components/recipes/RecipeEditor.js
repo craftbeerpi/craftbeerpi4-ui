@@ -27,7 +27,7 @@ const RecipeEditor = () => {
       const success = (data) => {
         setBasicData(data.basic);
         setSteps(data.steps);
-      };
+        };
 
       recipeapi.load(id, success);
     }

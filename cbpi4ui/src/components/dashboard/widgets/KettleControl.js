@@ -11,20 +11,54 @@ import CachedIcon from "@material-ui/icons/Cached";
 import DriveEtaIcon from "@material-ui/icons/DriveEta";
 import TrackChangesIcon from "@material-ui/icons/TrackChanges";
 import WhatshotIcon from "@material-ui/icons/Whatshot";
-import React, { useContext, useEffect, useMemo } from "react";
+import React, { useContext, useEffect, useState, useMemo } from "react";
 import { useCBPi, useKettle } from "../../data";
 import { useActor } from "../../data/index";
 import { DashboardContext, useModel } from "../DashboardContext";
-
+import { configapi } from "../../data/configapi";
 
 
 const TargetTempDialog = ({ onClose, kettle, open }) => {
-  const [value, setValue] = React.useState(30);
+  let TEMP_UNIT = "TEMP_UNIT";
+  const [value, setValue] = useState(30);
+  const [checkunit, setCheckUnit] = useState(false);
+  const [minval, setMinval] = useState(-5)
+  const [maxval, setMaxval] = useState(100)
 
   const {actions} = useCBPi()
   useEffect(()=>{
     setValue(kettle?.target_temp)
   },[])
+
+  const marks = [
+    {
+      value: -5,
+      label: "-5°",
+    },
+          {
+      value: 20,
+      label: "20°",
+    },
+    {
+      value: 50,
+      label: "50°",
+    },
+    {
+      value: 100,
+      label: "100°",
+    },
+  ];
+  
+  if (checkunit === false){
+      configapi.getone(TEMP_UNIT, (data) => {
+        if (data==="F"){
+          setMinval(20)
+          setMaxval(212)
+        }
+        setCheckUnit(true);
+        });
+      };
+    
   if (!kettle) return "";
 
   const handleClose = () => {
@@ -41,24 +75,6 @@ const TargetTempDialog = ({ onClose, kettle, open }) => {
     setValue(newValue);
   };
 
-  const marks = [
-    {
-      value: 0,
-      label: "0°",
-    },
-    {
-      value: 20,
-      label: "20°",
-    },
-    {
-      value: 37,
-      label: "37°",
-    },
-    {
-      value: 100,
-      label: "100°",
-    },
-  ];
 
   return (
     <Dialog fullWidth onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
@@ -70,7 +86,7 @@ const TargetTempDialog = ({ onClose, kettle, open }) => {
               {value}°
             </Typography>
           </div>
-          <Slider marks={marks} value={value} onChange={handleChange} aria-labelledby="continuous-slider" />
+          <Slider min={minval} max={maxval} marks={marks} step={1} value={value} onChange={handleChange} aria-labelledby="continuous-slider" />
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
             <Button variant="contained" onClick={handleClose} color="secondary" autoFocus>
               Cancel

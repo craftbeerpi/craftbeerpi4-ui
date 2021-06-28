@@ -22,9 +22,20 @@ export const update = (name, value, callback_susscess = () => {}, callback_faile
     });
 };
 
+export const getone = (name, callback_susscess = () => {}, callback_failed = () => {}) => {
+  axios
+    .post("/config/"+name+"/")
+    .then(function (response) {
+      callback_susscess(response.data);
+    })
+    .catch(function (error) {
+      callback_failed();
+    });
+};
 
 
 export const configapi = {
   get,
-  update
+  update,
+  getone
 }
