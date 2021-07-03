@@ -7,6 +7,7 @@ import Plot from "react-plotly.js";
 import { useSensor } from "../data";
 import { logapi } from "../data/logapi";
 import DeleteIcon from "@material-ui/icons/Delete";
+import DeleteDialog from "../util/DeleteDialog";
 
 export const Charting = () => {
   const sensors = useSensor();
@@ -71,9 +72,11 @@ const clear_logs = () => {
           <IconButton onClick={load}>
             <AutorenewIcon />
           </IconButton>
-          <IconButton onClick={clear_logs}>
-            <DeleteIcon />
-          </IconButton>
+          <DeleteDialog
+            title="Delete Log(s)"
+            message="Do you want to delete the selected logs?"
+            callback={clear_logs}
+          />
         </Grid>
         <Grid item xs="12">
           <Plot
