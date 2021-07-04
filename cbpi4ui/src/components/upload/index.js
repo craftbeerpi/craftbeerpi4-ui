@@ -71,6 +71,12 @@ const Upload = () => {
   const [kbh, setKBH] = useState([]);
   const [bf, setBF] = useState([]);
   const [path, setPath] = useState([]);
+  const [offset, setOffset] = useState(0);
+  const offsetlist = [{'value': 0, 'label': '0'},
+                      {'value': 50, 'label': '50'},
+                      {'value': 100, 'label': '100'},
+                      {'value': 150, 'label': '150'},
+                      {'value': 200, 'label': '200'}];
 
   useEffect(() => {
     uploadapi.getpath((data) => {
@@ -91,7 +97,7 @@ const Upload = () => {
   }, []);
 
   useEffect(() => {
-    uploadapi.getbf((data) => {
+    uploadapi.getbf(offset, (data) => {
       setBFList(data);
     });
   }, []);
@@ -106,6 +112,13 @@ const Upload = () => {
 
   const BFChange = (event) => {
     setBF(event.target.value);
+  };
+
+  const OffsetChange = (event) => {
+    setOffset(event.target.value);
+    uploadapi.getbf(event.target.value, (data) => {
+      setBFList(data)
+      });
   };
 
   return (
@@ -185,8 +198,10 @@ const Upload = () => {
               </TableRow>
               <TableRow>
                 <TableCell>
-                  <InputLabel id="demo-simple-select-helper-label">Brewfather Recipes</InputLabel>
+                  <InputLabel id="demo-simple-select-helper-label">Brewfather Recipes (50 Items max)</InputLabel>
                   <SelectBox options={bflist} value={bf} onChange={BFChange} />   
+                  <InputLabel id="demo-simple-select-helper-label">Recipe Offset</InputLabel>
+                  <SelectBox options={offsetlist} value={offset} onChange={OffsetChange} />
                 </TableCell>
                 <TableCell align="right">
                   <Button variant="contained" component="label" >

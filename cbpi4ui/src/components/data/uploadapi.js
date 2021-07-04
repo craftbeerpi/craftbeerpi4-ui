@@ -44,9 +44,9 @@ const sendXML = (id, path, callback_susscess = () => {}, callback_failed = () =>
     });
 };
 
-const getbf = (callback_susscess = () => {}, callback_failed = () => {}) => {
+const getbf = (offset, callback_susscess = () => {}, callback_failed = () => {}) => {
   axios
-    .get("/upload/bf" )
+    .post("/upload/bf/"+offset+"/")
     .then(function (response) {
       callback_susscess(response.data);
     })
