@@ -159,6 +159,9 @@ const Upload = () => {
           <TableHead>
             <TableRow>
               <TableCell>Select Recipe</TableCell>
+              <TableCell>
+
+              </TableCell>
               <TableCell align="right">Create</TableCell>
             </TableRow>
           </TableHead>
@@ -168,6 +171,9 @@ const Upload = () => {
                 <TableCell>
                   <InputLabel id="demo-simple-select-helper-label">BeerXML Recipe from uploaded file</InputLabel>
                   <SelectBox options={xmllist} value={xml} onChange={XMLChange} />   
+                </TableCell>
+                <TableCell>
+
                 </TableCell>
                 <TableCell align="right">
                   <Button variant="contained" component="label" >
@@ -185,6 +191,9 @@ const Upload = () => {
                   <InputLabel id="demo-simple-select-helper-label">Recipe from Kleiner Brauhelfer Database</InputLabel>
                   <SelectBox options={kbhlist} value={kbh} onChange={KBHChange} />   
                 </TableCell>
+                <TableCell>
+
+                </TableCell>
                 <TableCell align="right">
                   <Button variant="contained" component="label" >
                   Create Recipe from KBH Database
@@ -199,8 +208,10 @@ const Upload = () => {
               <TableRow>
                 <TableCell>
                   <InputLabel id="demo-simple-select-helper-label">Brewfather Recipes (50 Items max)</InputLabel>
-                  <SelectBox options={bflist} value={bf} onChange={BFChange} />   
-                  <InputLabel id="demo-simple-select-helper-label">Recipe Offset</InputLabel>
+                  <SelectBox options={bflist} value={bf} onChange={BFChange} /> 
+                </TableCell>
+                <TableCell>  
+                  <InputLabel id="demo-simple-select-helper-label">Recipe Offset (display 50 items after offset)</InputLabel>
                   <SelectBox options={offsetlist} value={offset} onChange={OffsetChange} />
                 </TableCell>
                 <TableCell align="right">
