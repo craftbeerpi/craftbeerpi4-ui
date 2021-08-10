@@ -38,7 +38,10 @@ const SensorTable = () => {
             <TableRow>
               <TableCell>Name</TableCell>
               <TableCell align="right" className="hidden-xs">
-                Logic
+                Type
+              </TableCell>
+              <TableCell align="right" className="hidden-xs">
+                ID
               </TableCell>
               <TableCell align="right" className="hidden-xs">
                 Value
@@ -56,6 +59,9 @@ const SensorTable = () => {
                 </TableCell>
                 <TableCell align="right" className="hidden-xs">
                   {row.type}
+                </TableCell>
+                <TableCell align="right" className="hidden-xs">
+                  {row.id}
                 </TableCell>
                 <TableCell align="right" className="hidden-xs">
                   <SensorValue id={row.id}/>

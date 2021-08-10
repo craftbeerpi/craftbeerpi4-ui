@@ -30,7 +30,7 @@ export const DashboardProvider = ({ children }) => {
   const [pathes, setPathes] = useState([]);
   const [widgets, setWidgets] = useState([])
   const widget_dict = widget_list.reduce((a, x) => ({ ...a, [x.type]: x }), {});
-
+ 
 
   const delelteKeyPressed = useKeyPress(8);
 

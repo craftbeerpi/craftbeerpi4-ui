@@ -42,6 +42,7 @@ const ActorTable = () => {
                         <TableRow>
                             <TableCell>Name</TableCell>
                             <TableCell align="right" className="hidden-xs">Type</TableCell>
+                            <TableCell align="right" className="hidden-xs">GPIO</TableCell>
                             <TableCell align="right" className="hidden-xs">State</TableCell>
                             <TableCell align="right" className="hidden-xs">Actions</TableCell>
                         </TableRow>
@@ -55,9 +56,10 @@ const ActorTable = () => {
                                 
                                 </TableCell>
                                 <TableCell align="right" className="hidden-xs">{row.type}</TableCell>
+                                <TableCell align="right" className="hidden-xs">{row.props["GPIO"]}</TableCell>
                                 <TableCell align="right" className="hidden-xs"><ActorSwitch id={row.id}/></TableCell>
                                 <TableCell align="right" className="hidden-xs">
-                                    <DeleteDialog title="Delete Actir" message="Do you want to delete the Actor" id={row.id} callback={remove_callback} />
+                                    <DeleteDialog title="Delete Actor" message="Do you want to delete the Actor" id={row.id} callback={remove_callback} />
                                     <IconButton aria-label="delete" size="small" onClick={() => { history.push("/actor/"+row.id) }} >
                                       <VisibilityIcon />
                                     </IconButton>
