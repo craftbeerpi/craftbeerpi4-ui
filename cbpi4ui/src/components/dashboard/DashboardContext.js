@@ -14,6 +14,8 @@ import { DashboardContainer } from "./Elements";
 import useKeyPress from "./GlobalKeyPress";
 import { widget_list } from "./widgets/config";
 import { Path } from "./widgets/Path";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
 
 export const DashboardContext = createContext({});
 
@@ -30,9 +32,17 @@ export const DashboardProvider = ({ children }) => {
   const [pathes, setPathes] = useState([]);
   const [widgets, setWidgets] = useState([])
   const widget_dict = widget_list.reduce((a, x) => ({ ...a, [x.type]: x }), {});
- 
+  const [dashboardX, setDashboardX] = useState(1);
+  const [maxdashboard, setMaxdashboard] = useState(4);
+
 
   const delelteKeyPressed = useKeyPress(8);
+
+  useEffect(() => {
+    dashboardapi.dashboardnumbers((data) => {
+      setMaxdashboard(data);
+    });
+  }, []);
 
   useEffect(() => {
     if (selected && selected.type === "P") {
@@ -46,8 +56,8 @@ export const DashboardProvider = ({ children }) => {
     }
   }, [delelteKeyPressed]);
 
-  const load = (width, height) => {
-    dashboardapi.get(1, (data) => {
+  const load = (width, height, DashboardID = 1) => {
+    dashboardapi.get(DashboardID, (data) => {
       const errors = [];
       let data_model = data.elements.reduce((a, x) => {
         if (x.type in widget_dict) {
@@ -145,8 +155,8 @@ export const DashboardProvider = ({ children }) => {
     setElements2([ ...elements2,  model ]);
   };
 
-  const clear = useCallback(() => {
-    dashboardapi.clear(1, () => {
+  const clear = useCallback((DashboardID = 1) => {
+    dashboardapi.clear(DashboardID, () => {
       setElements2((currentElements) => ([]));
       setPathes((currentPathes) => []);
     });
@@ -169,10 +179,10 @@ export const DashboardProvider = ({ children }) => {
     return selected?.id === id;
   };
 
-  const save = () => {
+  const save = (DashboardID = 1) => {
     let e = elements2.map((value) => ({ id: value.id, name: value.name, x: value.x, y: value.y, type: value.type, props: { ...value.props } }));
     let p = pathes.map((value) => ({ id: value.id, coordinates: value.coordinates, condition: value.condition }));
-    dashboardapi.save(1, { elements: e, pathes: p }, () => {
+    dashboardapi.save(DashboardID, { elements: e, pathes: p }, () => {
       
     });
   };
@@ -190,6 +200,8 @@ export const DashboardProvider = ({ children }) => {
       widget_list,
       draggable,
       selectedPath,
+      maxdashboard,
+      dashboardX,
     },
     actions: {
       setCurrent,
@@ -211,6 +223,7 @@ export const DashboardProvider = ({ children }) => {
       update_path,
       load,
       setSelectedPath,
+      setDashboardX,
       save,
     },
   };
@@ -221,6 +234,35 @@ export const DashboardProvider = ({ children }) => {
 export const Dashboard = ({ width, height }) => {
   const parentRef = useRef(null);
   const { actions, state } = useContext(DashboardContext);
+  
+  const dashboardlist = [];
+  for (let i=1; i <= state.maxdashboard; i++) {
+    dashboardlist.push({'value': i, 'label': String(i)});
+  };
+
+  const SelectBox = ({ options, value, onChange }) => {
+    return (
+    <>
+      <Select labelId="demo-simple-select-label" id="demo-simple-select" value={value} onChange={onChange}>
+        {options.map((item) => (
+          <MenuItem key={item.value} value={item.value}>
+            {item.label}
+          </MenuItem>
+        ))},
+            theme={(theme) => ({
+        ...theme,
+        borderRadius: 0,
+        colors: {
+        ...theme.colors,
+          text: 'black',
+          primary25: 'black',
+          primary: 'black',
+        },
+      })}
+      </Select>
+    </>
+  );
+  };
 
   useEffect(() => {
     if (parentRef.current) {
@@ -231,6 +273,21 @@ export const Dashboard = ({ width, height }) => {
       actions.load(parentWidth, parentHeight);
     }
   }, [parentRef]);
+
+
+  const DashBoardChange = (event) => {
+    actions.setDashboardX(event.target.value);
+    const DashboardID=event.target.value;
+    if (parentRef.current) {
+        let parentHeight = parentRef.current.offsetHeight;
+        let parentWidth = parentRef.current.offsetWidth;
+        actions.setWidth(parentWidth);
+        actions.setHeight(parentHeight);
+        actions.load(parentWidth, parentHeight, 0);
+        actions.load(parentWidth, parentHeight, DashboardID);
+      }
+
+  };
 
 
   return (
@@ -256,7 +313,7 @@ export const Dashboard = ({ width, height }) => {
             {state.pathes.map((value) => value.instance)}
           </svg>
           <div style={{ position: "absolute", top: 0, right: 0 }}>
-            
+          {state.draggable ? state.dashboardX : <SelectBox options={dashboardlist} value={state.dashboardX} onChange={DashBoardChange}/>} 
             {state.draggable ? 
             
             <DeleteDialog
@@ -264,12 +321,12 @@ export const Dashboard = ({ width, height }) => {
             title="Clear Dashboard"
             message="Do you want to clear the Dashboard"
             callback={() => {
-              actions.clear();
+              actions.clear(state.dashboardX);
             }}
           />
 
             : "" }
-            {state.draggable ? <IconButton onClick={() => actions.save()}><SaveIcon/></IconButton> : "" }
+            {state.draggable ? <IconButton onClick={() => actions.save(state.dashboardX)}><SaveIcon/></IconButton> : "" }
             <IconButton onClick={() => actions.setDraggable(!state.draggable)}>{state.draggable ? <LockOpenIcon /> : <LockIcon />}</IconButton>
           </div>
         </div>

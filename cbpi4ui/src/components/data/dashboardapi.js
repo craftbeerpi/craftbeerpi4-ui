@@ -2,7 +2,7 @@ import axios from "axios";
 
 const save = (id, data, callback_susscess = () => {}, callback_failed = () => {}) => {
   axios
-    .post("/dashboard/1/content", data)
+    .post("/dashboard/"+id+"/content", data)
     .then(function (response) {
       callback_susscess(response.data);
     })
@@ -13,7 +13,7 @@ const save = (id, data, callback_susscess = () => {}, callback_failed = () => {}
 
 const clear = (id, callback_susscess = () => {}, callback_failed = () => {}) => {
   axios
-    .delete("/dashboard/1/content")
+    .delete("/dashboard/"+id+"/content")
     .then(function (response) {
       callback_susscess();
     })
@@ -45,11 +45,22 @@ const widgets = (callback_susscess = () => {}, callback_failed = () => {}) => {
 };
 
 
+const dashboardnumbers = (callback_susscess = () => {}, callback_failed = () => {}) => {
+  axios
+    .get("/dashboard/numbers" )
+    .then(function (response) {
+      callback_susscess(response.data);
+    })
+    .catch(function (error) {
+      callback_failed();
+    });
+};
 
 
 export const dashboardapi = {
   save,
   get,
   widgets,
+  dashboardnumbers,
   clear
 }
