@@ -15,6 +15,8 @@ import ActorSelect from "../util/ActorSelect";
 import KettleSelect from "../util/KettleSelect";
 import SensorSelect from "../util/SensorSelect";
 import StepTypeSelect from "../util/StepTypeSelect";
+import RestartDialog from "../util/RestartDialog";
+import ShutdownDialog from "../util/ShutdownDialog";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -95,6 +97,14 @@ const Settings = () => {
     
   };
 
+  const shutdown = () => {
+    configapi.shutdown();
+  };
+
+  const restart = () => {
+    configapi.restart();
+  };
+
   const reset = () => {
     setConfig({ ...state });
     
@@ -113,6 +123,28 @@ const Settings = () => {
 
   return (
     <>
+      <Grid container direction="row" justify="space-between" alignItems="center" style={{ marginTop: 10 }}>
+        <Grid item>
+          <Typography variant="h5" gutterBottom>
+            System
+          </Typography>
+        </Grid>
+        <Grid>
+            Restart:
+            <RestartDialog
+            title="Restart System"
+            message="Do you want to Restart the system"
+            callback={restart}
+          />
+            Shutdown:
+            <ShutdownDialog
+            title="Shutdown System"
+            message="Do you want to Shutdown the system"
+            callback={shutdown}
+          />
+        </Grid>
+      </Grid>
+      <Divider style={{ marginBottom: 10, marginTop: 10 }} />
       <Grid container direction="row" justify="space-between" alignItems="center" style={{ marginTop: 10 }}>
         <Grid item>
           <Typography variant="h5" gutterBottom>
@@ -145,7 +177,6 @@ const Settings = () => {
           
         </Grid>
       </Grid>
-      <Divider style={{ marginBottom: 10, marginTop: 10 }} />
       <TableContainer component={Paper}>
         <Table aria-label="simple table">
           <TableHead>
