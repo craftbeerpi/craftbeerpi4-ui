@@ -16,6 +16,7 @@ import { widget_list } from "./widgets/config";
 import { Path } from "./widgets/Path";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+import axios from "axios";
 
 export const DashboardContext = createContext({});
 
@@ -30,20 +31,37 @@ export const DashboardProvider = ({ children }) => {
   const [elements2, setElements2] = useState([]);
   const [draggable, setDraggable] = useState(false);
   const [pathes, setPathes] = useState([]);
-  const [widgets, setWidgets] = useState([])
+  const [widgets, setWidgets] = useState([]);
   const widget_dict = widget_list.reduce((a, x) => ({ ...a, [x.type]: x }), {});
   const [dashboardX, setDashboardX] = useState(1);
   const [maxdashboard, setMaxdashboard] = useState(4);
+    const [currentdashboard, setcurrentdashboard] = useState(0) 
 
+  useEffect(() => {
+    const current = getcurrentDB();
+  }, []);
+
+  async function getcurrentDB() {
+    let url = "/dashboard/current";
+    let fetchurl = await axios.get(url);
+    console.log(fetchurl.data);
+    setcurrentdashboard(fetchurl.data);
+    return fetchurl;
+  };
+
+  dashboardapi.getcurrentdashboard((data) => {
+    window.currentDashboard = data;
+    setDashboardX(data);
+    }); 
 
   const delelteKeyPressed = useKeyPress(8);
 
-  useEffect(() => {
+    useEffect(() => {
     dashboardapi.dashboardnumbers((data) => {
       setMaxdashboard(data);
     });
   }, []);
-
+  
   useEffect(() => {
     if (selected && selected.type === "P") {
       const data = [...pathes];
@@ -202,6 +220,7 @@ export const DashboardProvider = ({ children }) => {
       selectedPath,
       maxdashboard,
       dashboardX,
+      currentdashboard
     },
     actions: {
       setCurrent,
@@ -264,21 +283,24 @@ export const Dashboard = ({ width, height }) => {
   );
   };
 
+
   useEffect(() => {
-    if (parentRef.current) {
+    if (parentRef.current)  {
       let parentHeight = parentRef.current.offsetHeight;
       let parentWidth = parentRef.current.offsetWidth;
       actions.setWidth(parentWidth);
       actions.setHeight(parentHeight);
-      actions.load(parentWidth, parentHeight);
+      console.log(state.currentdashboard);
+      actions.load(parentWidth, parentHeight,state.currentdashboard);
     }
-  }, [parentRef]);
-
+  }, [parentRef,state.currentdashboard]);
 
   const DashBoardChange = (event) => {
     actions.setDashboardX(event.target.value);
     const DashboardID=event.target.value;
+    dashboardapi.setcurrentdashboard(DashboardID);
     if (parentRef.current) {
+      console.log(state.currentdashboard);
         let parentHeight = parentRef.current.offsetHeight;
         let parentWidth = parentRef.current.offsetWidth;
         actions.setWidth(parentWidth);
