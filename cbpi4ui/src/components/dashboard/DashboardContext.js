@@ -35,20 +35,14 @@ export const DashboardProvider = ({ children }) => {
   const widget_dict = widget_list.reduce((a, x) => ({ ...a, [x.type]: x }), {});
   const [dashboardX, setDashboardX] = useState(1);
   const [maxdashboard, setMaxdashboard] = useState(4);
-    const [currentdashboard, setcurrentdashboard] = useState(0) 
+  const [initialdashboard, setInitialdashboard] = useState(0) 
 
   useEffect(() => {
-    const current = getcurrentDB();
+    dashboardapi.getcurrentdashboard((data) => {
+      setInitialdashboard(data);
+    });
   }, []);
-
-  async function getcurrentDB() {
-    let url = "/dashboard/current";
-    let fetchurl = await axios.get(url);
-    console.log(fetchurl.data);
-    setcurrentdashboard(fetchurl.data);
-    return fetchurl;
-  };
-
+  
   dashboardapi.getcurrentdashboard((data) => {
     window.currentDashboard = data;
     setDashboardX(data);
@@ -220,7 +214,7 @@ export const DashboardProvider = ({ children }) => {
       selectedPath,
       maxdashboard,
       dashboardX,
-      currentdashboard
+      initialdashboard
     },
     actions: {
       setCurrent,
@@ -290,17 +284,15 @@ export const Dashboard = ({ width, height }) => {
       let parentWidth = parentRef.current.offsetWidth;
       actions.setWidth(parentWidth);
       actions.setHeight(parentHeight);
-      console.log(state.currentdashboard);
-      actions.load(parentWidth, parentHeight,state.currentdashboard);
+      actions.load(parentWidth, parentHeight,state.initialdashboard);
     }
-  }, [parentRef,state.currentdashboard]);
+  }, [parentRef,state.initialdashboard]);
 
   const DashBoardChange = (event) => {
     actions.setDashboardX(event.target.value);
     const DashboardID=event.target.value;
     dashboardapi.setcurrentdashboard(DashboardID);
     if (parentRef.current) {
-      console.log(state.currentdashboard);
         let parentHeight = parentRef.current.offsetHeight;
         let parentWidth = parentRef.current.offsetWidth;
         actions.setWidth(parentWidth);
