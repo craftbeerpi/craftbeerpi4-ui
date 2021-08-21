@@ -130,6 +130,16 @@ export const DashboardButton = ({ id, width, height }) => {
       }
     };
 
+    const size = () => {
+      if (model.props?.actor && actor) {
+        let css={ fontSize: model.props.size+"px"};
+        return css;
+      } else {
+        let css={ fontSize: "12px" };
+        return css;
+      }
+    };
+
     const handleClose = () => setOpen(false);
     const handleOpen = () => setOpen(true);
 
@@ -138,7 +148,7 @@ export const DashboardButton = ({ id, width, height }) => {
         <div style={cssStyle}>
           <ButtonGroup>
             <Button disabled={draggable} onClick={toggle} fullWidth variant={btnVariant} color={btnColor}>
-              {name()}
+            <div style={size()}> {name()} </div>
             </Button>
             <Button disabled={draggable} onClick={handleOpen} color="primary" size="small" aria-label="select merge strategy" aria-haspopup="menu">
               <MoreVertIcon />
@@ -151,7 +161,7 @@ export const DashboardButton = ({ id, width, height }) => {
       return (
         <div style={cssStyle}>
           <Button disabled={draggable} onClick={toggle} fullWidth variant={btnVariant} color={btnColor}>
-            {name()}
+          <div style={size()}> {name()} </div>
           </Button>
          
         </div>

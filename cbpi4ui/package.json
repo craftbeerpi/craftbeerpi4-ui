@@ -4,6 +4,12 @@
   "private": true,
   "proxy": "http://localhost:8000",
   "homepage": "./",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
   "dependencies": {
     "@material-ui/core": "^4.11.2",
     "@material-ui/data-grid": "^4.0.0-alpha.14",
@@ -18,7 +24,7 @@
     "mqtt-pattern": "^1.2.0",
     "mxgraph-js": "^1.0.1",
     "plotly.js": "^1.58.4",
-    "react": "^17.0.1",
+    "react": "^17.0.2",
     "react-dom": "^17.0.1",
     "react-dom-confetti": "^0.2.0",
     "react-draggable": "^4.4.3",
@@ -34,12 +40,6 @@
     "react-zoom-pan-pinch": "^1.6.1",
     "uuid": "^8.3.2",
     "web-vitals": "^0.2.4"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
