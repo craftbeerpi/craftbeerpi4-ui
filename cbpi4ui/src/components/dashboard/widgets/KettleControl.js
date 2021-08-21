@@ -146,11 +146,13 @@ export const KettleControl = ({ id }) => {
 
   return useMemo(() => {
     const orientation = model?.props?.orientation === "horizontal" ? "horizontal" : "vertical";
+    const size = model?.props?.size === "large" ? "large" : "medium";
+    console.log(size);
 
     console.log(kettle?.state, heater?.state  )
     return (
       <>
-        <ButtonGroup disabled={state.draggable || !model.props.kettle} orientation={orientation} color="primary" aria-label="contained primary button group">
+        <ButtonGroup size={size} disabled={state.draggable || !model.props.kettle} orientation={orientation} color="primary" aria-label="contained primary button group">
           {heater ? <Button variant={heater?.state ? "contained" : ""} color="primary" startIcon={<WhatshotIcon />} onClick={() => toggle(kettle?.heater)}></Button>: ""}
           {agitator ? <Button variant={agitator?.state ? "contained" : ""} color="primary" startIcon={<CachedIcon />} onClick={() => toggle(kettle?.agitator)}></Button> : ""}
           {kettle?.type ? <Button variant={kettle?.state ? "contained" : ""} color="primary" startIcon={<DriveEtaIcon />} onClick={() => toggle_kettle_logic(kettle?.id)}></Button> : ""}
