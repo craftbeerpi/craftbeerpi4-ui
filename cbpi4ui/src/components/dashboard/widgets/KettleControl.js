@@ -161,5 +161,5 @@ export const KettleControl = ({ id }) => {
         <TargetTempDialog open={open} kettle={kettle} onClose={() => setOpen(false)} />
       </>
     );
-  }, [state.draggable, kettle, model.props.orientation, agitator, heater, open]);
+  }, [state.draggable, kettle, model.props.orientation, model.props.size, agitator, heater, open]);
 };

@@ -131,7 +131,7 @@ export const DashboardButton = ({ id, width, height }) => {
     };
 
     const size = () => {
-      if (model.props?.actor && actor) {
+      if (model.props?.size) {
         let css={ fontSize: model.props.size+"px"};
         return css;
       } else {
@@ -143,7 +143,7 @@ export const DashboardButton = ({ id, width, height }) => {
     const handleClose = () => setOpen(false);
     const handleOpen = () => setOpen(true);
 
-    if (action === "yes") {
+    if (action === "yes" && actor) {
       return (
         <div style={cssStyle}>
           <ButtonGroup>
@@ -167,5 +167,5 @@ export const DashboardButton = ({ id, width, height }) => {
         </div>
       );
     }
-  }, [model.props?.actor, model.props?.action, model.name, actor, id, open, draggable]);
+  }, [model.props?.actor, model.props?.size, model.props?.action, model.name, actor, id, open, draggable]);
 };
