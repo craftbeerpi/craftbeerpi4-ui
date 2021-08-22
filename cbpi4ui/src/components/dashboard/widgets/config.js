@@ -95,7 +95,8 @@ export const widget_list = [
     type: "Steps",
     component: Steps,
     icon: ListIcon,
-    props: [{ name: "width", default: "200", type: "text", unit: "px" }],
+    props: [{ name: "width", default: "200", type: "text", unit: "px" },
+            { name: "size", default: "12", type: "text", unit: "pt" }],
   },
   {
     name: "SVG",

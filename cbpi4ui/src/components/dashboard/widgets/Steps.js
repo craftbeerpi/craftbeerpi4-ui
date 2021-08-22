@@ -255,11 +255,12 @@ export const Steps = ({ id }) => {
   const history = useHistory();
   const draggable = useDraggable()
 
+
   useEffect(() => {
     setProfile(state.mashProfile);
   }, [state.mashProfile]);
 
-  let inputStyle = { color: "#fff", width: `${model?.props?.width}px`,fontSize: 12, backgroundColor: "#2c282e", padding: 5, borderRadius: 5 };
+  let inputStyle = { color: "#fff", width: `${model?.props?.width}px`,fontSize: `${model?.props?.size}px`, backgroundColor: "#2c282e", padding: 5, borderRadius: 5 };
 
   if( draggable) {
     return <div className="box" style={{...inputStyle, display:"flex", justifyContent: "center", alignItems: "center"}}>
