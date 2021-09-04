@@ -216,11 +216,11 @@ const State = ({ state }) => {
   }
 };
 
-const StepItem = ({ item }) => {
+const StepItem = ({ size, item }) => {
   const [open, setOpen] = React.useState(false);
   const [selectedValue, setSelectedValue] = React.useState("emails");
   const draggable = useDraggable();
-
+  
   const handleClickOpen = () => {
     if (draggable) {
       return;
@@ -233,13 +233,20 @@ const StepItem = ({ item }) => {
     setSelectedValue(value);
   };
 
+  const primaryprops = {
+    fontSize: (size-3)+"px"
+ };
+  const secondaryprops = {
+    fontSize: size+"px"
+ };
+
   return (
     <>
       <ListItem button={!draggable} onClick={handleClickOpen}>
         <ListItemIcon>
           <State state={item.status} />
         </ListItemIcon>
-        <ListItemText primary={item.name} secondary={item.state_text} />
+        <ListItemText primaryTypographyProps={{ style: primaryprops }} primary={item.name} secondaryTypographyProps={{ style: secondaryprops }} secondary={item.state_text} />
       </ListItem>
       <StepDetailsDialog item={item} selectedValue={selectedValue} open={open} onClose={handleClose} />
     </>
@@ -292,7 +299,7 @@ export const Steps = ({ id }) => {
         <MashControl disabled={state2.draggable} />
         <List component="nav" aria-label="main mailbox folders">
           {profile.map((row, index) => (
-            <StepItem item={row} key={index} />
+            <StepItem size={model.props.size} item={row} key={index} />
           ))}
         </List>
       </div>

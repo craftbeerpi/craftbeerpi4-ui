@@ -116,7 +116,7 @@ export const widget_list = [
     
     props: [
       { name: "kettle", default: "1", type: "kettle" },
-      { name: "size", options: ["large","normal"], default: "normal", type: "select"},
+      { name: "size", options: ["large","normal","small"], default: "normal", type: "select"},
       { name: "orientation", options: ["horizontal", "vertical"], default: "", type: "select" },
     ],
   },

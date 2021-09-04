@@ -116,6 +116,10 @@ const Plugins = () => {
       </Breadcrumbs>
       <Divider />
 
+      <Grid>
+      <Typography color="textPrimary">Not yet available. To see list of installed plugins, use command line: cbpi plugins</Typography>
+      </Grid>
+
       <Grid container spacing={3} style={{ marginTop: 10 }}>
         {plugins.map((item) => (
           <Grid item sm={4}>

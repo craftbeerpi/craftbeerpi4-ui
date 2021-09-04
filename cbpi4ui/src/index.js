@@ -1,4 +1,4 @@
-import { createMuiTheme, ThemeProvider } from '@material-ui/core';
+import { createTheme, ThemeProvider } from '@material-ui/core';
 import pink from "@material-ui/core/colors/pink";
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -13,7 +13,7 @@ ReactGA.pageview(window.location.pathname + window.location.search);
 
 console.log("%cCraftBeerPi 4.0 🍻", "color:#8efa00; background:#000; font-size: 30pt");
 console.log("%cCreated with ♥️ by Manuel Fritsch", "color:#8efa00; background:#000; font-size: 10pt");
-const theme = createMuiTheme({
+const theme = createTheme({
   palette: {
     type: 'dark',
     primary: {

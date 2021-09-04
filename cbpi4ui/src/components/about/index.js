@@ -20,8 +20,8 @@ const useStyles = makeStyles((theme) => ({
 
 const About = () => {
   const classes = useStyles();
-  const {state} = useCBPi()
-
+  const {state} = useCBPi();
+  
   return (
     <div>
       <Grid container direction="row" justify="space-between" alignItems="center" style={{ marginTop: 10 }}>

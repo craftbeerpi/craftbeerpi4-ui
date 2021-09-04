@@ -16,6 +16,51 @@ import { useCBPi, useKettle } from "../../data";
 import { useActor } from "../../data/index";
 import { DashboardContext, useModel } from "../DashboardContext";
 import { configapi } from "../../data/configapi";
+import { createTheme , ThemeProvider} from '@material-ui/core/styles';
+import pink from "@material-ui/core/colors/pink";
+
+const theme = createTheme({
+  overrides: {
+    palette:{
+      type: 'dark',
+    primary: {
+      main: "#00FF00"
+    },
+    secondary: pink,
+    },
+    MuiButton: {
+      outlinedPrimary:{
+        color: "#00FF00",
+        border: "1px solid #00FF00"
+      },
+      containedPrimary:{
+        color: "#00FF00",
+        backgroundColor: "#00FF00",
+        '&:hover': {
+          backgroundColor: "#00B200",
+          // Reset on touch devices, it doesn't add specificity
+          '@media (hover: none)': {
+            backgroundColor: "#00FF00"
+          }}
+      },
+      iconSizeSmall: {
+        "& > *:first-child": {
+          fontSize: 20
+        }
+      },
+      iconSizeMedium: {
+        "& > *:first-child": {
+          fontSize: 25
+        }
+      },
+      iconSizeLarge: {
+        "& > *:first-child": {
+          fontSize: 32
+        }
+      }
+    },
+  },
+});
 
 
 const TargetTempDialog = ({ onClose, kettle, open }) => {
@@ -101,7 +146,6 @@ const TargetTempDialog = ({ onClose, kettle, open }) => {
     setValue(newValue);
   };
 
-
   return (
     <Dialog fullWidth onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
       <DialogTitle id="simple-dialog-title">Set Target Temp {kettle.name} </DialogTitle>
@@ -144,21 +188,31 @@ export const KettleControl = ({ id }) => {
     cbpi.actions.toggle_logic(id);
   };
 
-  return useMemo(() => {
+    return useMemo(() => {
     const orientation = model?.props?.orientation === "horizontal" ? "horizontal" : "vertical";
-    const size = model?.props?.size === "large" ? "large" : "medium";
-    console.log(size);
-
+    const size = () => {
+      if (model.props.size === "large") {
+        return "large"
+      }
+      else if (model.props.size === "small") {
+        return "small"
+      }
+      else { 
+        return "medium"
+      }
+    };
+    
     console.log(kettle?.state, heater?.state  )
     return (
       <>
-        <ButtonGroup size={size} disabled={state.draggable || !model.props.kettle} orientation={orientation} color="primary" aria-label="contained primary button group">
-          {heater ? <Button variant={heater?.state ? "contained" : ""} color="primary" startIcon={<WhatshotIcon />} onClick={() => toggle(kettle?.heater)}></Button>: ""}
-          {agitator ? <Button variant={agitator?.state ? "contained" : ""} color="primary" startIcon={<CachedIcon />} onClick={() => toggle(kettle?.agitator)}></Button> : ""}
-          {kettle?.type ? <Button variant={kettle?.state ? "contained" : ""} color="primary" startIcon={<DriveEtaIcon />} onClick={() => toggle_kettle_logic(kettle?.id)}></Button> : ""}
-          <Button variant="" color="primary" onClick={() => setOpen(true)} startIcon={<TrackChangesIcon />}></Button>
+        <ButtonGroup size={size()} disabled={state.draggable || !model.props.kettle} orientation={orientation} color="primary" aria-label="contained primary button group">
+           {heater ? <Button variant={heater?.state ? "contained" : ""}  color="primary" startIcon={<WhatshotIcon />} onClick={() => toggle(kettle?.heater)}></Button>: ""}
+          {agitator ? <Button variant={agitator?.state ? "contained" : ""}  color="primary" startIcon={<CachedIcon />} onClick={() => toggle(kettle?.agitator)}></Button> : ""}
+          {kettle?.type ? <Button variant={kettle?.state ? "contained" : ""}  color="primary" startIcon={<DriveEtaIcon />} onClick={() => toggle_kettle_logic(kettle?.id)}></Button> : ""}
+          <Button variant=""  color="primary" onClick={() => setOpen(true)} startIcon={<TrackChangesIcon />}></Button>
         </ButtonGroup>
-        <TargetTempDialog open={open} kettle={kettle} onClose={() => setOpen(false)} />
+        
+      <TargetTempDialog open={open} kettle={kettle} onClose={() => setOpen(false)} />
       </>
     );
   }, [state.draggable, kettle, model.props.orientation, model.props.size, agitator, heater, open]);
