@@ -234,10 +234,10 @@ const StepItem = ({ size, item }) => {
   };
 
   const primaryprops = {
-    fontSize: (size-3)+"px"
+    fontSize: (size -3 )+"pt"
  };
   const secondaryprops = {
-    fontSize: size+"px"
+    fontSize: size+"pt"
  };
 
   return (
@@ -267,7 +267,7 @@ export const Steps = ({ id }) => {
     setProfile(state.mashProfile);
   }, [state.mashProfile]);
 
-  let inputStyle = { color: "#fff", width: `${model?.props?.width}px`,fontSize: `${model?.props?.size}px`, backgroundColor: "#2c282e", padding: 5, borderRadius: 5 };
+  let inputStyle = { color: "#fff", width: `${model?.props?.width}px`,fontSize: `${model?.props?.namesize}pt`, backgroundColor: "#2c282e", padding: 5, borderRadius: 5 };
 
   if( draggable) {
     return <div className="box" style={{...inputStyle, display:"flex", justifyContent: "center", alignItems: "center"}}>
@@ -299,7 +299,7 @@ export const Steps = ({ id }) => {
         <MashControl disabled={state2.draggable} />
         <List component="nav" aria-label="main mailbox folders">
           {profile.map((row, index) => (
-            <StepItem size={model.props.size} item={row} key={index} />
+            <StepItem size={model.props.stepsize} item={row} key={index} />
           ))}
         </List>
       </div>
