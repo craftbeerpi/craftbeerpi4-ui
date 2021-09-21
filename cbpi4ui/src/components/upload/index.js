@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 const SelectBox = ({ options, value, onChange }) => {
-    return (
+  return (
     <>
       <Select labelId="demo-simple-select-label" id="demo-simple-select" value={value} onChange={onChange}>
         {options.map((item) => (
@@ -38,20 +38,20 @@ const Upload = () => {
   const classes = useStyles();
   const hiddenFileInput = React.useRef(null);
   const handleChange = event => {
-      const fileUploaded = event.target.files[0];
-      const FileName = fileUploaded.name;
-      let formData = new FormData();
-      formData.append("File",fileUploaded);
-      console.log("Start upload");
-      uploadapi.sendFile(formData, ReloadPage());
+    const fileUploaded = event.target.files[0];
+    const FileName = fileUploaded.name;
+    let formData = new FormData();
+    formData.append("File", fileUploaded);
+    console.log("Start upload");
+    uploadapi.sendFile(formData, ReloadPage());
   };
 
   const ReloadPage = () => {
     console.log("Upload done -> reload page");
     /*window.location.reload();*/
-}
+  }
 
-  
+
   const XMLSubmit = () => {
     uploadapi.sendXML(xml, path);
   };
@@ -64,26 +64,26 @@ const Upload = () => {
     uploadapi.sendBF(bf, path);
   };
 
-  const [kbhlist,setKBHList] = useState([]);
-  const [xmllist,setXMLList] = useState([]);
-  const [bflist,setBFList] = useState([]);
+  const [kbhlist, setKBHList] = useState([]);
+  const [xmllist, setXMLList] = useState([]);
+  const [bflist, setBFList] = useState([]);
   const [xml, setXML] = useState([]);
   const [kbh, setKBH] = useState([]);
   const [bf, setBF] = useState([]);
   const [path, setPath] = useState([]);
   const [offset, setOffset] = useState(0);
-  const offsetlist = [{'value': 0, 'label': '0'},
-                      {'value': 50, 'label': '50'},
-                      {'value': 100, 'label': '100'},
-                      {'value': 150, 'label': '150'},
-                      {'value': 200, 'label': '200'}];
+  const offsetlist = [{ 'value': 0, 'label': '0' },
+  { 'value': 50, 'label': '50' },
+  { 'value': 100, 'label': '100' },
+  { 'value': 150, 'label': '150' },
+  { 'value': 200, 'label': '200' }];
 
   useEffect(() => {
     uploadapi.getpath((data) => {
       setPath(data);
     });
   }, []);
-  
+
   useEffect(() => {
     uploadapi.getkbh((data) => {
       setKBHList(data);
@@ -118,7 +118,7 @@ const Upload = () => {
     setOffset(event.target.value);
     uploadapi.getbf(event.target.value, (data) => {
       setBFList(data)
-      });
+    });
   };
 
   return (
@@ -139,100 +139,101 @@ const Upload = () => {
             <p>You can upload BeerXML recipe files or the Kleiner Brauhelfer V2 database .</p>
           </Paper>
         </Grid>
-      	  
+
         <Grid item spacing={2} xs={12}>
           <Paper style={{ padding: 10 }}>
-              <Button variant="contained" component="label">
+            <Button variant="contained" component="label">
               Upload BeerXML File or KBH V2 database file
-              <input ref={hiddenFileInput} 
-                     type="file" 
-                     onChange={handleChange}
-                     hidden
-                     />
-              </Button> 
+              <input ref={hiddenFileInput}
+                type="file"
+                onChange={handleChange}
+                hidden
+                accept=".xml,.sqlite"
+              />
+            </Button>
           </Paper>
         </Grid>
-      
-      <Divider style={{ marginBottom: 10, marginTop: 10 }} />
-      <TableContainer component={Paper}>
-        <Table aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Select Recipe</TableCell>
-              <TableCell>
 
-              </TableCell>
-              <TableCell align="right">Create</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>    
-          
+        <Divider style={{ marginBottom: 10, marginTop: 10 }} />
+        <TableContainer component={Paper}>
+          <Table aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Select Recipe</TableCell>
+                <TableCell>
+
+                </TableCell>
+                <TableCell align="right">Create</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+
               <TableRow>
                 <TableCell>
                   <InputLabel id="demo-simple-select-helper-label">BeerXML Recipe from uploaded file</InputLabel>
-                  <SelectBox options={xmllist} value={xml} onChange={XMLChange} />   
+                  <SelectBox options={xmllist} value={xml} onChange={XMLChange} />
                 </TableCell>
                 <TableCell>
 
                 </TableCell>
                 <TableCell align="right">
                   <Button variant="contained" component="label" >
-                  Create Recipe from BeerXML recipe
-                  <input
-                    value={xml}
-                    onClick={XMLSubmit}
-                    hidden
-                  />
-                  </Button> 
+                    Create Recipe from BeerXML recipe
+                    <input
+                      value={xml}
+                      onClick={XMLSubmit}
+                      hidden
+                    />
+                  </Button>
                 </TableCell>
               </TableRow>
               <TableRow>
                 <TableCell>
                   <InputLabel id="demo-simple-select-helper-label">Recipe from Kleiner Brauhelfer Database</InputLabel>
-                  <SelectBox options={kbhlist} value={kbh} onChange={KBHChange} />   
+                  <SelectBox options={kbhlist} value={kbh} onChange={KBHChange} />
                 </TableCell>
                 <TableCell>
 
                 </TableCell>
                 <TableCell align="right">
                   <Button variant="contained" component="label" >
-                  Create Recipe from KBH Database
-                  <input
-                    value={kbh}
-                    onClick={KBHSubmit}
-                    hidden
-                  />
-                  </Button> 
+                    Create Recipe from KBH Database
+                    <input
+                      value={kbh}
+                      onClick={KBHSubmit}
+                      hidden
+                    />
+                  </Button>
                 </TableCell>
               </TableRow>
               <TableRow>
                 <TableCell>
                   <InputLabel id="demo-simple-select-helper-label">Brewfather Recipes (50 Items max)</InputLabel>
-                  <SelectBox options={bflist} value={bf} onChange={BFChange} /> 
+                  <SelectBox options={bflist} value={bf} onChange={BFChange} />
                 </TableCell>
-                <TableCell>  
+                <TableCell>
                   <InputLabel id="demo-simple-select-helper-label">Recipe Offset (display 50 items after offset)</InputLabel>
                   <SelectBox options={offsetlist} value={offset} onChange={OffsetChange} />
                 </TableCell>
                 <TableCell align="right">
                   <Button variant="contained" component="label" >
-                  Create Recipe from Brewfather Web App
-                  <input
-                    value={bf}
-                    onClick={BFSubmit}
-                    hidden
-                  />
-                  </Button> 
+                    Create Recipe from Brewfather Web App
+                    <input
+                      value={bf}
+                      onClick={BFSubmit}
+                      hidden
+                    />
+                  </Button>
                 </TableCell>
               </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>  
+            </TableBody>
+          </Table>
+        </TableContainer>
 
-      
+
       </Grid>
-     
-      
+
+
     </div>
   );
 };

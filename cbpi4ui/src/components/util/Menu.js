@@ -10,6 +10,7 @@ import PowerIcon from '@material-ui/icons/Power';
 import SettingsIcon from '@material-ui/icons/Settings';
 import TimelineIcon from '@material-ui/icons/Timeline';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import ComputerIcon from '@material-ui/icons/Computer';
 import React from 'react';
 import {
 
@@ -46,6 +47,7 @@ const Menu = ({onClose}) => {
         <MenuItem onClose={onClose} label="Analytics" path="/charting"><TimelineIcon /></MenuItem>
         <MenuItem onClose={onClose} label="Plugins" path="/plugins"><PowerIcon /></MenuItem>
         <MenuItem onClose={onClose} label="Recipe Upload" path="/upload"><CloudUploadIcon /></MenuItem>
+        <MenuItem onClose={onClose} label="System" path="/system"><ComputerIcon /></MenuItem>
         <MenuItem onClose={onClose} label="About" path="/about"><InfoIcon /></MenuItem>
     </List>
 }

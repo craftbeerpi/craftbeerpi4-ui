@@ -14,6 +14,7 @@ import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 import About from "./components/about";
 import Upload from "./components/upload";
+import CBPiSystem from "./components/system";
 import Dashboard2 from "./components/dashboard/Dashboard";
 import Hardware from "./components/hardware";
 import ActorForm from "./components/hardware/ActorForm";
@@ -176,6 +177,9 @@ const CraftBeerPiApp = () => {
                   </Route>
                   <Route path="/upload">
                     <Upload />
+                  </Route>
+                  <Route path="/system">
+                    <CBPiSystem />
                   </Route>
                   <Route path="/hardware">
                     <Hardware />
