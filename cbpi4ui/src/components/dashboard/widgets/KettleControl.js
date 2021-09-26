@@ -202,7 +202,7 @@ export const KettleControl = ({ id }) => {
       }
     };
     
-    console.log(kettle?.state, heater?.state  )
+    //console.log(kettle?.state, heater?.state  )
     return (
       <>
         <ButtonGroup size={size()} disabled={state.draggable || !model.props.kettle} orientation={orientation} color="primary" aria-label="contained primary button group">

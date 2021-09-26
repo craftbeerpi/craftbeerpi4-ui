@@ -1,6 +1,5 @@
 import axios from "axios";
 
-
 const restart = (callback_susscess = () => { }, callback_failed = () => { }) => {
   axios
     .post("/system/restart")
@@ -31,24 +30,14 @@ const backupConfig = (callback_susscess = () => { }, callback_failed = () => { }
   })
     .then(function (response) {
       callback_susscess(response.data);
-      console.log(response.headers);
-
+      
       const blob = new Blob([response.data], { type: 'application/octet-stream' });
-      console.log(blob);
-
       const downloadUrl = window.URL.createObjectURL(blob);
-
-
       const link = document.createElement('a');
-
       link.href = downloadUrl;
-
       link.setAttribute('download', 'cbpi4_config.zip'); //any other extension
-
       document.body.appendChild(link);
-
       link.click();
-
       link.remove();
     })
 
@@ -67,7 +56,7 @@ const restoreConfig = (data) => {
     })
       .then(function (response) {
         callback_susscess(response);
-      })
+       })
       .catch(function (error) {
         callback_failed();
       });

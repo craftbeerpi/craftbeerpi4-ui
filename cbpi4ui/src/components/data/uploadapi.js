@@ -1,8 +1,8 @@
 import axios from "axios";
 
-const getkbh = (callback_susscess = () => {}, callback_failed = () => {}) => {
+const getkbh = (callback_susscess = () => { }, callback_failed = () => { }) => {
   axios
-    .get("/upload/kbh" )
+    .get("/upload/kbh")
     .then(function (response) {
       callback_susscess(response.data);
     })
@@ -11,9 +11,9 @@ const getkbh = (callback_susscess = () => {}, callback_failed = () => {}) => {
     });
 };
 
-const sendKBH = (id, path, callback_susscess = () => {}, callback_failed = () => {}) => {
+const sendKBH = (id, path, callback_susscess = () => { }, callback_failed = () => { }) => {
   axios
-    .post("/" + path + "/kbh" , {id})
+    .post("/" + path + "/kbh", { id })
     .then(function (response) {
       callback_susscess();
     })
@@ -22,9 +22,9 @@ const sendKBH = (id, path, callback_susscess = () => {}, callback_failed = () =>
     });
 };
 
-const getxml = (callback_susscess = () => {}, callback_failed = () => {}) => {
+const getxml = (callback_susscess = () => { }, callback_failed = () => { }) => {
   axios
-    .get("/upload/xml" )
+    .get("/upload/xml")
     .then(function (response) {
       callback_susscess(response.data);
     })
@@ -33,9 +33,9 @@ const getxml = (callback_susscess = () => {}, callback_failed = () => {}) => {
     });
 };
 
-const sendXML = (id, path, callback_susscess = () => {}, callback_failed = () => {}) => {
+const sendXML = (id, path, callback_susscess = () => { }, callback_failed = () => { }) => {
   axios
-    .post("/" + path + "/xml" , {id})
+    .post("/" + path + "/xml", { id })
     .then(function (response) {
       callback_susscess();
     })
@@ -44,9 +44,9 @@ const sendXML = (id, path, callback_susscess = () => {}, callback_failed = () =>
     });
 };
 
-const getbf = (offset, callback_susscess = () => {}, callback_failed = () => {}) => {
+const getbf = (offset, callback_susscess = () => { }, callback_failed = () => { }) => {
   axios
-    .post("/upload/bf/"+offset+"/")
+    .post("/upload/bf/" + offset + "/")
     .then(function (response) {
       callback_susscess(response.data);
     })
@@ -56,9 +56,9 @@ const getbf = (offset, callback_susscess = () => {}, callback_failed = () => {})
 };
 
 
-const sendBF = (id, path, callback_susscess = () => {}, callback_failed = () => {}) => {
+const sendBF = (id, path, callback_susscess = () => { }, callback_failed = () => { }) => {
   axios
-    .post("/" + path + "/bf" , {id})
+    .post("/" + path + "/bf", { id })
     .then(function (response) {
       callback_susscess();
     })
@@ -68,26 +68,26 @@ const sendBF = (id, path, callback_susscess = () => {}, callback_failed = () => 
 };
 
 const sendFile = (data) => {
-  return new Promise(function (callback_susscess = () => {}, callback_failed = () => {}) {
-  axios({
-   method: 'post',
-   url: '/upload',
-   data: data,
-   headers: {'Content-Type': 'multipart/form-data'}
-  })
-   .then(function (response) {
-     callback_susscess(response);
-     window.location.reload()
-   })
-   .catch(function (error) {
-     callback_failed();
-   });
-});
+  return new Promise(function (callback_susscess = () => { }, callback_failed = () => { }) {
+    axios({
+      method: 'post',
+      url: '/upload',
+      data: data,
+      headers: { 'Content-Type': 'multipart/form-data' }
+    })
+      .then(function (response) {
+        callback_susscess(response);
+        window.location.reload()
+      })
+      .catch(function (error) {
+        callback_failed();
+      });
+  });
 };
 
-const getpath = (callback_susscess = () => {}, callback_failed = () => {}) => {
+const getpath = (callback_susscess = () => { }, callback_failed = () => { }) => {
   axios
-    .get("/upload/getpath" )
+    .get("/upload/getpath")
     .then(function (response) {
       callback_susscess(response.data['path']);
     })
@@ -105,4 +105,4 @@ export const uploadapi = {
   sendBF,
   sendFile,
   getpath,
-  }
+}

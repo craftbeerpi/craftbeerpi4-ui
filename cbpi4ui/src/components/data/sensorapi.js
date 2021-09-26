@@ -33,9 +33,20 @@ const remove = (id, callback_susscess = () => {}, callback_failed = () => {}) =>
     });
 };
 
+const action = (id, name, parameter, callback_susscess = () => {}, callback_failed = () => {}) => {
+  axios
+    .post("/sensor/"+id + "/action", {action:name, parameter})
+    .then(function (response) {
+      callback_susscess();
+    })
+    .catch(function (error) {
+      callback_failed();
+    });
+};
 
 export const sensorapi = {
   add,
   remove,
-  save
+  save,
+  action
 }
