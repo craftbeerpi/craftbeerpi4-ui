@@ -12,8 +12,10 @@ import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import SearchIcon from "@material-ui/icons/Search";
-import React, { useContext, useState } from "react";
+import React, { useEffect, useContext, useState } from "react";
+import { Link } from "react-router-dom";
 import { CBPiContext } from "../data";
+import { pluginapi } from "../data/pluginapi";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,8 +34,11 @@ const useStyles = makeStyles((theme) => ({
 
 const CBPiCard = ({item}) => {
   const classes = useStyles();
-
-  return (
+  let homepage = true;
+  if (item?.Homepage === "UNKNOWN" ) {
+    homepage = false;
+  }
+    return (
    
     <Card className={classes.root}>
       <CardActionArea>
@@ -43,15 +48,23 @@ const CBPiCard = ({item}) => {
           title="Contemplative Reptile"
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-            {item?.name}
+          <Typography gutterBottom variant="h5" component="h3">
+            {item?.Name} ({item?.Version})
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            {item?.desc}
+            {item?.Summary}
           </Typography>
+          <Typography variant="body2" color="textSecondary" component="p">
+          Author: {item?.Author}
+          </Typography>
+          {homepage ? <Button href={item?.Homepage} color="primary" target="_blank" rel="noreferrer noopener">Homepage</Button> : ""}
+          {/*<Typography variant="body2" color="textSecondary" component="p">
+          Homepage: {item?.Homepage}
+          </Typography>*/}
         </CardContent>
       </CardActionArea>
-      <CardActions>
+     {/* 
+     <CardActions>
         <Button size="small" color="primary">
           Download
         </Button>
@@ -61,7 +74,8 @@ const CBPiCard = ({item}) => {
         <Button size="small" color="primary">
           Active
         </Button>
-      </CardActions>
+     </CardActions> 
+     */}
     </Card>
    
   );
@@ -70,6 +84,14 @@ const CBPiCard = ({item}) => {
 const Plugins = () => {
   const classes = useStyles();
   const { state } = useContext(CBPiContext);
+
+  const [plugininfo, setPluginInfo] = useState([]);
+
+  useEffect(() => {
+    pluginapi.getpluginlist((data) => {
+      setPluginInfo(data);
+    });
+  }, []);
 
   const [filter, setFilter] = useState("")
  
@@ -116,12 +138,8 @@ const Plugins = () => {
       </Breadcrumbs>
       <Divider />
 
-      <Grid>
-      <Typography color="textPrimary">Not yet available. To see list of installed plugins, use command line: cbpi plugins</Typography>
-      </Grid>
-
       <Grid container spacing={3} style={{ marginTop: 10 }}>
-        {plugins.map((item) => (
+        {plugininfo.map((item) => (
           <Grid item sm={4}>
             <CBPiCard item={item} />
           </Grid>
