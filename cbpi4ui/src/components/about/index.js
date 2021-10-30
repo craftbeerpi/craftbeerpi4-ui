@@ -4,6 +4,7 @@ import React from "react";
 import logo from "../../images/cbpi.png";
 import { useCBPi } from "../data";
 import paypal_logo from './paypal.png';
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,6 +44,8 @@ const About = () => {
             GitHub: http://github.com/manuel83 <br />
             Facebook: http://github.com/groups/craftbeerpi
             <br />
+            Openbrewing Documentation: <Button color="primary" target="_blank" href="https://openbrewing.gitbook.io/craftbeerpi4_support/" rel="noreferrer noopener">Link to Documentation</Button>
+            <br />
             <p>Cheers,</p>
             <p> Manuel Fritsch</p>
             <img width={30} src={logo} alt="Logo" /> CraftBeerPi
@@ -50,7 +53,7 @@ const About = () => {
         </Grid>
         <Grid item spacing={2} xs={12}>
           <Paper style={{ padding: 10 }}>
-            <h3>Licnese</h3>
+            <h3>License</h3>
             <p>GNU General Public License 3</p>
           </Paper>
         </Grid>
