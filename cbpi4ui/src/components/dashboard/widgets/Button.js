@@ -94,8 +94,7 @@ export const DashboardButton = ({ id, width, height }) => {
   const actor = useActor(model.props?.actor);
   const { actor: actorid, action } = model.props;
   const [open, setOpen] = useState(false);
-  const [boom, setBoom] = useState(false)
-
+  const [boom, setBoom] = useState(false);
   const config = {
     angle: 90,
     spread: 360,
@@ -130,6 +129,15 @@ export const DashboardButton = ({ id, width, height }) => {
       }
     };
 
+    const power = () => {
+      if (model.props?.actor && actor) {
+        console.log(actor.power)
+        return actor.power;
+      } else {
+        return "NV";
+      }
+    };
+
     const size = () => {
       if (model.props?.size) {
         let css={ fontSize: model.props.size+"px"};
@@ -148,7 +156,7 @@ export const DashboardButton = ({ id, width, height }) => {
         <div style={cssStyle}>
           <ButtonGroup>
             <Button disabled={draggable} onClick={toggle} fullWidth variant={btnVariant} color={btnColor}>
-            <div style={size()}> {name()} </div>
+            <div style={size()}> {name()}({power()}) </div>
             </Button>
             <Button disabled={draggable} onClick={handleOpen} color="primary" size="small" aria-label="select merge strategy" aria-haspopup="menu">
               <MoreVertIcon />
@@ -161,7 +169,7 @@ export const DashboardButton = ({ id, width, height }) => {
       return (
         <div style={cssStyle}>
           <Button disabled={draggable} onClick={toggle} fullWidth variant={btnVariant} color={btnColor}>
-          <div style={size()}> {name()} </div>
+          <div style={size()}> {name()} ({power()}) </div>
           </Button>
          
         </div>
