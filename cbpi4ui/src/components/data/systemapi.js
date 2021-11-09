@@ -74,10 +74,29 @@ const getsysteminfo = (callback_susscess = () => {}, callback_failed = () => {})
     });
 };
 
+const uploadSVG = (data) => {
+  return new Promise(function (callback_susscess = () => { }, callback_failed = () => { }) {
+    axios({
+      method: 'post',
+      url: '/system/uploadsvg',
+      data: data,
+      headers: { 'Content-Type': 'multipart/form-data' }
+    })
+      .then(function (response) {
+        callback_susscess(response);
+        window.location.reload()
+      })
+      .catch(function (error) {
+        callback_failed();
+      });
+  });
+};
+
 export const systemapi = {
   restart,
   shutdown,
   backupConfig,
   restoreConfig,
-  getsysteminfo
+  getsysteminfo,
+  uploadSVG
 }
