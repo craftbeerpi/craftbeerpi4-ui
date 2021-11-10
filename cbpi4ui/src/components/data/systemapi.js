@@ -84,7 +84,7 @@ const uploadSVG = (data) => {
     })
       .then(function (response) {
         callback_susscess(response);
-        window.location.reload()
+       // window.location.reload()
       })
       .catch(function (error) {
         callback_failed();

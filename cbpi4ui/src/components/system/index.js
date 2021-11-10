@@ -41,6 +41,7 @@ const CBPiSystem = () => {
   const svghandleChange = event => {
     const svgfileUploaded = event.target.files[0];
     const FileName = svgfileUploaded.name;
+    const FileSize = svgfileUploaded.size;
     let svgformData = new FormData();
     svgformData.append("File", svgfileUploaded);
     systemapi.uploadSVG(svgformData, ReloadPage());
@@ -147,7 +148,7 @@ const CBPiSystem = () => {
         <Table aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Restore Config (Please restart system afterwards)</TableCell>
+              <TableCell>Restore Config (Max: 5 Mb). (Please restart system afterwards)</TableCell>
               <TableCell>
 
               </TableCell>
@@ -186,7 +187,7 @@ const CBPiSystem = () => {
         <Table aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Upload SVG file to widgets folder</TableCell>
+              <TableCell>Upload SVG file to widgets folder (Max: 5 Mb)</TableCell>
               <TableCell>
 
               </TableCell>
