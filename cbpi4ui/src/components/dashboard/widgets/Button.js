@@ -131,7 +131,6 @@ export const DashboardButton = ({ id, width, height }) => {
 
     const power = () => {
       if (model.props?.actor && actor) {
-        console.log(actor.power)
         return actor.power + " %";
       } else {
         return "NV";

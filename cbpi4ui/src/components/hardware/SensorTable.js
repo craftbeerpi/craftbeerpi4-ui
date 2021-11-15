@@ -30,6 +30,12 @@ const SensorTable = () => {
     sensorapi.remove(id);
     actions.delete_sensor(id);
   };
+
+  function OneWireID(sensor) {
+    return sensor.props.Sensor ? sensor.props.Sensor : ""
+  };
+  
+
   return (
     <>
       <TableContainer component={Paper}>
@@ -41,7 +47,10 @@ const SensorTable = () => {
                 Type
               </TableCell>
               <TableCell align="right" className="hidden-xs">
-                ID
+                OneWire ID
+              </TableCell>
+              <TableCell align="right" className="hidden-xs">
+                Sensor ID
               </TableCell>
               <TableCell align="right" className="hidden-xs">
                 Value
@@ -61,7 +70,10 @@ const SensorTable = () => {
                   {row.type}
                 </TableCell>
                 <TableCell align="right" className="hidden-xs">
-                  {row.id}
+                  {OneWireID(row)}
+                </TableCell>
+                <TableCell align="right" className="hidden-xs">
+                  {row.id} 
                 </TableCell>
                 <TableCell align="right" className="hidden-xs">
                   <SensorValue id={row.id}/>
