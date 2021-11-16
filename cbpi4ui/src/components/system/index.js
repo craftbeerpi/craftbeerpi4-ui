@@ -8,6 +8,7 @@ import RestartDialog from "../util/RestartDialog";
 import ShutdownDialog from "../util/ShutdownDialog";
 import SaveIcon from "@material-ui/icons/Save";
 import RestoreIcon from '@material-ui/icons/Restore';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,6 +35,16 @@ const CBPiSystem = () => {
     let formData = new FormData();
     formData.append("File", fileUploaded);
     systemapi.restoreConfig(formData, ReloadPage());
+  };
+
+  const svghiddenFileInput = React.useRef(null);
+  const svghandleChange = event => {
+    const svgfileUploaded = event.target.files[0];
+    const FileName = svgfileUploaded.name;
+    const FileSize = svgfileUploaded.size;
+    let svgformData = new FormData();
+    svgformData.append("File", svgfileUploaded);
+    systemapi.uploadSVG(svgformData, ReloadPage());
   };
 
   const ReloadPage = () => {
@@ -137,7 +148,7 @@ const CBPiSystem = () => {
         <Table aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Restore Config (Please restart system afterwards)</TableCell>
+              <TableCell>Restore Config (Max: 5 Mb). (Please restart system afterwards)</TableCell>
               <TableCell>
 
               </TableCell>
@@ -160,6 +171,45 @@ const CBPiSystem = () => {
           </TableHead>
         </Table>
       </TableContainer>
+
+      <Grid container direction="row" justify="space-between" alignItems="center" style={{ marginTop: 10 }}>
+        <Grid item>
+          <Typography variant="h5" gutterBottom>
+            Dashboard functions 
+          </Typography>
+        </Grid>
+
+        <Grid item></Grid>
+      </Grid>
+      <Divider style={{ marginBottom: 10, marginTop: 10 }} />
+
+      <TableContainer component={Paper}>
+        <Table aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Upload SVG file to widgets folder (Max: 5 Mb)</TableCell>
+              <TableCell>
+
+              </TableCell>
+              <TableCell align="right">
+
+
+                <Grid>
+                  Upload:
+                  <input accept="image/svg+xml" ref={svghiddenFileInput} className={classes.input} id="icon-button-svgfile" type="file" hidden onChange={svghandleChange} />
+                  <label htmlFor="icon-button-svgfile">
+                    <IconButton className={classes.button} component="span">
+                      <CloudUploadIcon />
+                    </IconButton>
+                  </label>
+
+
+                </Grid>
+              </TableCell>
+            </TableRow>
+          </TableHead>
+        </Table>
+      </TableContainer>      
 
       <Grid container direction="row" justify="space-between" alignItems="center" style={{ marginTop: 10 }}>
         <Grid item>
