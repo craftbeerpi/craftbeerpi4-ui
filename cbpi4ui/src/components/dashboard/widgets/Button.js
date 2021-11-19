@@ -131,8 +131,12 @@ export const DashboardButton = ({ id, width, height }) => {
 
     const power = () => {
       if (model.props?.actor && actor) {
-        return actor.power + " %";
-      } else {
+        console.log(actor.power);
+        if(actor.power)
+          return actor.power + " %";
+      } 
+      else {
+        console.log(" FULL POWER")
         return "NV";
       }
     };
@@ -151,28 +155,56 @@ export const DashboardButton = ({ id, width, height }) => {
     const handleOpen = () => setOpen(true);
 
     if (action === "yes" && actor) {
-      return (
-        <div style={cssStyle}>
-          <ButtonGroup>
-            <Button disabled={draggable} onClick={toggle} fullWidth variant={btnVariant} color={btnColor}>
-            <div style={size()}> {name()}({power()}) </div>
-            </Button>
-            <Button disabled={draggable} onClick={handleOpen} color="primary" size="small" aria-label="select merge strategy" aria-haspopup="menu">
-              <MoreVertIcon />
-            </Button>
-          </ButtonGroup>
-          <ButtonActionDialog open={open} onClose={handleClose} model={model} actor={actor} />
-        </div>
-      );
+      if (power())
+      {
+        return (
+          <div style={cssStyle}>
+            <ButtonGroup>
+              <Button disabled={draggable} onClick={toggle} fullWidth variant={btnVariant} color={btnColor}>
+              <div style={size()}> {name()}({power()}) </div>
+              </Button>
+              <Button disabled={draggable} onClick={handleOpen} color="primary" size="small" aria-label="select merge strategy" aria-haspopup="menu">
+                <MoreVertIcon />
+              </Button>
+            </ButtonGroup>
+            <ButtonActionDialog open={open} onClose={handleClose} model={model} actor={actor} />
+          </div>
+        );
+      }
+      else {
+        return (
+          <div style={cssStyle}>
+            <ButtonGroup>
+              <Button disabled={draggable} onClick={toggle} fullWidth variant={btnVariant} color={btnColor}>
+              <div style={size()}> {name()} </div>
+              </Button>
+              <Button disabled={draggable} onClick={handleOpen} color="primary" size="small" aria-label="select merge strategy" aria-haspopup="menu">
+                <MoreVertIcon />
+              </Button>
+            </ButtonGroup>
+            <ButtonActionDialog open={open} onClose={handleClose} model={model} actor={actor} />
+          </div>
+        );
+      }
     } else {
-      return (
+      if (power())
+      {
+        return (
+          <div style={cssStyle}>
+            <Button disabled={draggable} onClick={toggle} fullWidth variant={btnVariant} color={btnColor}>
+            <div style={size()}> {name()} ({power()}) </div>
+            </Button>
+          </div>
+        );
+      }
+      else{
+        return (
         <div style={cssStyle}>
           <Button disabled={draggable} onClick={toggle} fullWidth variant={btnVariant} color={btnColor}>
-          <div style={size()}> {name()} ({power()}) </div>
+          <div style={size()}> {name()} </div>
           </Button>
-         
         </div>
-      );
+      )}
     }
   }, [model.props?.actor, model.props?.size, model.props?.action, model.name, actor, id, open, draggable]);
 };
