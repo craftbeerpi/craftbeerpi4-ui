@@ -48,7 +48,7 @@ export const DashboardProvider = ({ children }) => {
     setDashboardX(data);
     }); 
 
-  const delelteKeyPressed = useKeyPress(8);
+  const deleteKeyPressed = useKeyPress(8);
 
     useEffect(() => {
     dashboardapi.dashboardnumbers((data) => {
@@ -56,17 +56,33 @@ export const DashboardProvider = ({ children }) => {
     });
   }, []);
   
+  
   useEffect(() => {
-    if (selected && selected.type === "P") {
-      const data = [...pathes];
-      const index = data.findIndex((e) => e.id === selected.id);
-      data.splice(index, 1);
-      setPathes([...data]);
+   // Execute path suppression on if deleteKeyPressed is true, whitout this test, we pass inside the code at the KeyUp event. 
+   if (deleteKeyPressed === true)
+    {
+      if (selected && selected.type === "P") 
+      {
+        // Get pathes in react states
+        const data = [...pathes];
+        
+        // Get the selected path index
+        const index = data.findIndex((e) => e.id === selected.id);
+
+        // Remove that path from the path array.
+        data.splice(index, 1);
+        //Update Pathes
+        setPathes(data);
+      }
     }
-    if (selected && selected.type === "E") {
+
+
+      if (selected && selected.type === "E")
+      {
+        console.log("DEBUG : Remove item id : " + selected.id + " de type : " + selected.type)
         remove(selected.id)
-    }
-  }, [delelteKeyPressed]);
+      }
+  }, [deleteKeyPressed]);
 
   const load = (width, height, DashboardID = 1) => {
     dashboardapi.get(DashboardID, (data) => {
@@ -136,9 +152,34 @@ export const DashboardProvider = ({ children }) => {
 
   };
 
-  const update_path_condition = (id, data) => {
+  // New method for updating path animation condition based on boolean expression 
+  const update_path_condition_exp = (id, direction, data) => {
+ 
+    var dataForInit = {left: [], right: [] };
+    update_path_condition(id,dataForInit,"");
+
     const index = pathes.findIndex((e) => e.id === id);
     const temp_pathes = [...pathes];
+    if(direction === "leftExpression"){
+        console.log("update expression left : " + data)
+        console.log(temp_pathes[index])
+        temp_pathes[index].condition.leftExpression = data;
+    }
+    if(direction=== "rightExpression"){
+      console.log("update expression right : " + data)
+      console.log(temp_pathes[index])
+      temp_pathes[index].condition.rightExpression = data;
+    }
+
+    setPathes([...temp_pathes]);
+  };
+
+  const update_path_condition = (id, data, direction) => {
+    console.log("update condition : " + id + ", direction : " + direction + ", data : " + data)
+    const index = pathes.findIndex((e) => e.id === id);
+    const temp_pathes = [...pathes];
+    console.log("data temp_pathes : ")
+    console.log(temp_pathes)
     temp_pathes[index].condition = data;
 
     setPathes([...temp_pathes]);
@@ -231,6 +272,7 @@ export const DashboardProvider = ({ children }) => {
       update_default_prop,
       update_prop,
       update_path_condition,
+      update_path_condition_exp, // New Method added for the boolean expression
       update_coordinates,
       setDraggable,
       update_path,
