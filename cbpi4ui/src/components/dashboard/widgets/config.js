@@ -14,6 +14,7 @@ import { Led } from "./Led";
 import { Liquid } from './Liquid';
 import { SensorData } from "./SensorData";
 import Steps from "./Steps";
+import { Path } from './Path';
 import KettleSVG from "./svg/kettle.svg";
 import TankSVG from "./svg/tank2.svg";
 import { TargetTemp } from "./TargetTemp";

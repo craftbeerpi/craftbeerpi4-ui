@@ -11,12 +11,14 @@ const useKeyPress = (key) => {
   useEffect(() => {
     const downHandler = (e) => {
       if (!isInputDOMNode(e) && key === e.keyCode) {
+        console.log("----------- KEY DOWN -----------")
         setKeyPressed(() => true);
       }
     };
 
     const upHandler = (e) => {
       if (!isInputDOMNode(e) && key === e.keyCode) {
+        console.log("----------- KEY UP -----------")
         setKeyPressed(() => false);
       }
     };
