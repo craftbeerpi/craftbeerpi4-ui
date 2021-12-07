@@ -131,12 +131,10 @@ export const DashboardButton = ({ id, width, height }) => {
 
     const power = () => {
       if (model.props?.actor && actor) {
-        console.log(actor.power);
         if(actor.power)
           return actor.power + " %";
       } 
       else {
-        console.log(" FULL POWER")
         return "NV";
       }
     };
