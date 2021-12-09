@@ -3,7 +3,7 @@ import { useActor } from "../../data";
 import classNames from 'classnames';
 import { DashboardContext } from "../DashboardContext";
 
-export const Path = ({ id, coordinates, condition = null, stroke = 10, max_x = 400, max_y = 600 }) => {
+export const Path = ({ id, coordinates, condition = {left: [], right: [], leftExpression:null, rightExpression:null }, stroke = 10, max_x = 400, max_y = 600 }) => {
   const { state, actions } = useContext(DashboardContext);
   const actor = useActor();
   const [data, setData] = useState(coordinates);
@@ -15,6 +15,8 @@ export const Path = ({ id, coordinates, condition = null, stroke = 10, max_x = 4
   const [rightExpression, SetFlowExpRight] = useState(false); // rightExpression and useState Hook for SetFlowRightExp
   const [leftExpression, SetFlowExpLeft] = useState(false);   // leftExpression and useState Hook for SetFlowleftExp
 
+  const p = state.pathes.find((e) => e.id === id);
+
   useEffect(() => {
     
     const actor_cache = actor.reduce((obj, item) => {
@@ -24,32 +26,34 @@ export const Path = ({ id, coordinates, condition = null, stroke = 10, max_x = 4
 
         // Add a cache of actor states by name, used for calculate the expression
     const actor_cacheFromName = actor.reduce((obj, item) => {
-      console.log("DEBUG : Item : " + item.name + " State : " + item.state)
+     // console.log("DEBUG : Item : " + item.name + " State : " + item.state)
       obj[item.name] = item.state;
-      console.log(obj)
       return obj;
     }, {});  
 
-    const p = state.pathes.find((e) => e.id === id);
-
+    // split the expression
+    var bStateAction = false;    
 
     // Add a control to check if a boolean expression is added in path properties
     // If an expression is present in the left or right direction, we don't check the checked value for calculating animation state. 
-    if((!p.condition?.leftExpression || p.condition?.leftExpression.length === 0) 
-        && (!p.condition?.rightExpression || p.condition?.rightExpression.length === 0))
+    if((!p.condition?.leftExpression || p.condition?.leftExpression.length === 0) )
     {
       if (!p.condition?.left || p.condition?.left.length === 0) 
       {
-        setFlowLeft(false)
+        setFlowLeft(false);
+        console.log("SetFlow Left OFF");
       } 
       else 
       {
         setFlowLeft(p.condition?.left.reduce((sum, next) => sum && actor_cache[next], true));
       }
-
+    }
+    if(!p.condition?.rightExpression || p.condition?.rightExpression.length === 0)
+    {
       if (!p.condition?.right || p.condition?.right.length === 0) 
       {
-        setFlowRight(false)
+        console.log("SetFlow Right OFF");
+        setFlowRight(false);
       }
       else 
       {
@@ -57,49 +61,14 @@ export const Path = ({ id, coordinates, condition = null, stroke = 10, max_x = 4
       }
     }
 
-    // If the leftexpression value is entered in the path property.
-    // TODO : variable count optimisation
-    if(p.condition?.leftExpression)
-    {
-      // split the expression
-      var actorsId = p.condition.leftExpression.split("\"");
-      var bStateAction = false;
-      var boolExpressionLeft;
-      boolExpressionLeft = p.condition.leftExpression
-      
-      // For each part of the string, we check if this is an actor name, if so we replace the actor name by the resulting state.  
-      for(var actorId of actorsId)
-      {
-        // Check if we process an actorId
-        if(typeof actor_cacheFromName[actorId] === "boolean") 
-        {            
-          boolExpressionLeft = boolExpressionLeft.replace('\"'+ actorId + '\"', actor_cacheFromName[actorId].toString());
-        }
-      }
-      // Evaluation of the expression
-      // TODO : in order to be safer, plane to use something else than eval (in the craftbeerpi context, i'm not sur it can cause any security problem : TO BE CONFIRMED)
-      try 
-      {
-        bStateAction = eval(boolExpressionLeft);
-        setFlowLeft(bStateAction, true);
-      } 
-      catch (error) 
-      {
-        console.error("Evaluation of boolean expression right failure : check your boolean expression for path animation");
-      }
-    }
-    
     // If the rightExpression value is entered in the path property.
-    // TODO : variable count optimisation
     if(p.condition?.rightExpression)
     { 
-      // split the expression
-      var actorsId =p.condition.rightExpression.split("\"");
-      var bStateAction = false;
-      var boolExpressionRight;
-      boolExpressionRight = p.condition.rightExpression
-
+      bStateAction = false;
+      var boolExpressionRight = p.condition.rightExpression;
+      const actorsId =p.condition.rightExpression.split("\"");
       
+      console.log("On check l'expression RIGHT : "+ boolExpressionRight);
 
       // For each part of the string, we check if this is an actor name, if so we replace the actor name by the resulting state.  
       for(var actorId of actorsId) 
@@ -107,23 +76,65 @@ export const Path = ({ id, coordinates, condition = null, stroke = 10, max_x = 4
         // Check if we process an actorId
         if(typeof actor_cacheFromName[actorId] === "boolean") // Check if this is an actor ID or just an operator.
         {
-          boolExpressionRight.replace('\"' +  actorId + '\"', actor_cacheFromName[actorId].toString());
+          boolExpressionRight = boolExpressionRight.replace('\"' +  actorId + '\"', actor_cacheFromName[actorId].toString());
+          console.log("Eval right after replace : " + boolExpressionRight)
         }
       }
       // Evaluation of the expression
       // TODO : in order to be safer, plane to use something else than eval (in the craftbeerpi context, i'm not sur it can cause any security problem : TO BE CONFIRMED)
-      bStateAction = eval(boolExpressionRight);
-      if (bStateAction != undefined)
+      try
       {
-        console.trace("Left, Eval de : " + boolExpressionRight + "  Result = " + bStateAction.toString());
-        setFlowRight(bStateAction, true);
+        bStateAction = eval(boolExpressionRight);
+        console.log("right, Eval de : " + boolExpressionRight + "  Result = " + bStateAction.toString());
+        console.log("EvalRightAnimation : " + bStateAction.toString());
+        if(bStateAction ===true || bStateAction === false){   
+          console.log("On anime a right ..." + bStateAction);     
+          setFlowRight(bStateAction, true);
+        } 
+
       }
-      else
-      {
-        console.trace("Evaluation of boolean expression failure : check your boolean expression for path animation");
+      catch(error){
+        console.trace("Evaluation of boolean expression Right failure : check your boolean expression for path animation");
       }
     }
 
+     // If the leftexpression value is entered in the path property.
+     if(p.condition?.leftExpression)
+     { 
+       bStateAction = false;
+       var boolExpressionLeft = p.condition.leftExpression;
+       
+       const actorsId = p.condition.leftExpression.split("\"");
+       console.log("On check l'expression LEFT : "+ boolExpressionLeft);
+       
+       // For each part of the string, we check if this is an actor name, if so we replace the actor name by the resulting state.  
+       
+              for(var actorId of actorsId)
+       {
+         // Check if we process an actorId
+         if(typeof actor_cacheFromName[actorId] === "boolean") 
+         {            
+          boolExpressionLeft =  boolExpressionLeft.replace('\"'+ actorId + '\"', actor_cacheFromName[actorId].toString());
+           console.log("Eval left after replace : " + boolExpressionLeft)
+         }
+       }
+       // Evaluation of the expression
+       // TODO : in order to be safer, plane to use something else than eval (in the craftbeerpi context, i'm not sur it can cause any security problem : TO BE CONFIRMED)
+       try 
+       {
+         bStateAction = eval(boolExpressionLeft);
+         console.log("Left, Eval de : " + boolExpressionLeft + "  Result = " + bStateAction.toString());
+         console.log("EvalLeftAnimation : " + bStateAction.toString());
+         if(bStateAction ===true || bStateAction === false){      
+           console.log("On anime a left ..." + bStateAction);
+           setFlowLeft(bStateAction, true);
+         }
+       } 
+       catch (error) 
+       {
+         console.error("Evaluation of boolean expression left failure : check your boolean expression for path animation");
+       }
+     }
 
   }, [actor]);
 

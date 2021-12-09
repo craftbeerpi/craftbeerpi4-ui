@@ -183,7 +183,7 @@ const PathSettings = () => {
         newChecked.splice(currentIndex, 1);
       }
       setChecked(newChecked);
-      actions.update_path_condition(selected_id, {left: newChecked, right: checkedRight},direction);
+      actions.update_path_condition(selected_id, newChecked, checkedRight,direction);
     } else {
       const currentIndex = checkedRight.indexOf(value);
       const newChecked = [...checkedRight];
@@ -194,7 +194,7 @@ const PathSettings = () => {
         newChecked.splice(currentIndex, 1);
       }
       setCheckedRight(newChecked);
-      actions.update_path_condition(selected_id, {left: checked, right: newChecked},direction);
+      actions.update_path_condition(selected_id, checked, newChecked,direction);
     }
   };
 

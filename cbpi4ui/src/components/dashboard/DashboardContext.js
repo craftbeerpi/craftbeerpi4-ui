@@ -79,7 +79,7 @@ export const DashboardProvider = ({ children }) => {
 
       if (selected && selected.type === "E")
       {
-        console.log("DEBUG : Remove item id : " + selected.id + " de type : " + selected.type)
+        //console.log("DEBUG : Remove item id : " + selected.id + " de type : " + selected.type)
         remove(selected.id)
       }
   }, [deleteKeyPressed]);
@@ -108,6 +108,7 @@ export const DashboardProvider = ({ children }) => {
       setElements({ ...data_model });
       setElements2(data_model2);  
       let dm = data.pathes.map((v) => ({ ...v, instance: <Path key={v.id} id={v.id} coordinates={v.coordinates} condition={v.condition} max_x={width} max_y={height} /> }));
+
       setPathes(dm);
     });
 
@@ -154,18 +155,22 @@ export const DashboardProvider = ({ children }) => {
 
   // New method for updating path animation condition based on boolean expression 
   const update_path_condition_exp = (id, direction, data) => {
- 
-    var dataForInit = {left: [], right: [] };
-    update_path_condition(id,dataForInit,"");
 
     const index = pathes.findIndex((e) => e.id === id);
     const temp_pathes = [...pathes];
+
+    if(!temp_pathes[index].condition){ 
+      // if condition is empty we create it to default values (empty) 
+       var dataForInit = {left: [], right: [] };
+      update_path_condition(id,dataForInit,"");
+    }
+
     if(direction === "leftExpression"){
         console.log("update expression left : " + data)
         console.log(temp_pathes[index])
         temp_pathes[index].condition.leftExpression = data;
     }
-    if(direction=== "rightExpression"){
+    if(direction === "rightExpression"){
       console.log("update expression right : " + data)
       console.log(temp_pathes[index])
       temp_pathes[index].condition.rightExpression = data;
@@ -174,14 +179,20 @@ export const DashboardProvider = ({ children }) => {
     setPathes([...temp_pathes]);
   };
 
-  const update_path_condition = (id, data, direction) => {
-    console.log("update condition : " + id + ", direction : " + direction + ", data : " + data)
+  const update_path_condition = (id, dataLeft, dataRight, direction) => {
     const index = pathes.findIndex((e) => e.id === id);
     const temp_pathes = [...pathes];
     console.log("data temp_pathes : ")
     console.log(temp_pathes)
-    temp_pathes[index].condition = data;
-
+    if(direction === "left"){
+      console.log("update condition : " + id + ", direction : " + direction + ", data : " + dataLeft)
+      temp_pathes[index].condition.left = dataLeft;
+    }
+    if(direction === "right"){
+      console.log("update condition : " + id + ", direction : " + direction + ", data : " + dataRight)  
+      console.log("!!!! DEBUG CONDITION !!!! " + temp_pathes[index].condition)
+      temp_pathes[index].condition.right = dataRight;
+    }
     setPathes([...temp_pathes]);
   };
 
@@ -221,7 +232,11 @@ export const DashboardProvider = ({ children }) => {
       [100, 10],
       [100, 110],
     ];
-    setPathes([...pathes, { id, path: data, instance: <Path id={id} coordinates={data} condition={null} max_x={width} max_y={height} /> }]);
+    const conditionInitData = {left: [], right: [], leftExpression:"", rightExpression:"" };
+    //setPathes([...pathes, { id, path: data, instance: <Path id={id} coordinates={data} condition={conditionInitData} max_x={width} max_y={height} /> }]);
+    setPathes([...pathes, { id, path: data, condition: conditionInitData, instance: <Path id={id} coordinates={data} condition={conditionInitData} max_x={width} max_y={height} /> }]);
+    console.log("DEBUG PAHT ADD : ")
+    console.log(pathes);
   };
 
   const get_data = (id) => {
@@ -235,6 +250,8 @@ export const DashboardProvider = ({ children }) => {
   const save = (DashboardID = 1) => {
     let e = elements2.map((value) => ({ id: value.id, name: value.name, x: value.x, y: value.y, type: value.type, props: { ...value.props } }));
     let p = pathes.map((value) => ({ id: value.id, coordinates: value.coordinates, condition: value.condition }));
+    console.log("DEBUG CONDITION SAVED")
+    console.log(p);
     dashboardapi.save(DashboardID, { elements: e, pathes: p }, () => {
       
     });
