@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "./static/css/main.c6f55200.chunk.css",
-    "main.js": "./static/js/main.084d323b.chunk.js",
-    "main.js.map": "./static/js/main.084d323b.chunk.js.map",
-    "runtime-main.js": "./static/js/runtime-main.5a634ebd.js",
-    "runtime-main.js.map": "./static/js/runtime-main.5a634ebd.js.map",
-    "static/js/2.10f86b1b.chunk.js": "./static/js/2.10f86b1b.chunk.js",
-    "static/js/2.10f86b1b.chunk.js.map": "./static/js/2.10f86b1b.chunk.js.map",
-    "static/js/3.6200cac4.chunk.js": "./static/js/3.6200cac4.chunk.js",
-    "static/js/3.6200cac4.chunk.js.map": "./static/js/3.6200cac4.chunk.js.map",
+    "main.css": "./static/css/main.940f4214.chunk.css",
+    "main.js": "./static/js/main.b7fda8f6.chunk.js",
+    "main.js.map": "./static/js/main.b7fda8f6.chunk.js.map",
+    "runtime-main.js": "./static/js/runtime-main.067ea13e.js",
+    "runtime-main.js.map": "./static/js/runtime-main.067ea13e.js.map",
+    "static/js/2.6d886ddb.chunk.js": "./static/js/2.6d886ddb.chunk.js",
+    "static/js/2.6d886ddb.chunk.js.map": "./static/js/2.6d886ddb.chunk.js.map",
+    "static/js/3.e858bc6d.chunk.js": "./static/js/3.e858bc6d.chunk.js",
+    "static/js/3.e858bc6d.chunk.js.map": "./static/js/3.e858bc6d.chunk.js.map",
     "index.html": "./index.html",
-    "static/css/main.c6f55200.chunk.css.map": "./static/css/main.c6f55200.chunk.css.map",
-    "static/js/2.10f86b1b.chunk.js.LICENSE.txt": "./static/js/2.10f86b1b.chunk.js.LICENSE.txt",
-    "static/media/CBPi_logo.7d1627f1.svg": "./static/media/CBPi_logo.7d1627f1.svg",
+    "static/css/main.940f4214.chunk.css.map": "./static/css/main.940f4214.chunk.css.map",
+    "static/js/2.6d886ddb.chunk.js.LICENSE.txt": "./static/js/2.6d886ddb.chunk.js.LICENSE.txt",
+    "static/media/CBPi_logo.2fc3a7bc.svg": "./static/media/CBPi_logo.2fc3a7bc.svg",
     "static/media/cbpi.f1a4ae59.png": "./static/media/cbpi.f1a4ae59.png",
     "static/media/cbpi_no_border.5446caa7.png": "./static/media/cbpi_no_border.5446caa7.png",
     "static/media/cbpi_pattern.ec6e8cb2.png": "./static/media/cbpi_pattern.ec6e8cb2.png",
@@ -21,9 +21,9 @@
     "static/media/tank2.891ce170.svg": "./static/media/tank2.891ce170.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.5a634ebd.js",
-    "static/js/2.10f86b1b.chunk.js",
-    "static/css/main.c6f55200.chunk.css",
-    "static/js/main.084d323b.chunk.js"
+    "static/js/runtime-main.067ea13e.js",
+    "static/js/2.6d886ddb.chunk.js",
+    "static/css/main.940f4214.chunk.css",
+    "static/js/main.b7fda8f6.chunk.js"
   ]
 }

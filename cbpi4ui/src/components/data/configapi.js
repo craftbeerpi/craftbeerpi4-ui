@@ -16,6 +16,7 @@ export const update = (name, value, callback_susscess = () => {}, callback_faile
     .put("/config/"+name+"/", {value})
     .then(function (response) {
       callback_susscess(response.data);
+      window.location.reload()
     })
     .catch(function (error) {
       callback_failed();
