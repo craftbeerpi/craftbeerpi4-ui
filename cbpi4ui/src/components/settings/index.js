@@ -90,6 +90,7 @@ const Settings = () => {
       if (parameter.changed) {
         configapi.update(key, parameter.value);
         setConfig((curret_config) => ({ ...curret_config, [key]: { ...curret_config[key], changed: false } }));
+        
       }
     });
     

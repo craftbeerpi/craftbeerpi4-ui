@@ -46,6 +46,31 @@ const backupConfig = (callback_susscess = () => { }, callback_failed = () => { }
     });
 };
 
+const downloadlog = (logtime, callback_susscess = () => { }, callback_failed = () => { }) => {
+  axios({
+    method: 'get',
+    url: '/system/log/'+ logtime + '/' ,
+    responseType: 'arraybuffer'
+  })
+    .then(function (response) {
+      callback_susscess(response.data);
+      
+      const blob = new Blob([response.data], { type: 'application/octet-stream' });
+      const downloadUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = downloadUrl;
+      link.setAttribute('download', 'cbpi4_log.zip'); //any other extension
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    })
+
+    .catch(function (error) {
+      callback_failed();
+    });
+};
+
+
 const restoreConfig = (data) => {
   return new Promise(function (callback_susscess = () => { }, callback_failed = () => { }) {
     axios({
@@ -97,6 +122,7 @@ export const systemapi = {
   shutdown,
   backupConfig,
   restoreConfig,
+  downloadlog,
   getsysteminfo,
   uploadSVG
 }
