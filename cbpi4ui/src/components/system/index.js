@@ -5,7 +5,7 @@ import Select from "@material-ui/core/Select";
 import InputLabel from '@material-ui/core/InputLabel';
 import { systemapi } from "../data/systemapi"
 import RestartDialog from "../util/RestartDialog";
-import ShutdownDialog from "../util/ShutdownDialog";
+import ShutdownDialog from "../util/ShutDownDialog"; // Correct include
 import SaveIcon from "@material-ui/icons/Save";
 import RestoreIcon from '@material-ui/icons/Restore';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';

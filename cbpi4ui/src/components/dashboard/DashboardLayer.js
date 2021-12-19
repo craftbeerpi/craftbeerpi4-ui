@@ -18,6 +18,7 @@ import { widget_list } from "./widgets/config";
 import { Container, Draggable } from "react-smooth-dnd";
 import DragHandleIcon from "@material-ui/icons/DragHandle";
 import { arrayMove } from "../util/arraymove";
+import { update } from "plotly.js";
 
 const DashboardLayerListItem = ({ item }) => {
   const { state, actions } = useContext(DashboardContext);
@@ -182,7 +183,7 @@ const PathSettings = () => {
         newChecked.splice(currentIndex, 1);
       }
       setChecked(newChecked);
-      actions.update_path_condition(selected_id, {left: newChecked, right: checkedRight});
+      actions.update_path_condition(selected_id, newChecked, checkedRight,direction);
     } else {
       const currentIndex = checkedRight.indexOf(value);
       const newChecked = [...checkedRight];
@@ -193,9 +194,23 @@ const PathSettings = () => {
         newChecked.splice(currentIndex, 1);
       }
       setCheckedRight(newChecked);
-      actions.update_path_condition(selected_id, {left: checked, right: newChecked});
+      actions.update_path_condition(selected_id, checked, newChecked,direction);
     }
   };
+
+    // Handle change of the boolean expression for path animation.
+    const data = useModel(selected_id);
+    const handleChange = (e, direction) => {
+      if (direction === "left")
+      {
+        console.log("Changement exp left")
+        actions.update_path_condition_exp(selected_id, "leftExpression", e.target.value);
+      }
+      else{
+        console.log("Changement exp left")
+        actions.update_path_condition_exp(selected_id, "rightExpression", e.target.value);
+      }
+    };
 
   useEffect(() => {
     setSelectedType(() => state.selected?.type);
@@ -204,6 +219,12 @@ const PathSettings = () => {
   if (selectedType !== "P") {
     return "";
   }
+
+  const item = state.pathes.find((e) => e.id === selected_id);
+
+  // Add a TextField for adding the booleanExpression
+    var helperTextExpression = "sample expression (\"\" are mandatory for identifying actors): (\"actor1\" && \"actor2\") || (\"actor2\" && \"actor3\") \n don't forget the quote";
+   
 
   return (
     <>
@@ -221,12 +242,15 @@ const PathSettings = () => {
             <PathSettingsItem item={item} checked={checked} handleToggle={handleToggle} />
           ))}
         </List>
+        <TextField label="Condition expression for left" helperText={helperTextExpression} fullWidth value={item?.condition?.leftExpression} onChange={(e) => handleChange(e, "left")} />
+
         Flow Right
         <List disableGutters={true} dense component="nav" aria-label="main mailbox folders">
           {actor.map((item) => (
             <PathSettingsItem item={item} checked={checkedRight} handleToggle={(id) => handleToggle(id, "right")} />
           ))}
         </List>
+        <TextField label="Condition expression for right" helperText={helperTextExpression} fullWidth value={item?.condition?.rightExpression} onChange={(e) => handleChange(e, "right")} />
       </div>
     </>
   );
