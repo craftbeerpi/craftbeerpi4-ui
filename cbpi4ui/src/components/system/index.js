@@ -23,6 +23,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const SelectBox = ({ options, value, onChange }) => {
+  return (
+    <>
+      <Select labelId="demo-simple-select-label" id="demo-simple-select" value={value} onChange={onChange}>
+        {options.map((item) => (
+          <MenuItem key={item.value} value={item.value}>
+            {item.label}
+          </MenuItem>
+        ))}
+      </Select>
+    </>
+  );
+};
 
 
 const CBPiSystem = () => {
@@ -73,7 +86,20 @@ const CBPiSystem = () => {
     systemapi.backupConfig();
   };
 
+  const [logtime, setLogtime] = useState(1);
+  const logtimelist = [{ 'value': 1, 'label': '1 h' },
+  { 'value': 6, 'label': '6 h' },
+  { 'value': 12, 'label': '12 h' },
+  { 'value': 24, 'label': '24 h' },
+  { 'value': 'b', 'label': 'last boot' }];
 
+  const LogtimeChange = (event) => {
+    setLogtime(event.target.value);
+  };
+
+  const downloadlog = (event) => {
+    systemapi.downloadlog(logtime);
+  };
 
   return (
     <div>
@@ -164,6 +190,34 @@ const CBPiSystem = () => {
                     </IconButton>
                   </label>
 
+
+                </Grid>
+              </TableCell>
+            </TableRow>
+          </TableHead>
+        </Table>
+      </TableContainer>
+
+      <TableContainer component={Paper}>
+        <Table aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Download log (only for cbpi running as systemctl service)</TableCell>
+              <TableCell>
+
+              </TableCell>
+              <TableCell>
+                  <InputLabel id="demo-simple-select-helper-label">Logtime length for download</InputLabel>
+                  <SelectBox options={logtimelist} value={logtime} onChange={LogtimeChange} />
+                </TableCell>
+              <TableCell align="right">
+
+
+                <Grid>
+                  Download:
+                  <IconButton onClick={downloadlog}>
+                    <SaveIcon />
+                  </IconButton>
 
                 </Grid>
               </TableCell>
