@@ -2,6 +2,7 @@ import { FormHelperText, Grid, InputLabel, MenuItem, Select, TextField } from "@
 import { useEffect } from "react";
 import ActorSelect from "./ActorSelect";
 import KettleSelect from "./KettleSelect";
+import FermenterSelect from "./FermenterSelect";
 import SensorSelect from "./SensorSelect";
 
 const SelectInput = ({ label, description="", options=[], value, onChange }) => {
@@ -26,7 +27,7 @@ const SelectInput = ({ label, description="", options=[], value, onChange }) => 
 
 const PropsEdit = ({ config, onChange = () => {}, data={}}) => {
   useEffect(() => {}, [config, data]);
-
+  console.log(config)
   if (!config) {
     return <></>;
   }
@@ -39,6 +40,8 @@ const PropsEdit = ({ config, onChange = () => {}, data={}}) => {
         return <SelectInput description={item.description} label={item.label} options={item.options} value={data[item.label]} onChange={(e) => onChange(item.label, e.target.value)} />;
       case "kettle":
         return <KettleSelect description={item.description} value={data[item.label]} onChange={(e) => onChange(item.label, e.target.value)} />;
+      case "fermenter":
+        return <FermenterSelect description={item.description} value={data[item.label]} onChange={(e) => onChange(item.label, e.target.value)} />;
       case "sensor":
         return <SensorSelect description={item.description} value={data[item.label]} onChange={(e) => onChange(item.label, e.target.value)} />;
       case "actor":
