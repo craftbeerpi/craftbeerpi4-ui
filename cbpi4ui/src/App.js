@@ -19,6 +19,7 @@ import Dashboard2 from "./components/dashboard/Dashboard";
 import Hardware from "./components/hardware";
 import ActorForm from "./components/hardware/ActorForm";
 import KettleForm from "./components/hardware/KettleForm";
+import FermenterForm from "./components/hardware/FermenterForm";
 import SensorForm from "./components/hardware/SensorForm";
 import Plugins from "./components/plugins";
 import MashProfile from "./components/mashprofile";
@@ -150,7 +151,7 @@ const CraftBeerPiApp = () => {
                   </Typography>
                 </div>
                 <IconButton color="inherit">
-                  <Badge badgeContent={4} color="secondary">
+                  <Badge badgeContent={0} color="secondary">
                     <NotificationsIcon />
                   </Badge>
                 </IconButton>
@@ -191,6 +192,15 @@ const CraftBeerPiApp = () => {
                   <Route exact path="/kettle">
                     <KettleForm />
                   </Route>
+
+                  <Route exact path="/fermenter/:id">
+                    <FermenterForm />
+                  </Route>
+
+                  <Route exact path="/fermenter">
+                    <FermenterForm />
+                  </Route>
+
                   <Route exact path="/actor/:id">
                     <ActorForm />
                   </Route>
