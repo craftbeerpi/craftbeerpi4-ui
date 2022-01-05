@@ -69,7 +69,7 @@ const TargetTempDialog = ({ onClose, fermenter, open }) => {
   const [value, setValue] = useState(30);
   const [checkunit, setCheckUnit] = useState(false);
   const [minval, setMinval] = useState(-5);
-  const [maxval, setMaxval] = useState(100);
+  const [maxval, setMaxval] = useState(40);
   const [marks, setMarks] = useState(
     [
       {
@@ -77,16 +77,16 @@ const TargetTempDialog = ({ onClose, fermenter, open }) => {
         label: "-5°",
       },
             {
+        value: 10,
+        label: "10°",
+      },
+      {
         value: 20,
         label: "20°",
       },
       {
-        value: 50,
-        label: "50°",
-      },
-      {
-        value: 100,
-        label: "100°",
+        value: 40,
+        label: "40°",
       },
     ]
   );
@@ -101,16 +101,12 @@ const TargetTempDialog = ({ onClose, fermenter, open }) => {
       label: "50°",
     },
     {
-      value: 100,
-      label: "100°",
+      value: 70,
+      label: "70°",
     },
     {
-      value: 150,
-      label: "150°",
-    },
-    {
-      value: 212,
-      label: "212°",
+      value: 104,
+      label: "104°",
     },
   ];
 
@@ -124,7 +120,7 @@ const TargetTempDialog = ({ onClose, fermenter, open }) => {
       configapi.getone(TEMP_UNIT, (data) => {
         if (data==="F"){
           setMinval(20);
-          setMaxval(212);
+          setMaxval(104);
           setMarks(marksF);
         }
         setCheckUnit(true);

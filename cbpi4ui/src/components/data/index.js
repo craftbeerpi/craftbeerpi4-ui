@@ -29,6 +29,7 @@ export const CBPiProvider = ({ children }) => {
   const [mashProfile, setMashProfile] = useState([]);
   const [mashBasic, setMashBasic] = useState([]);
   const [stepTypes, setStepTypes] = useState([]);
+  const [stepTypesFermenter, setStepTypesFermenter] = useState([]);
   const [auth, setAuth] = useState(null);
   const [plugins, setPlugins] = useState([]);
   const [temp, setTemp] = useState("");
@@ -97,6 +98,7 @@ export const CBPiProvider = ({ children }) => {
       setConfig(data.config);
       setVersion(data.version);
       setStepTypes(Object.values(data.step.types));
+      setStepTypesFermenter(Object.values(data.fermenter.steptypes));
       setAuth(true);
     });
   }, []);
@@ -137,7 +139,8 @@ export const CBPiProvider = ({ children }) => {
   const get_sensor_by_id = (id) => sensors.find((item) => item.id === id);
 
   const value = {
-    state: { sensors, version, actors, logic, kettle, fermenter, fermenterlogic, auth, plugins, temp, sensorData, actorTypes, sensorTypes, config, mashProfile, mashBasic, stepTypes },
+    state: { sensors, version, actors, logic, kettle, fermenter, fermenterlogic, auth, plugins, temp, sensorData, 
+             actorTypes, sensorTypes, config, mashProfile, mashBasic, stepTypes, stepTypesFermenter },
     actions: {
       delete_kettle,
       add_kettle,
