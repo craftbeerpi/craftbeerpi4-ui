@@ -10,6 +10,7 @@ import Chart from "./Chart";
 import { Clock } from "./Clock";
 import CustomSVG from "./CustomSVG";
 import { KettleControl } from "./KettleControl";
+import { FermenterControl } from "./FermenterControl";
 import { Led } from "./Led";
 import { Liquid } from './Liquid';
 import { SensorData } from "./SensorData";
@@ -18,6 +19,7 @@ import { Path } from './Path';
 import KettleSVG from "./svg/kettle.svg";
 import TankSVG from "./svg/tank2.svg";
 import { TargetTemp } from "./TargetTemp";
+import { FermenterTargetTemp } from "./FermenterTargetTemp";
 import { Text } from "./Text";
 export const widget_list = [
   {
@@ -62,7 +64,6 @@ export const widget_list = [
       { name: "color", default: "#fff", type: "text" },
     ],
   },
-
   {
     name: "Sensor Data",
     type: "Sensor",
@@ -169,10 +170,32 @@ export const widget_list = [
       { name: "height", default: 40, type: "number" },
       { name: "sensor", default: "", type: "sensor" }
     ],
+  },
+  {
+    name: "FermenterTargetTemp",
+    type: "FermenterTargetTemp",
+    component: FermenterTargetTemp,
+    icon: CBPiThermometerIcon,
+    props: [
+      { name: "fermenter", default: "1", type: "fermenter" },
+      { name: "unit", default: "°", type: "text" },
+      { name: "size", default: "12", type: "text" },
+      { name: "color", default: "#fff", type: "text" },
+    ],
+  },
+  {
+    name: "FermenterControl",
+    type: "FermenterControl",
+    icon: CBPiControlIcon,
+    component: FermenterControl,
+    
+    props: [
+      { name: "fermenter", default: "1", type: "fermenter" },
+      { name: "size", options: ["large","normal","small"], default: "normal", type: "select"},
+      { name: "orientation", options: ["horizontal", "vertical"], default: "", type: "select" },
+    ],
   }
-  
-
-  
+   
 ];
 
 /*

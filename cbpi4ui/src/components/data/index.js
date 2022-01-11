@@ -5,6 +5,7 @@ import { actorapi } from "./actorapi";
 import { useEventCallback } from "@material-ui/core";
 import { useAlert } from "../alert/AlertProvider";
 import { kettleapi } from "./kettleapi";
+import { fermenterapi } from "./fermenterapi";
 import { sensorapi } from "./sensorapi";
 let MQTTPattern = require("mqtt-pattern");
 
@@ -28,18 +29,25 @@ export const CBPiProvider = ({ children }) => {
   const [mashProfile, setMashProfile] = useState([]);
   const [mashBasic, setMashBasic] = useState([]);
   const [stepTypes, setStepTypes] = useState([]);
+  const [stepTypesFermenter, setStepTypesFermenter] = useState([]);
   const [auth, setAuth] = useState(null);
   const [plugins, setPlugins] = useState([]);
   const [temp, setTemp] = useState("");
   const [version, setVersion] = useState("---");
   const a = useAlert();
   const [notification, setNotifiaction] = useState("");
+  const [fermenter, setFermenter] = useState([]);
+  const [fermenterlogic, setFermenterLogic] = useState([]);
 
   const onMessage = useCallback((data) => {
     //console.log("WS", data);
     switch (data.topic) {
       case "kettleupdate":
         setKettle(() => data.data);
+        break;
+      case "fermenterupdate":
+        setFermenter(() => data.data);
+        console.log(data)
         break;
       case "actorupdate":
         setActors(() => data.data);
@@ -76,7 +84,10 @@ export const CBPiProvider = ({ children }) => {
 
     axios.get("/system/").then((res) => {
       const data = res.data;
+      console.log(data)
       setKettle(data.kettle.data);
+      setFermenter(data.fermenter.data);
+      setFermenterLogic(Object.values(data.fermenter.types));
       setSensors(data.sensor.data);
       setActors(data.actor.data);
       setLogic(Object.values(data.kettle.types));
@@ -87,6 +98,7 @@ export const CBPiProvider = ({ children }) => {
       setConfig(data.config);
       setVersion(data.version);
       setStepTypes(Object.values(data.step.types));
+      setStepTypesFermenter(Object.values(data.fermenter.steptypes));
       setAuth(true);
     });
   }, []);
@@ -98,6 +110,12 @@ export const CBPiProvider = ({ children }) => {
   const delete_kettle = (id, onSuccess = () => {}, onError = () => {}) => kettleapi.remove(id, onSuccess, onError);
   const target_temp_kettle = useEventCallback((id, temp) => kettleapi.target_temp(id, temp), []);
   const toggle_logic = useEventCallback((id) => kettleapi.toggle(id), []);
+
+  const add_fermenter = (data, onSuccess = () => {}, onError = () => {}) => fermenterapi.add(data, onSuccess, onError);
+  const update_fermenter = (id, data, onSuccess = () => {}, onError = () => {}) => fermenterapi.save(id, data, onSuccess, onError);
+  const delete_fermenter = (id, onSuccess = () => {}, onError = () => {}) => fermenterapi.remove(id, onSuccess, onError);
+  const target_temp_fermenter = useEventCallback((id, temp) => fermenterapi.target_temp(id, temp), []);
+  const toggle_logic_fermenter = useEventCallback((id) => fermenterapi.toggle(id), []);
 
   const add_actor = (data, onSuccess = () => {}, onError = () => {}) => actorapi.add(data, onSuccess, onError);
   const update_actor = (id, data, onSuccess = () => {}, onError = () => {}) => actorapi.save(id, data, onSuccess, onError);
@@ -121,13 +139,19 @@ export const CBPiProvider = ({ children }) => {
   const get_sensor_by_id = (id) => sensors.find((item) => item.id === id);
 
   const value = {
-    state: { sensors, version, actors, logic, kettle, auth, plugins, temp, sensorData, actorTypes, sensorTypes, config, mashProfile, mashBasic, stepTypes },
+    state: { sensors, version, actors, logic, kettle, fermenter, fermenterlogic, auth, plugins, temp, sensorData, 
+             actorTypes, sensorTypes, config, mashProfile, mashBasic, stepTypes, stepTypesFermenter },
     actions: {
       delete_kettle,
       add_kettle,
       target_temp_kettle,
       toggle_logic,
       update_kettle,
+      delete_fermenter,
+      add_fermenter,
+      target_temp_fermenter,
+      toggle_logic_fermenter,
+      update_fermenter,
       add_actor,
       update_actor,
       delete_actor,
@@ -151,6 +175,7 @@ export const useCBPi = (Context) => {
       state,
       version: state.version,
       kettle: state.kettle,
+      fermenter: state.fermenter,
       actor: state.actors,
       actorTypes: state.actorTypes,
       sensor: state.sensors,
@@ -175,6 +200,14 @@ export const useKettle = (id) => {
   const value = useMemo(() => {
     return kettle.find((item) => item.id === id);
   }, [kettle, id,]);
+  return value;
+};
+
+export const useFermenter = (id) => {
+  const { fermenter } = useCBPi();
+  const value = useMemo(() => {
+    return fermenter.find((item) => item.id === id);
+  }, [fermenter, id,]);
   return value;
 };
 

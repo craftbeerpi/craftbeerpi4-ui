@@ -13,6 +13,7 @@ import { configapi } from "../data/configapi";
 import SaveIcon from "@material-ui/icons/Save";
 import ActorSelect from "../util/ActorSelect";
 import KettleSelect from "../util/KettleSelect";
+import FermenterSelect from "../util/FermenterSelect";
 import SensorSelect from "../util/SensorSelect";
 import StepTypeSelect from "../util/StepTypeSelect";
 
@@ -52,6 +53,8 @@ const ConfigInput = ({ item, onChange, value, options }) => {
       return <SelectBox options={options} value={value} onChange={onChange} />
     case "kettle":
       return <KettleSelect value={value} onChange={onChange} label="" />;
+    case "fermenter":
+      return <FermenterSelect value={value} onChange={onChange} label="" />;
     case "sensor":
       return <SensorSelect value={value} onChange={onChange} label="" />;
     case "step":

@@ -8,6 +8,7 @@ import Header from "../util/Header";
 import ActorTable from "./ActorTable";
 import KettleTable from "./KettleTable";
 import SensorTable from "./SensorTable";
+import FermenterTable from "./FermenterTable";
 
 const useStyles = makeStyles((theme) => ({
   table: {},
@@ -47,6 +48,21 @@ export default function Hardware() {
               </IconButton>
             </Header>
             <KettleTable />
+          </Paper>
+        </Grid>
+        <Grid item sm={12}>
+          <Paper className={classes.paper}>
+            <Header title="Fermenter">
+              <IconButton
+                variant="contained"
+                onClick={() => {
+                  history.push("/fermenter");
+                }}
+              >
+                <AddIcon />
+              </IconButton>
+            </Header>
+            <FermenterTable />
           </Paper>
         </Grid>
         <Grid item sm={12}>

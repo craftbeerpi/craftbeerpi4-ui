@@ -154,10 +154,11 @@ const MashProfile = () => {
                         <StepStateChip state={row.status} />
                       </TableCell>
                       <TableCell align="right" className="hidden-xs">
+                        <DeleteDialog title="Delete Step" message="Do you want to delete the step" id={row.id} callback={remove_callback} />
+                        
                         <IconButton aria-label="add" size="small" onClick={() => history.push("/step/" + row.id)}>
                           <VisibilityIcon />
-                        </IconButton>
-                        <DeleteDialog title="Delete Step" message="Do you want to delete the step" id={row.id} callback={remove_callback} />
+                        </IconButton>                        
                       </TableCell>
                     </TableRow>
                   ))}
