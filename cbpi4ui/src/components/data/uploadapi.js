@@ -44,6 +44,28 @@ const sendXML = (id, path, callback_susscess = () => { }, callback_failed = () =
     });
 };
 
+const getjson = (callback_susscess = () => { }, callback_failed = () => { }) => {
+  axios
+    .get("/upload/json")
+    .then(function (response) {
+      callback_susscess(response.data);
+    })
+    .catch(function (error) {
+      callback_failed();
+    });
+};
+
+const sendJSON = (id, path, callback_susscess = () => { }, callback_failed = () => { }) => {
+  axios
+    .post("/" + path + "/json", { id })
+    .then(function (response) {
+      callback_susscess();
+    })
+    .catch(function (error) {
+      callback_failed();
+    });
+};
+
 const getbf = (offset, callback_susscess = () => { }, callback_failed = () => { }) => {
   axios
     .post("/upload/bf/" + offset + "/")
@@ -101,6 +123,8 @@ export const uploadapi = {
   sendKBH,
   getxml,
   sendXML,
+  getjson,
+  sendJSON,
   getbf,
   sendBF,
   sendFile,

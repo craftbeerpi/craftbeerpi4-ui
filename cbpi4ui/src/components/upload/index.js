@@ -55,6 +55,10 @@ const Upload = () => {
   const XMLSubmit = () => {
     uploadapi.sendXML(xml, path);
   };
+  
+  const JSONSubmit = () => {
+    uploadapi.sendJSON(json, path);
+  };
 
   const KBHSubmit = () => {
     uploadapi.sendKBH(kbh, path);
@@ -66,8 +70,10 @@ const Upload = () => {
 
   const [kbhlist, setKBHList] = useState([]);
   const [xmllist, setXMLList] = useState([]);
+  const [jsonlist, setJSONList] = useState([]);
   const [bflist, setBFList] = useState([]);
   const [xml, setXML] = useState([]);
+  const [json, setJSON] = useState([]);
   const [kbh, setKBH] = useState([]);
   const [bf, setBF] = useState([]);
   const [path, setPath] = useState([]);
@@ -97,6 +103,12 @@ const Upload = () => {
   }, []);
 
   useEffect(() => {
+    uploadapi.getjson((data) => {
+      setJSONList(data);
+    });
+  }, []);
+
+  useEffect(() => {
     uploadapi.getbf(offset, (data) => {
       setBFList(data);
     });
@@ -104,6 +116,10 @@ const Upload = () => {
 
   const XMLChange = (event) => {
     setXML(event.target.value);
+  };
+
+  const JSONChange = (event) => {
+    setJSON(event.target.value);
   };
 
   const KBHChange = (event) => {
@@ -136,19 +152,19 @@ const Upload = () => {
       <Grid container spacing={2} className={classes.root}>
         <Grid item spacing={2} xs={12}>
           <Paper style={{ padding: 10 }}>
-            <p>You can upload BeerXML recipe files or the Kleiner Brauhelfer V2 database .</p>
+            <p>You can upload recipes from BeerXML, MMuM-JSON, Brewfather or the Kleiner Brauhelfer V2 database .</p>
           </Paper>
         </Grid>
 
         <Grid item spacing={2} xs={12}>
           <Paper style={{ padding: 10 }}>
             <Button variant="contained" component="label">
-              Upload BeerXML File or KBH V2 database file
+              Upload BeerXML File, MMuM-JSON or KBH V2 database file
               <input ref={hiddenFileInput}
                 type="file"
                 onChange={handleChange}
                 hidden
-                accept=".xml,.sqlite"
+                accept=".xml,.sqlite,.json"
               />
             </Button>
           </Paper>
@@ -182,6 +198,25 @@ const Upload = () => {
                     <input
                       value={xml}
                       onClick={XMLSubmit}
+                      hidden
+                    />
+                  </Button>
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>
+                  <InputLabel id="demo-simple-select-helper-label">MMuM-JSON Recipe from uploaded file</InputLabel>
+                  <SelectBox options={jsonlist} value={json} onChange={JSONChange} />
+                </TableCell>
+                <TableCell>
+
+                </TableCell>
+                <TableCell align="right">
+                  <Button variant="contained" component="label" >
+                    Create Recipe from MMuM-JSON recipe
+                    <input
+                      value={json}
+                      onClick={JSONSubmit}
                       hidden
                     />
                   </Button>
