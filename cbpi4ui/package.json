@@ -6,7 +6,7 @@
   "homepage": "./",
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts --expose-gc --max-old-space-size=4096 build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -24,7 +24,7 @@
     "file-saver": "^2.0.5",
     "mqtt-pattern": "^1.2.0",
     "mxgraph-js": "^1.0.1",
-    "plotly.js": "^1.58.4",
+    "plotly.js": "^1.58.5",
     "react": "^17.0.2",
     "react-dom": "^17.0.1",
     "react-dom-confetti": "^0.2.0",
