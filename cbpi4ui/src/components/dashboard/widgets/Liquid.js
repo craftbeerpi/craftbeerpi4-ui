@@ -32,6 +32,7 @@ export const Liquid = ({ id }) => {
     setHeight(model.props.height);
     setWidth(model.props.width);
     setPerent(model.props.percent);
+    setSensor(model.props.sensor);
 
     const rgb = hexToRgb(model.props.color)
     console.log("COLOR", rgb)
