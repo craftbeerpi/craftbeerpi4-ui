@@ -3920,9 +3920,9 @@
     "lodash.uniq" "^4.5.0"
 
 "caniuse-lite@^1.0.0", "caniuse-lite@^1.0.30000981", "caniuse-lite@^1.0.30001109", "caniuse-lite@^1.0.30001125", "caniuse-lite@^1.0.30001251":
-  "integrity" "sha512-HOe1r+9VkU4TFmnU70z+r7OLmtR+/chB1rdcJUeQlAinjEeb0cKL20tlAtOagNZhbrtLnCvV19B4FmF1rgzl6A=="
-  "resolved" "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001251.tgz"
-  "version" "1.0.30001251"
+  "integrity" "sha512-Wiz1Psk2MEK0pX3rUzWaunLTZzqS2JYZFzNKqAiJGiuxIjRPLgV6+VDPOg6lQOUxmDwhTlh198JsTTi8Hzw6aQ=="
+  "resolved" "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001312.tgz"
+  "version" "1.0.30001312"
 
 "canvas-fit@^1.5.0":
   "integrity" "sha1-rhO+Zq3kL1vg5IfjRfzjCl5bXl8="

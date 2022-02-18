@@ -87,6 +87,73 @@ export const target_temp = (id, temp, callback_susscess = () => {}, callback_fai
     });
 };
 
+export const getsteps = (id, callback_susscess = () => {}, callback_failed = () => {}) => {
+  axios
+    .get("/fermenter/"+ id + "/getsteps")
+    .then(function (response) {
+      callback_susscess(response.data);
+    })
+    .catch(function (error) {
+      callback_failed();
+    });
+};
+
+
+export const updatestep = (fermenterid, stepid, data, callback_susscess = () => {}, callback_failed = () => {}) => {
+  axios
+    .put("/fermenter/"+ fermenterid + "/" + stepid, data)
+    .then(function (response) {
+      callback_susscess();
+    })
+    .catch(function (error) {
+      callback_failed();
+    });
+};
+
+export const addstep = (fermenterid, data, callback_susscess = () => {}, callback_failed = () => {}) => {
+  axios
+    .post("/fermenter/"+ fermenterid +"/addstep", data)
+    .then(function (response) {
+      callback_susscess();
+    })
+    .catch(function (error) {
+      callback_failed();
+    });
+};
+
+export const movestep = (fermenterid, stepid, direction, callback_susscess = () => {}, callback_failed = () => {}) => {
+  axios
+    .put("/fermenter/movestep", {fermenterid, stepid, direction})
+    .then(function (response) {
+      callback_susscess();
+    })
+    .catch(function (error) {
+      callback_failed();
+    });
+};
+
+export const deletestep = (fermenterid, stepid, callback_susscess = () => {}, callback_failed = () => {}) => {
+  axios
+    .delete("/fermenter/"+ fermenterid + "/" + stepid)
+    .then(function (response) {
+      callback_susscess();
+    })
+    .catch(function (error) {
+      callback_failed();
+    });
+};
+
+export const clearsteps = (fermenterid, callback_susscess = () => {}, callback_failed = () => {}) => {
+  axios
+    .post("/fermenter/" + fermenterid + "/clearsteps")
+    .then(function (response) {
+      
+    })
+    .catch(function (error) {
+      callback_failed();
+    });
+};
+
 
 export const fermenterapi = {
   add,
@@ -95,5 +162,11 @@ export const fermenterapi = {
   target_temp,
   save,
   start,
-  stop
+  stop,
+  getsteps,
+  updatestep,
+  addstep,
+  movestep,
+  deletestep,
+  clearsteps
 }
