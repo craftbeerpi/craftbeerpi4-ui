@@ -168,7 +168,8 @@ export const widget_list = [
       { name: "color", default: "#fff", type: "text" },
       { name: "width", default: 40, type: "number" },
       { name: "height", default: 40, type: "number" },
-      { name: "sensor", default: "", type: "sensor" }
+      { name: "sensor", default: "", type: "sensor" },
+      { name: "maxvalue", default: 100, type: "number" }
     ],
   },
   {

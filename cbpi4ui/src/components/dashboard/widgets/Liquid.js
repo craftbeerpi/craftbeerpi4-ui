@@ -25,6 +25,7 @@ export const Liquid = ({ id }) => {
   const [opacity, setOpacity] = useState(model.props.width || 0.9);
   const [color, setColor] = useState(model.props.color || {r: 0, g:0, b:255});
   const [percent, setPerent] = useState(model.props.percent || 0);
+  const [maxvalue, setMaxValue] = useState(model.props.maxvalue || 100);
   const [sensorid, setSensor] = useState(model.props.sensor || null);
   const draggable = useDraggable();
 
@@ -33,13 +34,14 @@ export const Liquid = ({ id }) => {
     setWidth(model.props.width);
     setPerent(model.props.percent);
     setSensor(model.props.sensor);
+    setMaxValue(model.props.maxvalue);
 
     const rgb = hexToRgb(model.props.color)
     console.log("COLOR", rgb)
     setColor(rgb);
 
 
-  }, [model.props.height, model.props.width, model.props.percent, model.props.color, model.props.sensor]);
+  }, [model.props.maxvalue, model.props.height, model.props.width, model.props.percent, model.props.color, model.props.sensor]);
 
   if (!sensorid) {
     return <div>Missing Config</div>;
@@ -49,7 +51,7 @@ export const Liquid = ({ id }) => {
 
 
   const style_box = { width: `${width}px`, height: `${height}px` };
-  const filling = parseFloat(height) * (parseFloat(data) / 100);
+  const filling = parseFloat(height) * (parseFloat(data) / parseFloat(maxvalue));
   const style = { background: `rgba(${color.r}, ${color.g}, ${color.b}, 0.2)`, width: `${width}px`, height: `${filling}px` };
   return (
     <div style={style_box}>
