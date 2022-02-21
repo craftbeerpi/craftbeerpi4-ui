@@ -47,7 +47,7 @@ const FermenterProfile = () => {
    }, [state.fermentersteps]);
 
   
-  function remove_callback(id) {
+  function remove_callback(fermenterid, id) {
     fermenterapi.deletestep(fermenterid, id); 
   }
 
@@ -56,7 +56,7 @@ const FermenterProfile = () => {
   };
 
   const clear = (fermenterid) => {
-    fermenterapi.clearsteps(fermenterid); // fermenterapi anpassen
+    fermenterapi.clearsteps(fermenterid); 
   };
 
   const savetobook = () => {
@@ -139,7 +139,7 @@ const FermenterProfile = () => {
           <Paper className={classes.paper}>
             <Header title="Profile">
               <div style={{ display: "flex" }}>
-                {/*<FermenterControl /> */}
+                <FermenterControl fermenterid={fermenterid} />
                 <Button variant="contained" color="primary" startIcon={<AddIcon />} onClick={() => history.push("/fermenterstep/"+fermenterid)}>
                   ADD
                 </Button>

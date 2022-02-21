@@ -10,29 +10,35 @@ import SkipNextIcon from '@material-ui/icons/SkipNext';
 // Muss variabel für den entsprechenden Fermenter angepasst werden
 // Fermenterprofile muss für entsprechenden Fermenter gefiltert werden und dann steps...
 
-const FermenterControl = ({disabled=false}) => {
+const FermenterControl = ({fermenterid=null, disabled=false}) => {
   const { state } = useCBPi();
   const [stop, setStop] = useState(null);
   const [reset, setReset] = useState(null);
   const [start, setStart] = useState(null);
   const [next, setNext] = useState(null);
+  const [steps, setSteps] = useState([]);
 
   useEffect(() => {
-    if (state.FermenterProfile.filter((item) => item.status === "D").length === state.FermenterProfile.length) {
+    fermenterapi.getsteps(fermenterid, (data) => {
+      setSteps(data.steps)});
+   }, [state.fermentersteps, fermenterid]);
+
+  useEffect(() => {
+    if (steps.filter((item) => item.status === "D").length === steps.length) {
       setStop(false);
       setReset(true);
       setStart(false);
       setNext(false);
       return;
     }
-    if (state.FermenterProfile.filter((item) => item.status === "I").length === state.FermenterProfile.length) {
+    if (steps.filter((item) => item.status === "I").length === steps.length) {
       setStop(false);
       setReset(false);
       setStart(true);
       setNext(false);
       return;
     }
-    if (state.FermenterProfile.find((item) => item.status === "A")) {
+    if (steps.find((item) => item.status === "A")) {
       setStop(true);
       setReset(false);
       setStart(false);
@@ -43,9 +49,14 @@ const FermenterControl = ({disabled=false}) => {
       setStart(true);
       setNext(true);
     }
-  }, [state.FermenterProfile]);
+  }, [steps, fermenterid]);
 
-  if( state.FermenterProfile.length == 0) {
+  useEffect(() => {
+    console.log(state.fermentersteps);
+  }, [state.fermentersteps]);
+
+
+  if( steps.length == 0) {
     return <></>
   }
 
@@ -57,7 +68,7 @@ const FermenterControl = ({disabled=false}) => {
           variant="contained"
           color="primary"
           onClick={() => {
-            fermenterapi.start();
+            fermenterapi.startstep(fermenterid);
           }}
           startIcon={<PlayCircleOutlineIcon />}
         >
@@ -70,7 +81,7 @@ const FermenterControl = ({disabled=false}) => {
           variant="contained"
           color="primary"
           onClick={() => {
-            fermenterapi.next();
+            fermenterapi.nextstep(fermenterid);
           }}
           startIcon={<SkipNextIcon />}
         >
@@ -84,7 +95,7 @@ const FermenterControl = ({disabled=false}) => {
           color="secondary"
           startIcon={<StopIcon />}
           onClick={() => {
-            fermenterapi.stop();
+            fermenterapi.stopstep(fermenterid);
           }}
         >
           
@@ -92,7 +103,7 @@ const FermenterControl = ({disabled=false}) => {
       ) : null}
 
       {reset ? (
-        <Button startIcon={<RotateLeftIcon />} variant="contained" color="secondary" onClick={() => fermenterapi.reset()}>
+        <Button startIcon={<RotateLeftIcon />} variant="contained" color="secondary" onClick={() => fermenterapi.reset(fermenterid)}>
           
         </Button>
       ) : null}

@@ -154,6 +154,49 @@ export const clearsteps = (fermenterid, callback_susscess = () => {}, callback_f
     });
 };
 
+export const startstep = (fermenterid, data, callback_susscess = () => {}, callback_failed = () => {}) => {
+  axios
+    .post("/fermenter/"+fermenterid+"/startstep")
+    .then(function (response) {
+      callback_susscess();
+    })
+    .catch(function (error) {
+      callback_failed();
+    });
+};
+
+export const nextstep = (fermenterid, data, callback_susscess = () => {}, callback_failed = () => {}) => {
+  axios
+    .post("/fermenter/"+fermenterid+"/nextstep")
+    .then(function (response) {
+      callback_susscess();
+    })
+    .catch(function (error) {
+      callback_failed();
+    });
+};
+
+export const reset = (fermenterid, data, callback_susscess = () => {}, callback_failed = () => {}) => {
+  axios
+    .post("/fermenter/"+fermenterid+"/reset")
+    .then(function (response) {
+      callback_susscess();
+    })
+    .catch(function (error) {
+      callback_failed();
+    });
+};
+
+export const stopstep = (fermenterid, data, callback_susscess = () => {}, callback_failed = () => {}) => {
+  axios
+    .post("/fermenter/"+fermenterid+"/stopstep")
+    .then(function (response) {
+      callback_susscess();
+    })
+    .catch(function (error) {
+      callback_failed();
+    });
+};
 
 export const fermenterapi = {
   add,
@@ -168,5 +211,9 @@ export const fermenterapi = {
   addstep,
   movestep,
   deletestep,
-  clearsteps
+  clearsteps,
+  startstep,
+  stopstep,
+  nextstep,
+  reset
 }

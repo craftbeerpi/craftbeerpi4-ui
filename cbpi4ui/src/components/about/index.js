@@ -42,12 +42,13 @@ const About = () => {
             <p>It's an Open Source Project founded in 2015. More than 7,000 passioned Homebrewers and commercial Craft Brewerys are using CraftBeerPi. It's an open Eco System.</p>
             Website: http://www.CraftBeerPi.com <br />
             GitHub: http://github.com/manuel83 <br />
-            Facebook: http://github.com/groups/craftbeerpi
+            Facebook: http://github.com/groups/craftbeerpi<br />
             <br />
+            GitHub fork from Alexander Vollkopf: http://github.com/avollkopf <br />
             Openbrewing Documentation: <Button color="primary" target="_blank" href="https://openbrewing.gitbook.io/craftbeerpi4_support/" rel="noreferrer noopener">Link to Documentation</Button>
             <br />
             <p>Cheers,</p>
-            <p> Manuel Fritsch</p>
+            <p> Manuel Fritsch / Alexander Vollkopf</p>
             <img width={30} src={logo} alt="Logo" /> CraftBeerPi
           </Paper>
         </Grid>
