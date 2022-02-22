@@ -20,6 +20,7 @@ import KettleSVG from "./svg/kettle.svg";
 import TankSVG from "./svg/tank2.svg";
 import { TargetTemp } from "./TargetTemp";
 import { FermenterTargetTemp } from "./FermenterTargetTemp";
+import { FermenterSteps } from './FermenterSteps';
 import { Text } from "./Text";
 export const widget_list = [
   {
@@ -195,8 +196,18 @@ export const widget_list = [
       { name: "size", options: ["large","normal","small"], default: "normal", type: "select"},
       { name: "orientation", options: ["horizontal", "vertical"], default: "", type: "select" },
     ],
+  },
+  {
+    name: "FermenterSteps",
+    type: "FermenterSteps",
+    component: FermenterSteps,
+    icon: ListIcon,
+    props: [{ name: "fermenter", default: "1", type: "fermenter" },
+            { name: "width", default: "200", type: "text", unit: "px" },
+            { name: "stepsize", default: "14", type: "text", unit: "pt" },
+            { name: "namesize", default: "14", type: "text", unit: "pt" }],
   }
-   
+  
 ];
 
 /*

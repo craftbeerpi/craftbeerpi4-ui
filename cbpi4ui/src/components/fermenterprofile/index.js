@@ -37,17 +37,16 @@ const FermenterProfile = () => {
   const { state } = useCBPi();
   const history = useHistory();
   const [data, setData] = useState([]);
+  const [brewname, setBrewName] = useState("");
   const { fermenterid } = useParams();
-
   
-
   useEffect(() => {
-   // fermenterapi.getsteps(fermenterid, (data) => {
-   //   setData(data.steps)});
    if (fermenterid) {
-      const step= state.fermentersteps.find(step => step.id == fermenterid).steps;
-      setData(step)};
-   }, [state.fermentersteps]);
+      const step= state.fermentersteps.find(step => step.id === fermenterid).steps;
+      const name= state.fermenter.find(fermenter => fermenter.id === fermenterid).brewname;
+      setData(step);
+      setBrewName(name)};
+   }, [state.fermentersteps,fermenterid]);
 
   
   function remove_callback(fermenterid, id) {
@@ -79,7 +78,7 @@ const FermenterProfile = () => {
     return (
       <>
       <Grid container direction="row" justify="space-between" alignItems="center" style={{ marginTop: 10 }}>
-        <Grid item>
+        {/*<Grid item>
           <Typography variant="h5" gutterBottom>
             {state.mashBasic.name}{" "}
             <Typography display="inline" color="textSecondary">
@@ -87,7 +86,7 @@ const FermenterProfile = () => {
             </Typography>
           </Typography>
           <Typography color="textSecondary">{state.mashBasic.desc}</Typography>
-        </Grid>
+        </Grid>*/}
         <Grid item>
           <Typography variant="h5" gutterBottom>
             Select Fermenter : {" "}
@@ -104,12 +103,12 @@ const FermenterProfile = () => {
       <Grid container direction="row" justify="space-between" alignItems="center" style={{ marginTop: 10 }}>
         <Grid item>
           <Typography variant="h5" gutterBottom>
-            {state.mashBasic.name}{" "}
-            <Typography display="inline" color="textSecondary">
+            {brewname}{" "}
+            {/*<Typography display="inline" color="textSecondary">
               by {state.mashBasic.author}
-            </Typography>
+            </Typography>*/}
           </Typography>
-          <Typography color="textSecondary">{state.mashBasic.desc}</Typography>
+          {/*<Typography color="textSecondary">{state.mashBasic.desc}</Typography>*/}
         </Grid>
         <Grid item>
           <Typography variant="h5" gutterBottom>

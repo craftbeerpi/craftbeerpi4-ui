@@ -7,8 +7,7 @@ import { useCBPi } from "../data";
 import { fermenterapi } from "../data/fermenterapi";
 import SkipNextIcon from '@material-ui/icons/SkipNext';
 
-// Muss variabel für den entsprechenden Fermenter angepasst werden
-// Fermenterprofile muss für entsprechenden Fermenter gefiltert werden und dann steps...
+
 
 const FermenterControl = ({fermenterid=null, disabled=false}) => {
   const { state } = useCBPi();
@@ -18,18 +17,12 @@ const FermenterControl = ({fermenterid=null, disabled=false}) => {
   const [next, setNext] = useState(null);
   const [steps, setSteps] = useState([]);
 
-
-  // need to be improved and switcvhed to JS function if possible
   useEffect(() => {
-    //fermenterapi.getsteps(fermenterid, (data) => {
-    //  setSteps(data.steps)});  
+  
     if (fermenterid) {  
       const step= state.fermentersteps.find(step => step.id == fermenterid).steps;
       setSteps(step)};
    }, [state.fermentersteps, fermenterid]);
-
-
-
 
   useEffect(() => {
     if (steps.filter((item) => item.status === "D").length === steps.length) {
@@ -58,11 +51,6 @@ const FermenterControl = ({fermenterid=null, disabled=false}) => {
       setNext(true);
     }
   }, [steps, fermenterid]);
-
-/*  useEffect(() => {
-    console.log(state.fermentersteps);
-  }, [state.fermentersteps]); */
-
 
   if( steps.length == 0) {
     return <></>
