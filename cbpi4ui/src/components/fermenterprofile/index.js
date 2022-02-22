@@ -42,8 +42,11 @@ const FermenterProfile = () => {
   
 
   useEffect(() => {
-    fermenterapi.getsteps(fermenterid, (data) => {
-      setData(data.steps)});
+   // fermenterapi.getsteps(fermenterid, (data) => {
+   //   setData(data.steps)});
+   if (fermenterid) {
+      const step= state.fermentersteps.find(step => step.id == fermenterid).steps;
+      setData(step)};
    }, [state.fermentersteps]);
 
   

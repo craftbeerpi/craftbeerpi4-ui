@@ -18,10 +18,18 @@ const FermenterControl = ({fermenterid=null, disabled=false}) => {
   const [next, setNext] = useState(null);
   const [steps, setSteps] = useState([]);
 
+
+  // need to be improved and switcvhed to JS function if possible
   useEffect(() => {
-    fermenterapi.getsteps(fermenterid, (data) => {
-      setSteps(data.steps)});
+    //fermenterapi.getsteps(fermenterid, (data) => {
+    //  setSteps(data.steps)});  
+    if (fermenterid) {  
+      const step= state.fermentersteps.find(step => step.id == fermenterid).steps;
+      setSteps(step)};
    }, [state.fermentersteps, fermenterid]);
+
+
+
 
   useEffect(() => {
     if (steps.filter((item) => item.status === "D").length === steps.length) {
@@ -51,9 +59,9 @@ const FermenterControl = ({fermenterid=null, disabled=false}) => {
     }
   }, [steps, fermenterid]);
 
-  useEffect(() => {
+/*  useEffect(() => {
     console.log(state.fermentersteps);
-  }, [state.fermentersteps]);
+  }, [state.fermentersteps]); */
 
 
   if( steps.length == 0) {
