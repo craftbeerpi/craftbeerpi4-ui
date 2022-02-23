@@ -198,6 +198,17 @@ export const stopstep = (fermenterid, data, callback_susscess = () => {}, callba
     });
 };
 
+export const action = (id, name, parameter, callback_susscess = () => {}, callback_failed = () => {}) => {
+  axios
+    .post("/fermenter/action/"+id, {action:name, parameter})
+    .then(function (response) {
+      callback_susscess();
+    })
+    .catch(function (error) {
+      callback_failed();
+    });
+};
+
 export const fermenterapi = {
   add,
   remove,
@@ -215,5 +226,6 @@ export const fermenterapi = {
   startstep,
   stopstep,
   nextstep,
-  reset
+  reset,
+  action
 }
