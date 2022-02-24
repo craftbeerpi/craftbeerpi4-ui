@@ -31,7 +31,9 @@ import logo from "./images/cbpi_no_border.png";
 import StepForm from "./components/mashprofile/StepForm";
 import FermenterStepForm from "./components/fermenterprofile/FermenterStepForm";
 import Recipes from "./components/recipes";
+import FermenterRecipes from "./components/fermenterrecipes";
 import RecipeEditor from "./components/recipes/RecipeEditor";
+import FermenterRecipeEditor from "./components/fermenterrecipes/FermenterRecipeEditor";
 import { Charting } from "./components/charting";
 
 
@@ -231,13 +233,13 @@ const CraftBeerPiApp = () => {
                     <Recipes/>
                   </Route>
                   <Route exact path="/fermenterrecipes">
-                    <Recipes/>
+                    <FermenterRecipes/>
                   </Route>
                   <Route exact path="/recipe/:id">
                     <RecipeEditor/>
                   </Route>
                   <Route exact path="/fermenterrecipe/:id">
-                    <RecipeEditor/>
+                    <FermenterRecipeEditor/>
                   </Route>
                   <Route exact path="/step">
                     <StepForm/>

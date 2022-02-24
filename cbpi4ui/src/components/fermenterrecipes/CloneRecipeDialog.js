@@ -1,7 +1,7 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from "@material-ui/core"
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { recipeapi } from "../data/recipeapi";
+import { fermenterrecipeapi } from "../data/fermenterrecipeapi";
 
 
 export const CloneRecipeDialog = ({id, open, setOpen}) => {
@@ -10,9 +10,9 @@ export const CloneRecipeDialog = ({id, open, setOpen}) => {
     const [name, setName] = useState("")
 
     const create = () => {
-        recipeapi.clone(id, name, (id)=> {
+        fermenterrecipeapi.clone(id, name, (id)=> {
             setOpen(false)
-            history.push("/recipe/" + id);
+            history.push("/fermenterrecipe/" + id);
           })
     }
 

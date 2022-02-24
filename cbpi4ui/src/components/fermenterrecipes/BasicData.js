@@ -12,7 +12,7 @@ export const BasicData = ({data, setData}) => {
   return (
     <>
       <TextField fullWidth name="name" value={data.name} onChange={handleChange}  id="name" label="Name" />
-      <TextField fullWidth name="author" value={data.author} onChange={handleChange}  id="author" label="Author" />
+      {/*<TextField fullWidth name="author" value={data.author} onChange={handleChange}  id="author" label="Author" />*/}
       <TextField  name="desc" fullWidth multiline value={data.desc} onChange={handleChange} id="desc" label="Description" />
     </>
   );

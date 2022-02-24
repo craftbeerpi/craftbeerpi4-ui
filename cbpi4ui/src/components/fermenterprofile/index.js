@@ -15,14 +15,13 @@ import { default as React, useEffect, useState } from "react";
 import { useHistory , useParams} from "react-router-dom";
 import { useCBPi } from "../data";
 import { fermenterapi } from "../data/fermenterapi"; 
-import SaveDialog from "../util/SaveDialog"; // Eventuell anpassung notwendig
 import FermenterDeleteDialog from "../util/FermenterDeleteDialog";  
-import DeleteDialog from "../util/DeleteDialog";
 import Header from "../util/Header";
-import FermenterControl from "../util/FermenterControl"; //* Anpassen
+import FermenterControl from "../util/FermenterControl"; 
 import StepStateChip from "../util/StepStateChip"; // Eventuell Anpassen. Sollte aber so passen
 import SortButton from "./FermenterSortButton";
 import FermenterSelect from "../util/FermenterSelect";
+import FermenterSaveDialog from "../util/FermenterSaveDialog";
 
 const useStyles = makeStyles((theme) => ({
   table: {},
@@ -61,8 +60,8 @@ const FermenterProfile = () => {
     fermenterapi.clearsteps(fermenterid); 
   };
 
-  const savetobook = () => {
-    fermenterapi.savetobook(); // fermenterapi anpassen
+  const savetobook = (fermenterid) => {
+    fermenterapi.savetobook(fermenterid); // fermenterapi anpassen
   };
 
   const onChange = (e) => {
@@ -93,6 +92,19 @@ const FermenterProfile = () => {
           </Typography> 
           <FermenterSelect value={fermenterid} onChange={onChange} label="" />
         </Grid>
+
+        <Grid>
+        <IconButton
+            variant="contained"
+            onClick={() => {
+              history.push("/fermenterrecipes");
+            }}
+          >
+            <MenuBookIcon />
+          </IconButton>
+
+        </Grid>
+
         </Grid>
         </>
     );
@@ -119,18 +131,18 @@ const FermenterProfile = () => {
 
         <Grid item>
                     
-          <FermenterDeleteDialog title="Clear" callback={clear} fermenterid={fermenterid} message="Do you want to clear the Mash Profile" />
+          <FermenterDeleteDialog title="Clear" callback={clear} fermenterid={fermenterid} message="Do you want to clear the Fermenter Profile" />
           
-         {/* <SaveDialog title="Save" callback={savetobook} message="Do you want to save your recipe to the recipe book" />
+          <FermenterSaveDialog title="Save" callback={savetobook} fermenterid={fermenterid} message="Do you want to save your recipe to the recipe book" />
           
           <IconButton
             variant="contained"
             onClick={() => {
-              history.push("/recipes");
+              history.push("/fermenterrecipes");
             }}
           >
             <MenuBookIcon />
-          </IconButton> */}
+          </IconButton>
         </Grid>
       </Grid>
 

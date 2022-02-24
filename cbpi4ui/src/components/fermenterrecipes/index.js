@@ -4,7 +4,7 @@ import Typography from "@material-ui/core/Typography";
 import AddIcon from "@material-ui/icons/Add";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { recipeapi } from "../data/recipeapi";
+import { fermenterrecipeapi } from "../data/fermenterrecipeapi";
 import { NewRecipeDialog } from "./NewRecipeDialog";
 import SearchIcon from "@material-ui/icons/Search";
 import AssignmentIcon from '@material-ui/icons/Assignment';
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-const Recipes = () => {
+const FermenterRecipes = () => {
   const [totalList, setTotalList] = useState([]);
   const [list, setList] = useState([]);
   const history = useHistory();
@@ -35,7 +35,7 @@ const Recipes = () => {
   const classes = useStyles();
 
   useEffect(() => {
-    recipeapi.get((data) => {
+    fermenterrecipeapi.get((data) => {
       setTotalList(data)
       setList(data);
     });
@@ -54,7 +54,7 @@ const Recipes = () => {
   
 
   const openRecipe = (file) => {
-    history.push("/recipe/" + file);
+    history.push("/fermenterrecipe/" + file);
   };
 
   const createRecipe = () => {
@@ -70,7 +70,7 @@ const Recipes = () => {
       <Grid container direction="row" justify="space-between" alignItems="center" style={{ marginTop: 10 }}>
         <Grid item>
           <Typography variant="h5" gutterBottom>
-            Recipes
+            Fermenter Recipes
           </Typography>
         </Grid>
         <Grid item>
@@ -100,7 +100,7 @@ const Recipes = () => {
         <Link
           color="inherit"
           onClick={() => {
-            history.push("/mashprofile");
+            history.push("/fermenterprofile");
           }}
         >
           Active Recipe
@@ -123,4 +123,4 @@ const Recipes = () => {
   );
 };
 
-export default Recipes;
+export default FermenterRecipes;

@@ -1,7 +1,7 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from "@material-ui/core"
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { recipeapi } from "../data/recipeapi";
+import { fermenterrecipeapi } from "../data/fermenterrecipeapi";
 
 
 export const NewRecipeDialog = ({open, setOpen}) => {
@@ -10,8 +10,8 @@ export const NewRecipeDialog = ({open, setOpen}) => {
     const [name, setName] = useState("")
 
     const create = () => {
-        recipeapi.create(name, (id)=> {
-            history.push("/recipe/" + id);
+        fermenterrecipeapi.create(name, (id)=> {
+            history.push("/fermenterrecipe/" + id);
           })
     }
 
@@ -20,7 +20,7 @@ export const NewRecipeDialog = ({open, setOpen}) => {
     }
 
     return <Dialog open={open} onClose={cancel} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
-    <DialogTitle id="alert-dialog-title">New Recipe</DialogTitle>
+    <DialogTitle id="alert-dialog-title">New Fermenter Recipe</DialogTitle>
     <DialogContent>
       <DialogContentText id="alert-dialog-description">
             <TextField label="Name" value={name} onChange={(e)=>setName(e.target.value)} />

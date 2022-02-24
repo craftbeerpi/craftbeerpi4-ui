@@ -209,6 +209,17 @@ export const action = (id, name, parameter, callback_susscess = () => {}, callba
     });
 };
 
+export const savetobook = (fermenterid, callback_susscess = () => {}, callback_failed = () => {}) => {
+  axios
+    .post("/fermenter/savetobook/" + fermenterid)
+    .then(function (response) {
+      
+    })
+    .catch(function (error) {
+      callback_failed();
+    });
+};
+
 export const fermenterapi = {
   add,
   remove,
@@ -227,5 +238,6 @@ export const fermenterapi = {
   stopstep,
   nextstep,
   reset,
-  action
+  action,
+  savetobook
 }
