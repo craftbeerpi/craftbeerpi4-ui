@@ -42,9 +42,9 @@ const FermenterProfile = () => {
   useEffect(() => {
    if (fermenterid) {
       const step= state.fermentersteps.find(step => step.id === fermenterid).steps;
-      const name= state.fermenter.find(fermenter => fermenter.id === fermenterid).brewname;
+      const name= state.fermenter.find(fermenter => fermenter.id === fermenterid).brewname + "                              ";
       setData(step);
-      setBrewName(name)};
+      setBrewName(name.substring(0,30))};
    }, [state.fermentersteps,fermenterid]);
 
   
@@ -77,15 +77,11 @@ const FermenterProfile = () => {
     return (
       <>
       <Grid container direction="row" justify="space-between" alignItems="center" style={{ marginTop: 10 }}>
-        {/*<Grid item>
+        <Grid item>
           <Typography variant="h5" gutterBottom>
-            {state.mashBasic.name}{" "}
-            <Typography display="inline" color="textSecondary">
-              by {state.mashBasic.author}
-            </Typography>
+            {"                              "}
           </Typography>
-          <Typography color="textSecondary">{state.mashBasic.desc}</Typography>
-        </Grid>*/}
+        </Grid>
         <Grid item>
           <Typography variant="h5" gutterBottom>
             Select Fermenter : {" "}
@@ -115,7 +111,7 @@ const FermenterProfile = () => {
       <Grid container direction="row" justify="space-between" alignItems="center" style={{ marginTop: 10 }}>
         <Grid item>
           <Typography variant="h5" gutterBottom>
-            {brewname}{" "}
+            {brewname}
             {/*<Typography display="inline" color="textSecondary">
               by {state.mashBasic.author}
             </Typography>*/}
