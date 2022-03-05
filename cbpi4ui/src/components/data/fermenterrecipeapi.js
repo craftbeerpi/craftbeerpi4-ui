@@ -69,9 +69,9 @@ const clone = (id, name, callback_susscess = () => {}, callback_failed = () => {
 };
 
 
-const brew = (fermenterid, name, callback_susscess = () => {}, callback_failed = () => {}) => {
+const brew = (fermenterid, recipeid, name, callback_susscess = () => {}, callback_failed = () => {}) => {
   axios
-    .post("/fermenterrecipe/" + name + "/" + fermenterid + "/brew" )
+    .post("/fermenterrecipe/" + recipeid + "/" + fermenterid + "/" + name + "/brew" )
     .then(function (response) {
       callback_susscess(response.data.id);
     })

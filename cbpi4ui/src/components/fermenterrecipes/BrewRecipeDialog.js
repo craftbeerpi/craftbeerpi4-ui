@@ -6,14 +6,14 @@ import FermenterSelect from "../util/FermenterSelect";
 import { Typography } from "@material-ui/core";
 
 
-export const BrewRecipeDialog = ({id, open, setOpen}) => {
+export const BrewRecipeDialog = ({id, name, open, setOpen}) => {
 
     const history = useHistory()
     const [fermenterid, setFermenterID] = useState([])
 
     const brew = () => {
       console.log(id)
-      fermenterrecipeapi.brew(fermenterid, id);
+      fermenterrecipeapi.brew(fermenterid, id, name);
       setOpen(false)
       history.push("/fermenterprofile/"+ fermenterid);
     }
@@ -28,7 +28,7 @@ export const BrewRecipeDialog = ({id, open, setOpen}) => {
     }
 
     return <Dialog open={open} onClose={cancel} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
-    <DialogTitle id="alert-dialog-title">Send Recipe to Fermenter</DialogTitle>
+    <DialogTitle id="alert-dialog-title">Send Recipe "{name}" to Fermenter</DialogTitle>
     <DialogContent>
            <Typography variant="h5" gutterBottom>
             Select Fermenter : {" "}

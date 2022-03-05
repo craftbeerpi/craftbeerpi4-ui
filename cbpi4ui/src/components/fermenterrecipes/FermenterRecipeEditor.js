@@ -73,7 +73,7 @@ const FermenterRecipeEditor = () => {
         <IconButton variant="contained" onClick={ferment}>
           <CBPiPaddleIcon />
         </IconButton>
-        <BrewRecipeDialog id={id} open={openferment} setOpen={setOpenferment}/>
+        <BrewRecipeDialog id={id} name={basicData.name} open={openferment} setOpen={setOpenferment}/>
 
         <IconButton variant="contained" onClick={save}>
           <SaveIcon />
