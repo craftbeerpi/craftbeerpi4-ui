@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 const CBPiCard = ({item}) => {
   const classes = useStyles();
   let homepage = true;
-  if (item?.Homepage === "UNKNOWN" ) {
+  if (item["Home-page"] === "UNKNOWN" ) {
     homepage = false;
   }
     return (
@@ -57,7 +57,7 @@ const CBPiCard = ({item}) => {
           <Typography variant="body2" color="textSecondary" component="p">
           Author: {item?.Author}
           </Typography>
-          {homepage ? <Button href={item?.Homepage} color="primary" target="_blank" rel="noreferrer noopener">Homepage</Button> : ""}
+          {homepage ? <Button href={item["Home-page"]} color="primary" target="_blank" rel="noreferrer noopener">Homepage</Button> : ""}
           {/*<Typography variant="body2" color="textSecondary" component="p">
           Homepage: {item?.Homepage}
           </Typography>*/}

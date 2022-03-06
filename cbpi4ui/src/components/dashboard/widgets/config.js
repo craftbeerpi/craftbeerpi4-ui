@@ -22,6 +22,7 @@ import KettleSVG from "./svg/kettle.svg";
 import TankSVG from "./svg/tank2.svg";
 import { TargetTemp } from "./TargetTemp";
 import { FermenterTargetTemp } from "./FermenterTargetTemp";
+import { FermenterSteps } from './FermenterSteps';
 import { Text } from "./Text";
 export const widget_list = [
   {
@@ -181,10 +182,11 @@ export const widget_list = [
     icon: CBPiLiquidIcon,
     component: Liquid,
     props: [
-      { name: "color", default: "#fff", type: "text" },
+      { name: "color", default: "#0000ff", type: "text" },
       { name: "width", default: 40, type: "number" },
       { name: "height", default: 40, type: "number" },
-      { name: "sensor", default: "", type: "sensor" }
+      { name: "sensor", default: "", type: "sensor" },
+      { name: "maxvalue", default: 100, type: "number" }
     ],
   },
   {
@@ -210,8 +212,18 @@ export const widget_list = [
       { name: "size", options: ["large","normal","small"], default: "normal", type: "select"},
       { name: "orientation", options: ["horizontal", "vertical"], default: "", type: "select" },
     ],
+  },
+  {
+    name: "FermenterSteps",
+    type: "FermenterSteps",
+    component: FermenterSteps,
+    icon: ListIcon,
+    props: [{ name: "fermenter", default: "1", type: "fermenter" },
+            { name: "width", default: "200", type: "text", unit: "px" },
+            { name: "stepsize", default: "14", type: "text", unit: "pt" },
+            { name: "namesize", default: "14", type: "text", unit: "pt" }],
   }
-   
+  
 ];
 
 /*

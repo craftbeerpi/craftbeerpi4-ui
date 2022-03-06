@@ -27,7 +27,7 @@ const SelectInput = ({ label, description="", options=[], value, onChange }) => 
 
 const PropsEdit = ({ config, onChange = () => {}, data={}}) => {
   useEffect(() => {}, [config, data]);
-  console.log(config)
+  //console.log(config)
   if (!config) {
     return <></>;
   }
@@ -36,7 +36,7 @@ const PropsEdit = ({ config, onChange = () => {}, data={}}) => {
    
     switch (item.type) {
       case "select":
-        console.log(1,item.description)
+        //console.log(1,item.description)
         return <SelectInput description={item.description} label={item.label} options={item.options} value={data[item.label]} onChange={(e) => onChange(item.label, e.target.value)} />;
       case "kettle":
         return <KettleSelect description={item.description} value={data[item.label]} onChange={(e) => onChange(item.label, e.target.value)} />;

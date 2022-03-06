@@ -27,6 +27,7 @@ export const CBPiProvider = ({ children }) => {
   const [sensorTypes, setSensorTypes] = useState([]);
   const [kettle, setKettle] = useState([]);
   const [mashProfile, setMashProfile] = useState([]);
+  const [FermenterProfile, setFermenterProfile] = useState([]);
   const [mashBasic, setMashBasic] = useState([]);
   const [stepTypes, setStepTypes] = useState([]);
   const [stepTypesFermenter, setStepTypesFermenter] = useState([]);
@@ -38,16 +39,22 @@ export const CBPiProvider = ({ children }) => {
   const [notification, setNotifiaction] = useState("");
   const [fermenter, setFermenter] = useState([]);
   const [fermenterlogic, setFermenterLogic] = useState([]);
+  const [fermentersteps, setFermenterSteps] = useState([]);
 
   const onMessage = useCallback((data) => {
     //console.log("WS", data);
+
+    //!!!!!!!!!!!!!!!!!!!!!! Add Fermenterstepupdate to cbpi server
     switch (data.topic) {
       case "kettleupdate":
         setKettle(() => data.data);
         break;
       case "fermenterupdate":
         setFermenter(() => data.data);
-        console.log(data)
+        console.log(data.data);
+        break;
+      case "fermenterstepupdate":
+        setFermenterSteps(() => data.data);
         break;
       case "actorupdate":
         setActors(() => data.data);
@@ -88,12 +95,14 @@ export const CBPiProvider = ({ children }) => {
       setKettle(data.kettle.data);
       setFermenter(data.fermenter.data);
       setFermenterLogic(Object.values(data.fermenter.types));
+      setFermenterSteps((data.fermentersteps));
       setSensors(data.sensor.data);
       setActors(data.actor.data);
       setLogic(Object.values(data.kettle.types));
       setActorTypes(Object.values(data.actor.types));
       setSensorTypes(Object.values(data.sensor.types));
       setMashProfile(data.step.steps);
+      setFermenterProfile(data.fermenter.data);
       setMashBasic(data.step.basic);
       setConfig(data.config);
       setVersion(data.version);
@@ -111,6 +120,7 @@ export const CBPiProvider = ({ children }) => {
   const target_temp_kettle = useEventCallback((id, temp) => kettleapi.target_temp(id, temp), []);
   const toggle_logic = useEventCallback((id) => kettleapi.toggle(id), []);
 
+  const get_fermentersteps_by_id = (fermenterid, id) => fermentersteps.find((item) => item.id === fermenterid);
   const add_fermenter = (data, onSuccess = () => {}, onError = () => {}) => fermenterapi.add(data, onSuccess, onError);
   const update_fermenter = (id, data, onSuccess = () => {}, onError = () => {}) => fermenterapi.save(id, data, onSuccess, onError);
   const delete_fermenter = (id, onSuccess = () => {}, onError = () => {}) => fermenterapi.remove(id, onSuccess, onError);
@@ -140,7 +150,7 @@ export const CBPiProvider = ({ children }) => {
 
   const value = {
     state: { sensors, version, actors, logic, kettle, fermenter, fermenterlogic, auth, plugins, temp, sensorData, 
-             actorTypes, sensorTypes, config, mashProfile, mashBasic, stepTypes, stepTypesFermenter },
+             actorTypes, sensorTypes, config, mashProfile, fermentersteps, FermenterProfile, mashBasic, stepTypes, stepTypesFermenter },
     actions: {
       delete_kettle,
       add_kettle,
@@ -162,6 +172,7 @@ export const CBPiProvider = ({ children }) => {
       delete_sensor,
       get_sensor_by_id,
       get_step_by_id,
+      get_fermentersteps_by_id,
     },
   };
 

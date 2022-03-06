@@ -23,13 +23,17 @@ import FermenterForm from "./components/hardware/FermenterForm";
 import SensorForm from "./components/hardware/SensorForm";
 import Plugins from "./components/plugins";
 import MashProfile from "./components/mashprofile";
+import FermenterProfile from "./components/fermenterprofile";
 import Settings from "./components/settings";
 import Menu from "./components/util/Menu";
 import PrivateRoute from "./components/util/PrivateRoute";
 import logo from "./images/cbpi_no_border.png";
 import StepForm from "./components/mashprofile/StepForm";
+import FermenterStepForm from "./components/fermenterprofile/FermenterStepForm";
 import Recipes from "./components/recipes";
+import FermenterRecipes from "./components/fermenterrecipes";
 import RecipeEditor from "./components/recipes/RecipeEditor";
+import FermenterRecipeEditor from "./components/fermenterrecipes/FermenterRecipeEditor";
 import { Charting } from "./components/charting";
 
 
@@ -219,18 +223,38 @@ const CraftBeerPiApp = () => {
                   <Route exact path="/mashprofile">
                     <MashProfile/>
                   </Route>
+                  <Route exact path="/fermenterprofile">
+                    <FermenterProfile/>
+                  </Route>
+                  <Route exact path="/fermenterprofile/:fermenterid">
+                    <FermenterProfile/>
+                  </Route>
                   <Route exact path="/recipes">
                     <Recipes/>
                   </Route>
-                  
+                  <Route exact path="/fermenterrecipes">
+                    <FermenterRecipes/>
+                  </Route>
                   <Route exact path="/recipe/:id">
                     <RecipeEditor/>
+                  </Route>
+                  <Route exact path="/fermenterrecipe/:id">
+                    <FermenterRecipeEditor/>
                   </Route>
                   <Route exact path="/step">
                     <StepForm/>
                   </Route>
+                  <Route exact path="/fermenterstep">
+                    <FermenterStepForm/>
+                  </Route>
+                  <Route exact path="/fermenterstep/:fermenterid">
+                    <FermenterStepForm/>
+                  </Route>
                   <Route exact path="/step/:id">
                     <StepForm/>
+                  </Route>
+                  <Route exact path="/fermenterstep/:id/:fermenterid">
+                    <FermenterStepForm/>
                   </Route>
                   <Route exact path="/charting">
                     <Charting/>
