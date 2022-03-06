@@ -3,10 +3,12 @@ import QueryBuilderIcon from '@material-ui/icons/QueryBuilder';
 import ShowChartIcon from '@material-ui/icons/ShowChart';
 import TextFieldsIcon from '@material-ui/icons/TextFields';
 import ToggleOffIcon from '@material-ui/icons/ToggleOff';
+import AutoGraphIcon from '@mui/icons-material/AutoGraph';
 import { CBPiCalculatorIcon, CBPiControlIcon, CBPiKettle, CBPiKettle2Icon, CBPiLedIcon, CBPiLiquidIcon, CBPiSensorIcon, CBPiSVGIcon, CBPiTankIcon, CBPiThermometerIcon } from '../../util/icons/CBPiSensorIcon';
 import { DashboardButton } from "./Button";
 import { Calculator } from "./Calculator";
 import Chart from "./Chart";
+import GrafanaChart from "./GrafanaChart";
 import { Clock } from "./Clock";
 import CustomSVG from "./CustomSVG";
 import { KettleControl } from "./KettleControl";
@@ -145,7 +147,21 @@ export const widget_list = [
       { name: "sensor", default: "", type: "sensor" },
       { name: "linecolor", default: "#00FF00", type: "text" },
       { name: "refresh", default: 10, type: "number" },
-      { name: "width", default: 100, type: "text" }, { name: "height", default: 100, type: "text" }
+      { name: "width", default: 100, type: "text" }, 
+      { name: "height", default: 100, type: "text" }
+    ],
+  },
+  {
+    name: "GrafanaChart",
+    type: "GrafanaChart",
+    component: GrafanaChart,
+    icon: AutoGraphIcon,
+    props: [
+      { name: "url", default: "http://localhost:3000/d-solo/{ID}/{dashboard}", type: "text" },
+      { name: "panelID", default: "2", type: "text" },
+      { name: "refresh", default: 10, type: "number" },
+      { name: "width", default: 100, type: "text" }, 
+      { name: "height", default: 100, type: "text" }
     ],
   },
   {
