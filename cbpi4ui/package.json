@@ -5,8 +5,8 @@
   "proxy": "http://localhost:8000",
   "homepage": "./",
   "scripts": {
-    "start": "react-scripts --openssl-legacy-provider start",
-    "build": "react-scripts --openssl-legacy-provider --expose-gc --max-old-space-size=4096 build",
+    "start": "react-scripts --max-old-space-size=4096 start",
+    "build": "react-scripts --expose-gc --max-old-space-size=4096 build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -27,6 +27,7 @@
     "@testing-library/user-event": "^12.6.0",
     "axios": "^0.21.1",
     "classnames": "^2.2.6",
+    "date-fns": "^2.28.0",
     "file-saver": "^2.0.5",
     "mqtt-pattern": "^1.2.0",
     "mxgraph-js": "^1.0.1",
