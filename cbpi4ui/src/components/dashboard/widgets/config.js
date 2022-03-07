@@ -134,7 +134,8 @@ export const widget_list = [
     icon: QueryBuilderIcon,
     props: [
       { name: "size", default: "10", type: "text", unit: "pt" },
-      { name: "showDate", options: ["yes", "no"], default: "", type: "select" },
+      { name: "format", options: ["24","12"], default: "24", type: "select"},
+      { name: "showDate", options: ["yes", "no"], default: "no", type: "select" },
       { name: "color", default: "#fff", type: "text" },
     ],
   },

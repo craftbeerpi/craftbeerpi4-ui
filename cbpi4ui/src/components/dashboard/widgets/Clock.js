@@ -9,13 +9,24 @@ export const Clock = ({ id, width, height }) => {
   const update_time = () => {
     const currentTime = new Date();
     let hours = currentTime.getHours();
-    hours = (hours < 10 ? "0" : "") + hours;
     let minutes = currentTime.getMinutes();
     minutes = (minutes < 10 ? "0" : "") + minutes;
     let seconds = currentTime.getSeconds();
     seconds = (seconds < 10 ? "0" : "") + seconds;
-    setTime(hours + ":" + minutes + ":" + seconds);
-    setDate(new Intl.DateTimeFormat("de-DE").format(new Date()));
+    if (model.props.format === "12") {
+      let ampm = hours >= 12 ? 'pm' : 'am';
+      hours = hours % 12;
+      hours = hours ? hours : 12; // the hour '0' should be '12'
+      setTime(hours + ':' + minutes + ':'+ seconds + ' ' + ampm);
+      setDate(new Intl.DateTimeFormat("en-US" 
+        ).format(new Date()));
+      }
+     else {    
+      hours = (hours < 10 ? "0" : "") + hours;
+      setTime(hours + ":" + minutes + ":" + seconds);
+      setDate(new Intl.DateTimeFormat("de-DE" 
+       ).format(new Date()));
+      }
   };
 
 
