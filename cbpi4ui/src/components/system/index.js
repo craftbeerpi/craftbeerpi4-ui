@@ -338,14 +338,14 @@ const CBPiSystem = () => {
         <TableRow>
             <TableCell>Eth0 IP Address</TableCell>
             <TableCell></TableCell>
-            <TableCell align="right">{systeminfo['eth0']}</TableCell>
-            <TableCell align="left"></TableCell>
+            <TableCell align="right">{systeminfo['eth0']}{" @ "}{systeminfo['eth0speed']}</TableCell>
+            <TableCell align="left">Mbit</TableCell>
           </TableRow>
           <TableRow>
             <TableCell>Wlan0 IP Address</TableCell>
             <TableCell></TableCell>
-            <TableCell align="right">{systeminfo['wlan0']}</TableCell>
-            <TableCell align="left"></TableCell>
+            <TableCell align="right">{systeminfo['wlan0']}{" @ "}{systeminfo['wlan0speed']}</TableCell>
+            <TableCell align="left">Mbit</TableCell>
           </TableRow>
         </Table>
       </TableContainer>
