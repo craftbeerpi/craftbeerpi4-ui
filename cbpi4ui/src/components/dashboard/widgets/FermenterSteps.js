@@ -296,7 +296,7 @@ export const FermenterSteps = ({ id }) => {
           variant="outlined"
           color="primary"
           onClick={() => {
-            history.push("/recipes");
+            history.push("/fermenterrecipes");
           }}
           startIcon={<MenuBookIcon />}
         >
