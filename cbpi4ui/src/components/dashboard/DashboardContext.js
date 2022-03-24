@@ -346,7 +346,8 @@ export const Dashboard = ({ width, height, fixdash = null}) => {
       console.log(fixdash);
       if (!fixdash){
       actions.load(parentWidth, parentHeight,state.initialdashboard)}
-      {actions.load(parentWidth, parentHeight,fixdash)}
+      {actions.load(parentWidth, parentHeight,0);
+       actions.load(parentWidth, parentHeight,fixdash)}
     }
   }, [parentRef,state.initialdashboard, fixdash]);
 
