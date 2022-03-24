@@ -38,7 +38,7 @@ const About = () => {
       <Grid container spacing={2} className={classes.root}>
         <Grid item spacing={2} xs={12}>
           <Paper style={{ padding: 10 }}>
-            This is CraftBeerPi Brewing Controller 4.0 (Version: {state.version})
+            This is CraftBeerPi Brewing Controller 4.0 (Version: {state.version} | Codename: {state.codename})
             <p>It's an Open Source Project founded in 2015. More than 7,000 passioned Homebrewers and commercial Craft Brewerys are using CraftBeerPi. It's an open Eco System.</p>
             Website: http://www.CraftBeerPi.com <br />
             GitHub: http://github.com/manuel83 <br />
