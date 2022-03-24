@@ -348,7 +348,7 @@ export const Dashboard = ({ width, height, fixdash = null}) => {
       actions.load(parentWidth, parentHeight,state.initialdashboard)}
       {actions.load(parentWidth, parentHeight,fixdash)}
     }
-  }, [parentRef,state.initialdashboard]);
+  }, [parentRef,state.initialdashboard, fixdash]);
 
   const DashBoardChange = (event) => {
     actions.setDashboardX(event.target.value);
