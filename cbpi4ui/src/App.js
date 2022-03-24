@@ -173,6 +173,10 @@ const CraftBeerPiApp = () => {
                   <Dashboard2 />
                 </Route>
 
+                <Route exact path="/fixdash/:id">
+                  <Dashboard2 />
+                </Route>
+
                 <Container maxWidth="lg">
                   <Route path="/plugins">
                     <Plugins />
