@@ -1,15 +1,24 @@
 import React from "react";
 import "../../App.css";
-import { useHistory , useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Dashboard, DashboardProvider } from "./DashboardContext";
 
+
 const Dashboard2 = () => {  
-  const { id } = useParams();
   return (
     <DashboardProvider>
-        <Dashboard width="100%" height={1000} fixdash={id} />
+        <Dashboard width="100%" height={1000} />
     </DashboardProvider>  
   );
 };
 
-export default Dashboard2;
+const FixDashboard = () => {  
+  const { dashboardid } = useParams();
+  return (
+    <DashboardProvider>
+        <Dashboard width="100%" height={1000} fixdash={dashboardid}/>
+    </DashboardProvider>  
+  );
+};
+
+export {Dashboard2, FixDashboard};

@@ -303,7 +303,7 @@ export const DashboardProvider = ({ children }) => {
   return <DashboardContext.Provider value={value}>{children}</DashboardContext.Provider>;
 };
 
-export const Dashboard = ({ width, height, fixdash = null}) => {
+export const Dashboard = ({ width, height , fixdash}) => {
   const parentRef = useRef(null);
   const { actions, state } = useContext(DashboardContext);
   
@@ -343,12 +343,12 @@ export const Dashboard = ({ width, height, fixdash = null}) => {
       let parentWidth = parentRef.current.offsetWidth;
       actions.setWidth(parentWidth);
       actions.setHeight(parentHeight);
-      console.log(fixdash);
       if (!fixdash){
       actions.load(parentWidth, parentHeight,state.initialdashboard)}
-      {actions.load(parentWidth, parentHeight,0);
-       actions.load(parentWidth, parentHeight,fixdash)}
-    }
+      else {
+        actions.load(parentWidth, parentHeight,0)
+        actions.load(parentWidth, parentHeight,fixdash)}
+      };
   }, [parentRef,state.initialdashboard, fixdash]);
 
   const DashBoardChange = (event) => {
@@ -407,7 +407,7 @@ export const Dashboard = ({ width, height, fixdash = null}) => {
             {state.draggable ? <IconButton onClick={() => actions.save(state.dashboardX)}><SaveIcon/></IconButton> : "" }
             <IconButton onClick={() => actions.setDraggable(!state.draggable)}>{state.draggable ? <LockOpenIcon /> : <LockIcon />}</IconButton>
           </div>
-          :""}
+          : ""}
         </div>
         {state.draggable ? <DashboardLayer /> : null}
       </div>

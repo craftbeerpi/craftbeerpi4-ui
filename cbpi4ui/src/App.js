@@ -15,7 +15,7 @@ import "./App.css";
 import About from "./components/about";
 import Upload from "./components/upload";
 import CBPiSystem from "./components/system";
-import Dashboard2 from "./components/dashboard/Dashboard";
+import {Dashboard2 , FixDashboard} from "./components/dashboard/Dashboard";
 import Hardware from "./components/hardware";
 import ActorForm from "./components/hardware/ActorForm";
 import KettleForm from "./components/hardware/KettleForm";
@@ -173,8 +173,8 @@ const CraftBeerPiApp = () => {
                   <Dashboard2 />
                 </Route>
 
-                <Route exact path="/fixdash/:id">
-                  <Dashboard2 />
+                <Route exact path="/fixdash/:dashboardid">
+                  <FixDashboard />
                 </Route>
 
                 <Container maxWidth="lg">
