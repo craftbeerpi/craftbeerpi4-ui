@@ -35,6 +35,7 @@ export const CBPiProvider = ({ children }) => {
   const [plugins, setPlugins] = useState([]);
   const [temp, setTemp] = useState("");
   const [version, setVersion] = useState("---");
+  const [codename, setCodename] = useState("---");
   const a = useAlert();
   const [notification, setNotifiaction] = useState("");
   const [fermenter, setFermenter] = useState([]);
@@ -106,6 +107,7 @@ export const CBPiProvider = ({ children }) => {
       setMashBasic(data.step.basic);
       setConfig(data.config);
       setVersion(data.version);
+      setCodename(data.codename);
       setStepTypes(Object.values(data.step.types));
       setStepTypesFermenter(Object.values(data.fermenter.steptypes));
       setAuth(true);
@@ -149,7 +151,7 @@ export const CBPiProvider = ({ children }) => {
   const get_sensor_by_id = (id) => sensors.find((item) => item.id === id);
 
   const value = {
-    state: { sensors, version, actors, logic, kettle, fermenter, fermenterlogic, auth, plugins, temp, sensorData, 
+    state: { sensors, version, codename, actors, logic, kettle, fermenter, fermenterlogic, auth, plugins, temp, sensorData, 
              actorTypes, sensorTypes, config, mashProfile, fermentersteps, FermenterProfile, mashBasic, stepTypes, stepTypesFermenter },
     actions: {
       delete_kettle,
@@ -185,6 +187,7 @@ export const useCBPi = (Context) => {
     return {
       state,
       version: state.version,
+      codename: state.codename,
       kettle: state.kettle,
       fermenter: state.fermenter,
       actor: state.actors,

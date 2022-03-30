@@ -303,7 +303,7 @@ export const DashboardProvider = ({ children }) => {
   return <DashboardContext.Provider value={value}>{children}</DashboardContext.Provider>;
 };
 
-export const Dashboard = ({ width, height }) => {
+export const Dashboard = ({ width, height , fixdash}) => {
   const parentRef = useRef(null);
   const { actions, state } = useContext(DashboardContext);
   
@@ -343,9 +343,13 @@ export const Dashboard = ({ width, height }) => {
       let parentWidth = parentRef.current.offsetWidth;
       actions.setWidth(parentWidth);
       actions.setHeight(parentHeight);
-      actions.load(parentWidth, parentHeight,state.initialdashboard);
-    }
-  }, [parentRef,state.initialdashboard]);
+      if (!fixdash){
+      actions.load(parentWidth, parentHeight,state.initialdashboard)}
+      else {
+        actions.load(parentWidth, parentHeight,0)
+        actions.load(parentWidth, parentHeight,fixdash)}
+      };
+  }, [parentRef,state.initialdashboard, fixdash]);
 
   const DashBoardChange = (event) => {
     actions.setDashboardX(event.target.value);
@@ -385,6 +389,7 @@ export const Dashboard = ({ width, height }) => {
           <svg style={{ position: "absolute", pointerEvents: "none" }} width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
             {state.pathes.map((value) => value.instance)}
           </svg>
+          {!fixdash ?
           <div style={{ position: "absolute", top: 0, right: 0 }}>
           {state.draggable ? state.dashboardX : <SelectBox options={dashboardlist} value={state.dashboardX} onChange={DashBoardChange}/>} 
             {state.draggable ? 
@@ -402,6 +407,7 @@ export const Dashboard = ({ width, height }) => {
             {state.draggable ? <IconButton onClick={() => actions.save(state.dashboardX)}><SaveIcon/></IconButton> : "" }
             <IconButton onClick={() => actions.setDraggable(!state.draggable)}>{state.draggable ? <LockOpenIcon /> : <LockIcon />}</IconButton>
           </div>
+          : ""}
         </div>
         {state.draggable ? <DashboardLayer /> : null}
       </div>
