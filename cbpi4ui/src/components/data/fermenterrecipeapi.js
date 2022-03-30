@@ -70,6 +70,7 @@ const clone = (id, name, callback_susscess = () => {}, callback_failed = () => {
 
 
 const brew = (fermenterid, recipeid, name, callback_susscess = () => {}, callback_failed = () => {}) => {
+  if (!name) {name="Fermentation"} 
   axios
     .post("/fermenterrecipe/" + recipeid + "/" + fermenterid + "/" + name + "/brew" )
     .then(function (response) {
