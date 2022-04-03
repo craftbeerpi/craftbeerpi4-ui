@@ -127,6 +127,7 @@ export const CBPiProvider = ({ children }) => {
   const update_fermenter = (id, data, onSuccess = () => {}, onError = () => {}) => fermenterapi.save(id, data, onSuccess, onError);
   const delete_fermenter = (id, onSuccess = () => {}, onError = () => {}) => fermenterapi.remove(id, onSuccess, onError);
   const target_temp_fermenter = useEventCallback((id, temp) => fermenterapi.target_temp(id, temp), []);
+  const target_pressure_fermenter = useEventCallback((id, pressure) => fermenterapi.target_pressure(id, pressure), []);
   const toggle_logic_fermenter = useEventCallback((id) => fermenterapi.toggle(id), []);
 
   const add_actor = (data, onSuccess = () => {}, onError = () => {}) => actorapi.add(data, onSuccess, onError);
@@ -162,6 +163,7 @@ export const CBPiProvider = ({ children }) => {
       delete_fermenter,
       add_fermenter,
       target_temp_fermenter,
+      target_pressure_fermenter,
       toggle_logic_fermenter,
       update_fermenter,
       add_actor,

@@ -20,7 +20,7 @@ const FermenterControl = ({fermenterid=null, disabled=false}) => {
   useEffect(() => {
   
     if (fermenterid) {  
-      const step= state.fermentersteps.find(step => step.id == fermenterid).steps;
+      const step= state.fermentersteps.find(step => step.id === fermenterid).steps;
       setSteps(step)};
    }, [state.fermentersteps, fermenterid]);
 
@@ -52,7 +52,7 @@ const FermenterControl = ({fermenterid=null, disabled=false}) => {
     }
   }, [steps, fermenterid]);
 
-  if( steps.length == 0) {
+  if( steps.length === 0) {
     return <></>
   }
 
