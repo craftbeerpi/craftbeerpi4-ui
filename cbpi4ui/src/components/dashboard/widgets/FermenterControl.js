@@ -173,6 +173,7 @@ const TargetTempDialog = ({ onClose, fermenter, open }) => {
 
 const TargetPressureDialog = ({ onClose, fermenter, open }) => {
   let PRESSURE_UNIT = "PRESSURE_UNIT";
+  const [unit, setUnit] = useState("kPa");
   const [value, setValue] = useState(50);
   const [checkunit, setCheckUnit] = useState(false);
   const [minval, setMinval] = useState(0);
@@ -232,6 +233,7 @@ const TargetPressureDialog = ({ onClose, fermenter, open }) => {
   if (checkunit === false){
       configapi.getone(PRESSURE_UNIT, (data) => {
         if (data==="PSI"){
+          setUnit(data);
           setMinval(0);
           setMaxval(75);
           setMarks(marksPSI);
@@ -264,7 +266,7 @@ const TargetPressureDialog = ({ onClose, fermenter, open }) => {
         <DialogContentText id="alert-dialog-description">
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
             <Typography variant="h2" component="h2" gutterBottom>
-              {value}
+              {value} {unit}
             </Typography>
           </div>
           <Slider min={minval} max={maxval} marks={marks} step={stepwidth} value={value} onChange={handleChange} aria-labelledby="continuous-slider" />
@@ -330,5 +332,5 @@ export const FermenterControl = ({ id }) => {
       <TargetPressureDialog open={openp} fermenter={fermenter} onClose={() => setOpenp(false)} />
       </>
     );
-  }, [state.draggable, fermenter, model.props.orientation, model.props.size, cooler, heater, open, openp]);
+  }, [state.draggable, fermenter, model.props.orientation, model.props.size, cooler, heater, valve, open, openp]);
 };
