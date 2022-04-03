@@ -62,7 +62,7 @@ const FermenterForm = () => {
   const [cooler, setCooler] = useState("");
   const [valve, setValve] = useState("");
   const [sensor, setSensor] = useState("");
-  const [pressuresensor, setPressureSensor] = useState("");
+  const [pressure_sensor, setPressure_Sensor] = useState("");
   const { fermenter, state, actions } = useCBPi();
   const [propsConfig, setPropsConfig] = useState(null);
   const [props, setProps] = useState({});
@@ -74,7 +74,7 @@ const FermenterForm = () => {
       target_temp,
       target_pressure,
       sensor,
-      pressuresensor,
+      pressure_sensor,
       heater,
       cooler,
       valve,
@@ -102,7 +102,7 @@ const FermenterForm = () => {
         setValve(item.valve);
         setType(item.type);
         setSensor(item.sensor);
-        setPressureSensor(item.pressure_sensor);
+        setPressure_Sensor(item.pressure_sensor);
         setProps(item.props);
         if (item.type) {
           setPropsConfig(state.fermenterlogic.find((i) => i.name === item.type)?.properties);
@@ -162,7 +162,7 @@ const FermenterForm = () => {
             <SensorSelect label="Temp Sensor" value={sensor} onChange={(e) => setSensor(e.target.value)} />
           </Grid>
           <Grid item xs={12} md={6}>
-            <SensorSelect label="Pressure Sensor" value={pressuresensor} onChange={(e) => setPressureSensor(e.target.value)} />
+            <SensorSelect label="Pressure Sensor" value={pressure_sensor} onChange={(e) => setPressure_Sensor(e.target.value)} />
           </Grid>
           <Grid item xs={12} md={6}>
             <TextField label="BrewName" fullWidth value={brewname} onChange={(e) => setBrewname(e.target.value)} />
