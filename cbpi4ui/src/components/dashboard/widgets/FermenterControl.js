@@ -325,7 +325,7 @@ export const FermenterControl = ({ id }) => {
           {cooler ? <Button variant={cooler?.state ? "contained" : ""}  color="primary" startIcon={<AcUnitIcon />} onClick={() => toggle(fermenter?.cooler)}></Button> : ""}
           {fermenter?.type ? <Button variant={fermenter?.state ? "contained" : ""}  color="primary" startIcon={<DriveEtaIcon />} onClick={() => toggle_fermenter_logic(fermenter?.id)}></Button> : ""}
           <Button variant=""  color="primary" onClick={() => setOpen(true)} startIcon={<TrackChangesIcon />}></Button>
-          {valve? <Button variant=""  color="primary" onClick={() => setOpenp(true)} startIcon={<SpeedIcon />}></Button> : ""}
+          {valve ? <Button variant=""  color="primary" onClick={() => setOpenp(true)} startIcon={<SpeedIcon />}></Button>: ""}
         </ButtonGroup>
         
       <TargetTempDialog open={open} fermenter={fermenter} onClose={() => setOpen(false)} />
