@@ -57,9 +57,12 @@ const FermenterForm = () => {
   const { id } = useParams();
   const [brewname, setBrewname] = useState("");
   const [target_temp, setTargettemp] = useState("");
+  const [target_pressure, setTargetpressure] = useState("");
   const [heater, setHeater] = useState("");
   const [cooler, setCooler] = useState("");
+  const [valve, setValve] = useState("");
   const [sensor, setSensor] = useState("");
+  const [pressure_sensor, setPressure_Sensor] = useState("");
   const { fermenter, state, actions } = useCBPi();
   const [propsConfig, setPropsConfig] = useState(null);
   const [props, setProps] = useState({});
@@ -69,9 +72,12 @@ const FermenterForm = () => {
       name,
       brewname,
       target_temp,
+      target_pressure,
       sensor,
+      pressure_sensor,
       heater,
       cooler,
+      valve,
       type,
       props,
     };
@@ -90,10 +96,13 @@ const FermenterForm = () => {
         setName(item.name);
         setBrewname(item.brewname);
         setTargettemp(item.target_temp);
+        setTargetpressure(item.target_pressure);
         setHeater(item.heater);
         setCooler(item.cooler);
+        setValve(item.valve);
         setType(item.type);
         setSensor(item.sensor);
+        setPressure_Sensor(item.pressure_sensor);
         setProps(item.props);
         if (item.type) {
           setPropsConfig(state.fermenterlogic.find((i) => i.name === item.type)?.properties);
@@ -147,13 +156,22 @@ const FermenterForm = () => {
             <ActorSelect label="Cooler" value={cooler} onChange={(e) => setCooler(e.target.value)} />
           </Grid>
           <Grid item xs={12} md={6}>
-            <SensorSelect value={sensor} onChange={(e) => setSensor(e.target.value)} />
+            <ActorSelect label="Valve" value={valve} onChange={(e) => setValve(e.target.value)} />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <SensorSelect label="Temp Sensor" value={sensor} onChange={(e) => setSensor(e.target.value)} />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <SensorSelect label="Pressure Sensor" value={pressure_sensor} onChange={(e) => setPressure_Sensor(e.target.value)} />
           </Grid>
           <Grid item xs={12} md={6}>
             <TextField label="BrewName" fullWidth value={brewname} onChange={(e) => setBrewname(e.target.value)} />
           </Grid>
           <Grid item xs={12} md={6}>
             <TextField type="number" label="TargetTemp" fullWidth value={target_temp} onChange={(e) => setTargettemp(e.target.value)} />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField type="number" label="TargetPressure" fullWidth value={target_pressure} onChange={(e) => setTargetpressure(e.target.value)} />
           </Grid>
           <PropsEdit config={propsConfig} data={props} onChange={onChangeProps} />
         </Grid>

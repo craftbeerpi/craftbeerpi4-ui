@@ -87,6 +87,17 @@ export const target_temp = (id, temp, callback_susscess = () => {}, callback_fai
     });
 };
 
+export const target_pressure = (id, pressure, callback_susscess = () => {}, callback_failed = () => {}) => {
+  axios
+    .post("/fermenter/"+ id + "/target_pressure", {pressure})
+    .then(function (response) {
+      callback_susscess();
+    })
+    .catch(function (error) {
+      callback_failed();
+    });
+};
+
 export const getsteps = (id, callback_susscess = () => {}, callback_failed = () => {}) => {
   axios
     .get("/fermenter/"+ id + "/getsteps")
@@ -225,6 +236,7 @@ export const fermenterapi = {
   remove,
   toggle,
   target_temp,
+  target_pressure,
   save,
   start,
   stop,

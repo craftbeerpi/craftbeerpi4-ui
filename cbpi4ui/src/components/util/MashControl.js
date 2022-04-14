@@ -42,7 +42,7 @@ const MashControl = ({disabled=false}) => {
     }
   }, [state.mashProfile]);
 
-  if( state.mashProfile.length == 0) {
+  if( state.mashProfile.length === 0) {
     return <></>
   }
 

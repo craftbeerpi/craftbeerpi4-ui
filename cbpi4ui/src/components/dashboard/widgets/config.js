@@ -4,6 +4,7 @@ import ShowChartIcon from '@material-ui/icons/ShowChart';
 import TextFieldsIcon from '@material-ui/icons/TextFields';
 import ToggleOffIcon from '@material-ui/icons/ToggleOff';
 import AutoGraphIcon from '@mui/icons-material/AutoGraph';
+import SpeedIcon from '@mui/icons-material/Speed';
 import { CBPiCalculatorIcon, CBPiControlIcon, CBPiKettle, CBPiKettle2Icon, CBPiLedIcon, CBPiLiquidIcon, CBPiSensorIcon, CBPiSVGIcon, CBPiTankIcon, CBPiThermometerIcon } from '../../util/icons/CBPiSensorIcon';
 import { DashboardButton } from "./Button";
 import { Calculator } from "./Calculator";
@@ -21,7 +22,7 @@ import { Path } from './Path';
 import KettleSVG from "./svg/kettle.svg";
 import TankSVG from "./svg/tank2.svg";
 import { TargetTemp } from "./TargetTemp";
-import { FermenterTargetTemp } from "./FermenterTargetTemp";
+import { FermenterTargetTemp , FermenterTargetPressure} from "./FermenterTargetTemp";
 import { FermenterSteps } from './FermenterSteps';
 import { Text } from "./Text";
 export const widget_list = [
@@ -198,6 +199,18 @@ export const widget_list = [
     props: [
       { name: "fermenter", default: "1", type: "fermenter" },
       { name: "unit", default: "°", type: "text" },
+      { name: "size", default: "12", type: "text" },
+      { name: "color", default: "#fff", type: "text" },
+    ],
+  },
+  {
+    name: "FermenterTargetPressure",
+    type: "FermenterTargetPressure",
+    component: FermenterTargetPressure,
+    icon: SpeedIcon,
+    props: [
+      { name: "fermenter", default: "1", type: "fermenter" },
+      { name: "unit", default: "kPa", type: "text" },
       { name: "size", default: "12", type: "text" },
       { name: "color", default: "#fff", type: "text" },
     ],
